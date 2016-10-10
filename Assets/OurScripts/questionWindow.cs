@@ -1,9 +1,15 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class questionWindow : Quest {
+public class questionWindow : MonoBehaviour {
     private bool render = false;
-    public string stringToEdit = "How big is Audur's dick?";
+	private bool questionListEmpty = false;
+	private Rect resultRect;
+	private GameObject controller;
+	string[] data;
+	private bool answer = false;
+	private bool correct = false;
+	int questionTracker;
 
     float x, y, qX, qY;
     private Rect windowRect;
@@ -13,7 +19,12 @@ public class questionWindow : Quest {
         qX = x * 0.8f;
         qY = y * 0.8f;
         windowRect = new Rect(x*0.1f, y*0.1f, qX, qY);
-        
+		resultRect = new Rect((qX/2) - 225, (qY/2) - 75, 800, 200);
+		controller = GameObject.FindWithTag("GameController");
+		questionTracker = 0;
+		NextQuestion ();
+
+		//stringToEdit = data [0];
     }
 	
 	// Update is called once per frame
@@ -36,17 +47,57 @@ public class questionWindow : Quest {
         GUI.skin.textField.fontSize = 30;
         GUI.skin.button.fontSize = 30;
         if (render) {
-            windowRect = GUI.Window(0, windowRect, DoMyWindow, "My Window");
+			GUI.color = new Color (0.1f, 0.25f, 0.7f, 1f);
+			windowRect = GUI.Window(0, windowRect, DoMyWindow, "Spurning: ");
         }
+		if (answer && correct) {
+			GUI.color = new Color (0.1f, 1f, 0.1f, 1f);
+			resultRect = GUI.Window (1, resultRect, DoMyWindow, "Svar");
+		} else if(answer) {
+			GUI.color = Color.red;
+			resultRect = GUI.Window(1, resultRect, DoMyWindow, "Svar");
+		}
 
     }
     void DoMyWindow(int windowID){
-        
-        stringToEdit = GUI.TextField(new Rect(x*0.03f, y*0.07f, x*0.75f, y*0.25f), stringToEdit, 25);
-        if (GUI.Button(new Rect(x*0.03f, y*0.37f, x*0.35f, y*0.2f), "10 millimeters")) Debug.Log("Answer 1");
-        if (GUI.Button(new Rect(x*0.42f, y*0.37f, x*0.35f, y*0.2f), "100 micro-meters")) Debug.Log("Answer 2");
-        if (GUI.Button(new Rect(x*0.03f, y*0.59f, x*0.35f, y*0.2f), "1000 nano-meters")) Debug.Log("Answer 3");
-        if (GUI.Button(new Rect(x*0.42f, y*0.59f, x*0.35f, y*0.2f), "10000 pico-meters")) Debug.Log("Answer 4");
+		if (windowID == 0) {
+			GUI.TextField (new Rect (x * 0.03f, y * 0.07f, x * 0.75f, y * 0.25f), data [0]);
+			if (GUI.Button (new Rect (x * 0.03f, y * 0.37f, x * 0.35f, y * 0.2f), data [1]))
+				Answer (1);
+			if (GUI.Button (new Rect (x * 0.42f, y * 0.37f, x * 0.35f, y * 0.2f), data [2]))
+				Answer (2);
+			if (GUI.Button (new Rect (x * 0.03f, y * 0.59f, x * 0.35f, y * 0.2f), data [3]))
+				Answer (3);
+			if (GUI.Button (new Rect (x * 0.42f, y * 0.59f, x * 0.35f, y * 0.2f), data [4]))
+				Answer (4);
+		}
+		if (windowID == 1) {
+			if (correct) GUI.TextField (new Rect (100, 20, 600, 50), "Rétt hjá þér, vel gert");
+			if (!correct) GUI.TextField (new Rect (100, 20, 600, 50), "Rangt hjá þér!!! Þetta var ÖÖÖÖMURLEGT");
+			if (GUI.Button (new Rect (100, 100, 600, 75), "Halda áfram fyrir næstu spurningu")) NextQuestion ();
+		}
         
     }
+	void Answer(int i){
+		int ans = int.Parse (data [5]);
+		if (ans == i) {			//correct answer
+			answer = true;
+			correct = true;
+		} else {							//wrong asnwer 
+			answer = true;
+			correct = false;
+		}
+	}
+
+	void NextQuestion(){
+		data = controller.GetComponent<fakeDatabase> ().returnData (questionTracker);
+		if (questionTracker == 4) {
+			questionTracker = 0;
+			questionListEmpty = true;
+			render = false;
+		} else questionTracker++;
+
+		answer = false;
+		correct = false;
+	}
 }
