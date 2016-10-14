@@ -10,6 +10,8 @@ public class fakeDatabase : questionWindow {
 	List<string> thirdChoice = new List<string>() { "Bessastaðir", "12. júní 1978", "Um 900m", "Júlíus Gíslason", "Þýska" };
 	List<string> fourthChoice = new List<string>() { "Kópavogur", "17. júní 1944", "579m", "Gunnar Egill Ágústsson", "Íslenska" };
 	List<string> correctAnswer = new List<string>() { "1", "2", "3", "2", "4"};
+	List<string> answeredQuestions = new List<string>() { "0", "0", "0", "0", "0"};
+	List<string> questionID = new List<string> (){ "0", "1", "2", "3", "4", "5" };
 	// Use this for initialization
 
 	public string[] returnData(int ID){
@@ -19,9 +21,16 @@ public class fakeDatabase : questionWindow {
 			secondChoice[ID],
 			thirdChoice[ID],
 			fourthChoice[ID],
-			correctAnswer[ID]				
+			correctAnswer[ID],
+			questionID[ID],
+			answeredQuestions[ID]
 		};
 		return arr;
+	}
+	public void changeAnsweredQs(int Id){
+		//string ID = int.Parse (Id); // string = string to int lol
+		//string ID = Id.ToString();
+		answeredQuestions [Id] = "1";
 	}
 	void Start () {
 	

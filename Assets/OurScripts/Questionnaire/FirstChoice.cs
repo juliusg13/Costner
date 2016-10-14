@@ -23,7 +23,7 @@ public class FirstChoice : MonoBehaviour {
             GetComponent<TextMesh>().text = firstChoice[TextControl.randQuestions];
             questionID = 1;
         }
-        if (TextControl.randQuestions > -1)
+/*        if (TextControl.randQuestions > -1)
         {
             GetComponent<TextMesh>().text = secondChoice[TextControl.randQuestions];
             questionID = 2;
@@ -37,7 +37,7 @@ public class FirstChoice : MonoBehaviour {
         {
             GetComponent<TextMesh>().text = fourthChoice[TextControl.randQuestions];
             questionID = 4;
-        }
+        }*/
     }
 
 
