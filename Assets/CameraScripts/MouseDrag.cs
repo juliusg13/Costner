@@ -5,7 +5,7 @@ using MapzenGo.Models;
 public class MouseDrag : MonoBehaviour {
     //Changes object position when mouse is dragged
     
-    [SerializeField] public double  dragSpeed           = 10;
+    [SerializeField] public double  dragSpeed           = 1;
     [SerializeField] public float   scrollSpeed         = 10;
     [SerializeField] public double  dragSpeedReduction  = 0.2;
 
@@ -19,7 +19,7 @@ public class MouseDrag : MonoBehaviour {
         //If left click
         if (Input.GetMouseButton(0))
         {
-            this.gameObject.transform.Translate(h, v, 0);
+            gameObject.transform.Translate(h, v, 0);
         }
 
         //Detect scroll wheel 
