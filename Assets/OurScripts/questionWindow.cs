@@ -3,6 +3,8 @@ using System.Collections;
 
 public class questionWindow : MonoBehaviour {
     private bool render = false;
+    private bool quitRender = false;
+    private bool skipRender = false;
 	private bool questionListEmpty = false;
 	private bool answer = false;
 	private bool correct = false;
@@ -12,7 +14,8 @@ public class questionWindow : MonoBehaviour {
 
 	int questionTracker, ans, correctCount;
 	float x, y, qX, qY;
-	private Rect windowRect, resultRect;
+	private Rect windowRect, resultRect, quitRect, skipRect;
+    GUIStyle smallFont = new GUIStyle();
     // Use this for initialization
     void Start () {
         centerRectangle();
@@ -21,9 +24,12 @@ public class questionWindow : MonoBehaviour {
         qY = y * 0.8f;
         windowRect = new Rect(x*0.1f, y*0.1f, qX, qY);
 		resultRect = new Rect((qX/2) - 225, (qY/2) - 75, 800, 200);
+        quitRect = new Rect((x*0.007f), (y * 0.007f), (x / 10), (y / 10));
+        skipRect = new Rect((x * 0.007f), (y * 0.9f), (x / 10), (y / 10));
 		controller = GameObject.FindWithTag("GameController");
 		questionTracker = -1;
 		NextQuestion ();
+        smallFont.fontSize = 15;
     }
 	
 	// Update is called once per frame
@@ -32,9 +38,13 @@ public class questionWindow : MonoBehaviour {
 	}
     public void ShowWindow(){
         render = true;
+        quitRender = true;
+        skipRender = true;
     }
     public void HideWindow(){
         render = false;
+        quitRender = false;
+        skipRender = false;
 		answer = false;
 		correct = false;
     }
@@ -51,12 +61,19 @@ public class questionWindow : MonoBehaviour {
 			GUI.color = new Color (0.1f, 0.25f, 0.7f, 1f);
 			windowRect = GUI.Window(0, windowRect, DoMyWindow, "Spurning: ");
         }
+        if (quitRender){
+            GUI.color = new Color(0.9f, 0.75f, 0.3f, 1f);
+            quitRect = GUI.Window(1, quitRect, DoMyWindow, "Fara aftur á kort");
+        }
+        if (skipRender) {
+            skipRect = GUI.Window(2, skipRect, DoMyWindow, "Segja pass");
+        }
 		if (answer && correct) {
 			GUI.color = new Color (0.1f, 1f, 0.1f, 1f);
-			resultRect = GUI.Window (1, resultRect, DoMyWindow, "Svar");
+			resultRect = GUI.Window (3, resultRect, DoMyWindow, "Svar");
 		} else if(answer) {
 			GUI.color = Color.red;
-			resultRect = GUI.Window(1, resultRect, DoMyWindow, "Svar");
+			resultRect = GUI.Window(3, resultRect, DoMyWindow, "Svar");
 		}
 
     }
@@ -72,7 +89,16 @@ public class questionWindow : MonoBehaviour {
 			if (GUI.Button (new Rect (x * 0.42f, y * 0.59f, x * 0.35f, y * 0.2f), data [4]))
 				Answer (4);
 		}
-		if (windowID == 1) {
+        if (windowID == 1){
+            
+           // if (GUI.Button(new Rect(x * 0.007f, y * 0.007f, x * 0.05f, y * 0.05f), "Smelltu hér")) HideWindow();
+            if (GUI.Button(new Rect(x * 0.018f, y * 0.05f, x * 0.04f, y * 0.08f), "Smelltu hér", smallFont)) HideWindow();
+        }
+        if (windowID == 2) {
+            if (GUI.Button(new Rect(x * 0.018f, y * 0.05f, x * 0.04f, y * 0.08f), "Smelltu hér", smallFont)) NextQuestion();
+
+        }
+		if (windowID == 3) {
 			if (correct) GUI.TextField (new Rect (100, 20, 600, 50), "Rétt hjá þér, vel gert");
 			else if (!correct) GUI.TextField (new Rect (100, 20, 600, 50), "Rangt hjá þér!!! Þetta var ÖÖÖÖMURLEGT");
 			if (GUI.Button (new Rect (100, 100, 600, 75), "Halda áfram fyrir næstu spurningu")) NextQuestion ();
