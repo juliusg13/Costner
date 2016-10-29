@@ -111,6 +111,7 @@ public class questionWindow : MonoBehaviour {
 			answer = true;
 			correct = true;
 			correctCount++;
+            controller.GetComponent<rewardSystem>().increaseCoins(10);
 			controller.GetComponent<fakeDatabase> ().changeAnsweredQs (questionTracker);
 		} else {							//wrong asnwer 
 			answer = true;
