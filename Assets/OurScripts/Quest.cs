@@ -1,9 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Quest : MonoBehaviour {
+public class quest : MonoBehaviour {
 
-	public GameObject quest;
+	public GameObject questGiver;
     public GameObject questionID;
 	public float xCoord;
 	public float zCoord;
@@ -13,7 +13,7 @@ public class Quest : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-		quest = GameObject.FindGameObjectWithTag("QuestGiver");
+		questGiver = GameObject.FindGameObjectWithTag("QuestGiver");
         controller = GameObject.FindWithTag("GameController");
     }
     
@@ -25,7 +25,8 @@ public class Quest : MonoBehaviour {
 		if (this.gameObject.tag == "QuestGiver") {
             //Destroy (this.gameObject);
             //window.GetComponent<questionWindow>().ShowWindow();
-            controller.GetComponent<questionWindow>().ShowWindow();
+          //  controller.GetComponent<qWindowDB>().ShowWindow();
+			controller.GetComponent<qWindowDB> ().ShowWindow ();
         }
 	}
 
