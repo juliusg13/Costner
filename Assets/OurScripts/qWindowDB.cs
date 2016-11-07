@@ -29,8 +29,7 @@ public class qWindowDB : MonoBehaviour {
 	}
 
 	void Answer(string s){
-        string input = "\"" + s + "\"";
-		if (data[5] == input) {             //correct answer
+		if (data[5] == s) {             //correct answer
 			answer = true;
 			correct = true;
 			controller.GetComponent<rewardSystem>().increaseCoins(10);
@@ -44,7 +43,7 @@ public class qWindowDB : MonoBehaviour {
 		answer = false;
 		correct = false;
 
-		data = controller.GetComponent<GetJsonFromApi> ().getQuestionForm ("\"1234\"");
+		data = controller.GetComponent<GetJsonFromApi> ().getQuestionForm ("1234");
 	}
 
 	

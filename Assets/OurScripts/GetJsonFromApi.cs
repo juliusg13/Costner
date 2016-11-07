@@ -35,9 +35,12 @@ public class GetJsonFromApi : MonoBehaviour {
 		if (loaded == true)
 		{
 			var N = JSON.Parse(www.text);
+            string qID;
 			for (int i = 0; i < N.Count; i++)
 			{
-				if (N["projects"][i]["questionId"].ToString() == questionID)
+                qID = N["projects"][i]["questionId"];
+
+                if (qID == questionID)
 				{
 					return N["projects"][i];
 				}
@@ -55,7 +58,7 @@ public class GetJsonFromApi : MonoBehaviour {
 		var N = Question(questionID);
 		if(N != null)
 		{
-			return N["questionTitle"].ToString ();
+			return N["questionTitle"];
 		}
 		Debug.LogError("Database not loaded");
 		return "";
@@ -70,7 +73,7 @@ public class GetJsonFromApi : MonoBehaviour {
 		var N = Question(questionID);
 		if (N != null)
 		{
-			return N["answerList"][pos].ToString();
+			return N["answerList"][pos];
 		}
 		Debug.LogError("Database not loaded");
 		return "";
@@ -84,12 +87,12 @@ public class GetJsonFromApi : MonoBehaviour {
 		var N = Question (questionID);
 
 		string[] arr = new string[] {
-			N["questionTitle"].ToString(),
-			N["answerList"][0].ToString(),
-			N["answerList"][1].ToString(),
-			N["answerList"][2].ToString(),
-			N["answerList"][3].ToString(),
-			N["correctAnswer"].ToString()
+			N["questionTitle"],
+			N["answerList"][0],
+			N["answerList"][1],
+			N["answerList"][2],
+			N["answerList"][3],
+			N["correctAnswer"]
 		};
 		return arr;
 	}
@@ -103,7 +106,7 @@ public class GetJsonFromApi : MonoBehaviour {
 		var N = Question(questionID);
 		if (N != null)
 		{
-			return N["latitude"].ToString();
+			return N["latitude"];
 		}
 		Debug.LogError("Database not loaded");
 		return "";
@@ -118,7 +121,7 @@ public class GetJsonFromApi : MonoBehaviour {
 		var N = Question(questionID);
 		if (N != null)
 		{
-			return N["longitude"].ToString();
+			return N["longitude"];
 		}
 		Debug.LogError("Database not loaded");
 		return "";
