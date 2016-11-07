@@ -25,7 +25,8 @@ public class quest : MonoBehaviour {
 		if (this.gameObject.tag == "QuestGiver") {
             //Destroy (this.gameObject);
             //window.GetComponent<questionWindow>().ShowWindow();
-            controller.GetComponent<questionWindow>().ShowWindow();
+          //  controller.GetComponent<qWindowDB>().ShowWindow();
+			controller.GetComponent<qWindowDB> ().ShowWindow ();
         }
 	}
 

@@ -22,15 +22,13 @@ public class questionWindow : MonoBehaviour {
 		correctCount = 0;
         qX = x * 0.8f;
         qY = y * 0.8f;
-        windowRect = new Rect(x*0.1f, y*0.1f, qX, qY);
-		resultRect = new Rect((qX/2) - 225, (qY/2) - 75, 800, 200);
-        quitRect = new Rect((x*0.007f), (y * 0.007f), (x / 10), (y / 10));
-        skipRect = new Rect((x * 0.007f), (y * 0.9f), (x / 10), (y / 10));
+		smallFont.fontSize = 15;
+		rectAssemble ();
 		controller = GameObject.FindWithTag("GameController");
 		questionTracker = -1;
 		NextQuestion ();
-        smallFont.fontSize = 15;
-    }
+        
+    } 
 	
 	// Update is called once per frame
 	void Update () {
@@ -123,7 +121,7 @@ public class questionWindow : MonoBehaviour {
 		answer = false;
 		correct = false;
 		questionTracker++;
-		if (questionTracker == 5) {
+		if (questionTracker == 2) {
 			HideWindow ();
 			questionTracker = 0;
 
@@ -137,5 +135,11 @@ public class questionWindow : MonoBehaviour {
 			} else
 			NextQuestion ();
 		}
+	}
+	private void rectAssemble(){
+		windowRect = new Rect(x*0.1f, y*0.1f, qX, qY);
+		resultRect = new Rect((qX/2) - 225, (qY/2) - 75, 800, 200);
+		quitRect = new Rect((x*0.007f), (y * 0.007f), (x / 10), (y / 10));
+		skipRect = new Rect((x * 0.007f), (y * 0.9f), (x / 10), (y / 10));
 	}
 }
