@@ -22,9 +22,7 @@ public class GetJsonFromApi : MonoBehaviour {
 		{
 			loaded = true;
 			//Debug.Log ("loaded = true");
-			Debug.Log (GetQuestion ("1234"));
-            Debug.Log(GetQuestion("1235"));
-            Debug.Log(GetQuestion("1236"));
+			//Debug.Log (GetQuestion ("1234"));
         }
 		else
 		{
