@@ -22,8 +22,10 @@ public class GetJsonFromApi : MonoBehaviour {
 		{
 			loaded = true;
 			//Debug.Log ("loaded = true");
-			//Debug.Log (GetQuestion ("\"1234\""));
-		}
+			Debug.Log (GetQuestion ("1234"));
+            Debug.Log(GetQuestion("1235"));
+            Debug.Log(GetQuestion("1236"));
+        }
 		else
 		{
 			Debug.Log("WWW Error: " + www.error);
@@ -35,14 +37,14 @@ public class GetJsonFromApi : MonoBehaviour {
 		if (loaded == true)
 		{
 			var N = JSON.Parse(www.text);
+            JSONArray arr = N["projects"].AsArray;
             string qID;
-			for (int i = 0; i < N.Count; i++)
+			for (int i = 0; i < arr.Count; i++)
 			{
-                qID = N["projects"][i]["questionId"];
-
+                qID = arr[i]["questionId"];
                 if (qID == questionID)
 				{
-					return N["projects"][i];
+					return arr[i];
 				}
 			}
 		}
