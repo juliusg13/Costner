@@ -61,23 +61,17 @@ public class qWindowDB : MonoBehaviour {
                                   "Reykjavík",
                                   "4"
           };*/
-        int lol = 0;
 
         if (counter == 0) {
-            data = controller.GetComponent<GetJsonFromApi>().getQuestionForm("1234");
-            lol = controller.GetComponent<GetJsonFromApi>().GetCorrectAnswer("1234");
+            data = controller.GetComponent<getJsonFromApi>().getQuestionForm("1234");
             counter++;
         } else if(counter == 1) {
-            data = controller.GetComponent<GetJsonFromApi>().getQuestionForm("1235");
-            lol = controller.GetComponent<GetJsonFromApi>().GetCorrectAnswer("1235");
+            data = controller.GetComponent<getJsonFromApi>().getQuestionForm("1235");
             counter++;
         }
         else if (counter == 2) {
-            data = controller.GetComponent<GetJsonFromApi>().getQuestionForm("1236");
-            lol = controller.GetComponent<GetJsonFromApi>().GetCorrectAnswer("1236");
+            data = controller.GetComponent<getJsonFromApi>().getQuestionForm("1236");
         }
-        
-        Debug.Log("correctanswer " + lol);
     }
 
 	

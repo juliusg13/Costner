@@ -1,9 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
-using SimpleJSON;
+using simpleJSON;
 using System;
 
-public class GetJsonFromApi : MonoBehaviour {
+public class getJsonFromApi : MonoBehaviour {
 
 	private WWW www;
 	private bool loaded = false;
