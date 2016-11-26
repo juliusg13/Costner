@@ -13,7 +13,7 @@ public class qWindowDB : MonoBehaviour {
 	private bool correct = false;
 	float x, y, qX, qY;
 	private Rect windowRect, resultRect, quitRect, skipRect;
-    GUIStyle smallFont, centerTitle, centerText, questionText;
+    GUIStyle smallFont, centerTitle, centerText, questionText, renderWindow;
 	int questionTracker, correctCount;
 	string[] data;
     int counter;
@@ -157,9 +157,9 @@ public class qWindowDB : MonoBehaviour {
             }
 		}
 		if (windowID == 3) {
-			if (correct) GUI.TextField (new Rect (100, 20, 600, 50), "Rétt hjá þér, vel gert", centerTitle);
-			else if (!correct) GUI.TextField (new Rect (100, 20, 600, 50), "Rangt hjá þér!!! Reyndu aftur eftir augnablik", centerTitle);
-            if (GUI.Button(new Rect(100, 100, 600, 75), "Halda áfram", centerText)){
+            if (correct) GUI.TextField (new Rect ((qX/4), (qY/14), x*0.20f, y*0.15f), "Rétt hjá þér, vel gert", centerTitle);
+            else if (!correct) GUI.TextField (new Rect ((qX / 8), (qY / 14), x * 0.4f, y * 0.15f), "Rangt hjá þér! Reyndu aftur eftir augnablik", centerTitle); //centertitle
+            if (GUI.Button(new Rect(qX/7, qY/3, x*0.4f, y*0.1f), "Halda áfram")){
                 //HideWindow(); //Used to be next question.
                 nextQuestion();
             }
@@ -201,7 +201,7 @@ public class qWindowDB : MonoBehaviour {
     /// </summary>
 	private void rectAssemble(){
 		windowRect = new Rect(x*0.1f, y*0.1f, qX, qY);
-		resultRect = new Rect((qX/2) - x*0.2f, (qY/2) - y*0.1f, x*0.6f, y*0.25f);
+		resultRect = new Rect((qX/2) - x*0.2f, (qY/2) - y*0.1f, x*0.6f, y*0.4f);
 		quitRect = new Rect((x*0.007f), (y * 0.007f), (x / 10), (y / 10));
 		skipRect = new Rect((x * 0.007f), (y * 0.9f), (x / 10), (y / 10));
 	}
@@ -213,16 +213,18 @@ public class qWindowDB : MonoBehaviour {
         centerText = new GUIStyle();
         centerTitle = new GUIStyle();
         questionText = new GUIStyle();
-
+        renderWindow = new GUIStyle();
+      
         smallFont.fontSize = 15;
 
         centerText.alignment = TextAnchor.MiddleCenter;
         centerText.fontSize = 25;
 
         centerTitle.alignment = TextAnchor.MiddleCenter;
-        centerTitle.fontSize = 40;
+        centerTitle.fontSize = 35;
 
         questionText.fontSize = 25;
         questionText.alignment = TextAnchor.MiddleCenter;
+       // renderWindow.normal.background
     }
 }
