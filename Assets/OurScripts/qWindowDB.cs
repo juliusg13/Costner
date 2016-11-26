@@ -16,10 +16,11 @@ public class qWindowDB : MonoBehaviour {
     GUIStyle smallFont, centerTitle, centerText, questionText;
 	int questionTracker, correctCount;
 	string[] data;
+    int counter;
 
 	// Use this for initialization
 	void Start () {
-
+        counter = 0;
         setGUIStyles();
         centerRectangle();
 		correctCount = 0;
@@ -34,6 +35,8 @@ public class qWindowDB : MonoBehaviour {
     /// </summary>
     /// <param name="s">s is an integer in the form of a string to compare correct answer with.</param>
 	void Answer(string s){
+
+
 		if (data[5] == s) {             //correct answer
 			answer = true;
 			correct = true;
@@ -50,16 +53,32 @@ public class qWindowDB : MonoBehaviour {
 	void nextQuestion(){
 		answer = false;
 		correct = false;
-      /*  data = new string[] {
-                                "Hver er höfuðborg Íslands?",
-                                "Bangkok",
-                                "Jerúsalem",
-                                "Selfoss",
-                                "Reykjavík",
-                                "4"
-        };*/
-        data = controller.GetComponent<GetJsonFromApi> ().getQuestionForm ("1234");
-	}
+        /*  data = new string[] {
+                                  "Hver er höfuðborg Íslands?",
+                                  "Bangkok",
+                                  "Jerúsalem",
+                                  "Selfoss",
+                                  "Reykjavík",
+                                  "4"
+          };*/
+        int lol = 0;
+
+        if (counter == 0) {
+            data = controller.GetComponent<GetJsonFromApi>().getQuestionForm("1234");
+            lol = controller.GetComponent<GetJsonFromApi>().GetCorrectAnswer("1234");
+            counter++;
+        } else if(counter == 1) {
+            data = controller.GetComponent<GetJsonFromApi>().getQuestionForm("1235");
+            lol = controller.GetComponent<GetJsonFromApi>().GetCorrectAnswer("1235");
+            counter++;
+        }
+        else if (counter == 2) {
+            data = controller.GetComponent<GetJsonFromApi>().getQuestionForm("1236");
+            lol = controller.GetComponent<GetJsonFromApi>().GetCorrectAnswer("1236");
+        }
+        
+        Debug.Log("correctanswer " + lol);
+    }
 
 	
 	// Update is called once per frame
@@ -120,16 +139,16 @@ public class qWindowDB : MonoBehaviour {
 			GUI.TextField (new Rect (x * 0.03f, y * 0.07f, x * 0.75f, y * 0.25f), data[0], questionText);
 
             if (GUI.Button(new Rect(x * 0.03f, y * 0.37f, x * 0.35f, y * 0.2f), data[1])) {
-                Answer("0");
+                Answer("1");
             }
 			if (GUI.Button (new Rect (x * 0.42f, y * 0.37f, x * 0.35f, y * 0.2f), data[2])) { 
-				Answer ("1");
-            }
-            if (GUI.Button (new Rect (x * 0.03f, y * 0.59f, x * 0.35f, y * 0.2f), data[3])) { 
 				Answer ("2");
             }
+            if (GUI.Button (new Rect (x * 0.03f, y * 0.59f, x * 0.35f, y * 0.2f), data[3])) { 
+				Answer ("3");
+            }
             if (GUI.Button (new Rect (x * 0.42f, y * 0.59f, x * 0.35f, y * 0.2f), data[4])) {
-                Answer ("3");
+                Answer ("4");
             }
         }
 
@@ -147,7 +166,8 @@ public class qWindowDB : MonoBehaviour {
 			if (correct) GUI.TextField (new Rect (100, 20, 600, 50), "Rétt hjá þér, vel gert", centerTitle);
 			else if (!correct) GUI.TextField (new Rect (100, 20, 600, 50), "Rangt hjá þér!!! Reyndu aftur eftir augnablik", centerTitle);
             if (GUI.Button(new Rect(100, 100, 600, 75), "Halda áfram", centerText)){
-                HideWindow(); //Used to be next question.
+                //HideWindow(); //Used to be next question.
+                nextQuestion();
             }
 		}
 
