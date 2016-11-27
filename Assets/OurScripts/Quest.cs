@@ -4,7 +4,7 @@ using System.Collections;
 public class quest : MonoBehaviour {
 
 	public GameObject questGiver;
-    public GameObject questionID;
+    public string questionID;
 	public float xCoord;
 	public float zCoord;
     private GameObject controller;
@@ -26,7 +26,7 @@ public class quest : MonoBehaviour {
             //Destroy (this.gameObject);
             //window.GetComponent<questionWindow>().ShowWindow();
           //  controller.GetComponent<qWindowDB>().ShowWindow();
-			controller.GetComponent<qWindowDB> ().ShowWindow ();
+			controller.GetComponent<qWindowDB> ().ShowWindow (questionID);
         }
 	}
 

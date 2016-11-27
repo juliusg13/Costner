@@ -5,42 +5,50 @@ using System.Collections;
 
 public class qWindowDB : MonoBehaviour {
 	private GameObject controller;
-	private bool render = false;
-	private bool quitRender = false;
-	private bool skipRender = false;
-
-	private bool answer = false;
-	private bool correct = false;
+    private bool render, quitRender, skipRender, answer, correct;
+	
 	float x, y, qX, qY;
-	private Rect windowRect, resultRect, quitRect, skipRect;
-    GUIStyle smallFont, centerTitle, centerText, questionText, renderWindow;
-	int questionTracker, correctCount;
+	private Rect windowRect, resultRect, questionButtonRect1, questionButtonRect2, questionButtonRect3, questionButtonRect4, quitRect, skipRect;
+    private RectOffset qButtonRect;
+    GUIStyle smallFont, centerTitle, centerText, questionText, renderWindow, questionOptions;
 	string[] data;
     int counter;
+    public int adventureCoins;
 
 	// Use this for initialization
 	void Start () {
-        counter = 0;
         setGUIStyles();
+        initializeVariables();
         centerRectangle();
-		correctCount = 0;
 
 		rectAssemble ();
 		controller = GameObject.FindWithTag("GameController");
-		questionTracker = -1;
 	}
+    /// <summary>
+    /// Function that sets basic variables initally.
+    /// </summary>
+    void initializeVariables() {
+        render = false;
+        quitRender = false;
+        skipRender = false;
+        answer = false;
+        correct = false;
+        counter = 0;
+        adventureCoins = 1;
+    }
+
     /// <summary>
     /// data[5] includes the string that says which option was the correct option for specific question.
     /// Rewards currency if answered correct.
     /// </summary>
     /// <param name="s">s is an integer in the form of a string to compare correct answer with.</param>
-	void Answer(string s){
+    void Answer(string s){
 
 
 		if (data[5] == s) {             //correct answer
 			answer = true;
 			correct = true;
-			controller.GetComponent<rewardSystem>().increaseCoins(10);
+			controller.GetComponent<rewardSystem>().increaseCoins(adventureCoins);
 	//		Missing a function that makes sure we do not get the same question back up.
 		} else {							//wrong asnwer 
 			answer = true;
@@ -50,7 +58,7 @@ public class qWindowDB : MonoBehaviour {
     /// <summary>
     /// Function that GETs all the data for the question on this specific question mark, includes question, possible answers and correct answer.
     /// </summary>
-	void nextQuestion(){
+	void nextQuestion(string questionID){
 		answer = false;
 		correct = false;
         /*  data = new string[] {
@@ -61,7 +69,7 @@ public class qWindowDB : MonoBehaviour {
                                   "Reykjavík",
                                   "4"
           };*/
-
+        /*
         if (counter == 0) {
             data = controller.GetComponent<getJsonFromApi>().getQuestionForm("1234");
             counter++;
@@ -71,7 +79,8 @@ public class qWindowDB : MonoBehaviour {
         }
         else if (counter == 2) {
             data = controller.GetComponent<getJsonFromApi>().getQuestionForm("1236");
-        }
+        } */
+        data = controller.GetComponent<getJsonFromApi>().getQuestionForm(questionID);
     }
 
 	
@@ -130,18 +139,19 @@ public class qWindowDB : MonoBehaviour {
 	void DoMyWindow(int windowID){
 		
 		if (windowID == 0) {
+            GUI.skin.button = questionOptions;
 			GUI.TextField (new Rect (x * 0.03f, y * 0.07f, x * 0.75f, y * 0.25f), data[0], questionText);
-
-            if (GUI.Button(new Rect(x * 0.03f, y * 0.37f, x * 0.35f, y * 0.2f), data[1])) {
+            
+            if (GUI.Button (questionButtonRect1, data[1])) {
                 Answer("1");
             }
-			if (GUI.Button (new Rect (x * 0.42f, y * 0.37f, x * 0.35f, y * 0.2f), data[2])) { 
+			if (GUI.Button (questionButtonRect2, data[2])) { 
 				Answer ("2");
             }
-            if (GUI.Button (new Rect (x * 0.03f, y * 0.59f, x * 0.35f, y * 0.2f), data[3])) { 
+            if (GUI.Button (questionButtonRect3, data[3])) { 
 				Answer ("3");
             }
-            if (GUI.Button (new Rect (x * 0.42f, y * 0.59f, x * 0.35f, y * 0.2f), data[4])) {
+            if (GUI.Button (questionButtonRect4, data[4])) {
                 Answer ("4");
             }
         }
@@ -153,15 +163,15 @@ public class qWindowDB : MonoBehaviour {
 		}
 		if (windowID == 2) {
             if (GUI.Button(new Rect(x * 0.018f, y * 0.05f, x * 0.04f, y * 0.08f), "Smelltu hér", smallFont)) {
-                nextQuestion();
+                nextQuestion("nextQuestion");
             }
 		}
 		if (windowID == 3) {
             if (correct) GUI.TextField (new Rect ((qX/4), (qY/14), x*0.20f, y*0.15f), "Rétt hjá þér, vel gert", centerTitle);
             else if (!correct) GUI.TextField (new Rect ((qX / 8), (qY / 14), x * 0.4f, y * 0.15f), "Rangt hjá þér! Reyndu aftur eftir augnablik", centerTitle); //centertitle
-            if (GUI.Button(new Rect(qX/7, qY/3, x*0.4f, y*0.1f), "Halda áfram")){
-                //HideWindow(); //Used to be next question.
-                nextQuestion();
+            if (GUI.Button(new Rect(qX/7, qY/3, x*0.4f, y*0.1f), "Snilld!")){
+                HideWindow(); //Used to be next question.
+                //nextQuestion("nextQuestion");
             }
 		}
 
@@ -169,8 +179,8 @@ public class qWindowDB : MonoBehaviour {
     /// <summary>
     /// sets the booleans in order for the windows to go from invisible to visible on screen.
     /// </summary>
-	public void ShowWindow(){
-		nextQuestion ();
+	public void ShowWindow(string questionID){
+		nextQuestion (questionID);
 		render = true;
 		quitRender = true;
 		skipRender = true;
@@ -202,8 +212,13 @@ public class qWindowDB : MonoBehaviour {
 	private void rectAssemble(){
 		windowRect = new Rect(x*0.1f, y*0.1f, qX, qY);
 		resultRect = new Rect((qX/2) - x*0.2f, (qY/2) - y*0.1f, x*0.6f, y*0.4f);
-		quitRect = new Rect((x*0.007f), (y * 0.007f), (x / 10), (y / 10));
+        questionButtonRect1 = new Rect(x * 0.03f, y * 0.37f, x * 0.35f, y * 0.2f);
+        questionButtonRect2 = new Rect(x * 0.42f, y * 0.37f, x * 0.35f, y * 0.2f);
+        questionButtonRect3 = new Rect(x * 0.03f, y * 0.59f, x * 0.35f, y * 0.2f);
+        questionButtonRect4 = new Rect(x * 0.42f, y * 0.59f, x * 0.35f, y * 0.2f);
+        quitRect = new Rect((x*0.007f), (y * 0.007f), (x / 10), (y / 10));
 		skipRect = new Rect((x * 0.007f), (y * 0.9f), (x / 10), (y / 10));
+        qButtonRect = new RectOffset();
 	}
     /// <summary>
     /// Helper function that creates various GUI styles for each element that needs one.
@@ -214,6 +229,7 @@ public class qWindowDB : MonoBehaviour {
         centerTitle = new GUIStyle();
         questionText = new GUIStyle();
         renderWindow = new GUIStyle();
+        questionOptions = new GUIStyle();
       
         smallFont.fontSize = 15;
 
@@ -225,6 +241,10 @@ public class qWindowDB : MonoBehaviour {
 
         questionText.fontSize = 25;
         questionText.alignment = TextAnchor.MiddleCenter;
-       // renderWindow.normal.background
+        // renderWindow.normal.background
+
+        questionOptions.fontSize = 25;
+        questionOptions.alignment = TextAnchor.MiddleCenter;
+        //questionOptions.border = qButtonRect;
     }
 }
