@@ -3,19 +3,19 @@ using System.Collections;
 
 public class quest : MonoBehaviour {
 
-	public GameObject questGiver;
+	//public GameObject questGiver;
     public string questionID;
 	public float xCoord;
 	public float zCoord;
     private GameObject controller;
-    
+    private GameObject questGiver;
 
 
     // Use this for initialization
     void Start () {
-		questGiver = GameObject.FindGameObjectWithTag("QuestGiver");
+		//questGiver = GameObject.FindGameObjectWithTag("QuestGiver");
         controller = GameObject.FindWithTag("GameController");
-
+        questGiver = this.gameObject;
     }
     
     // Update is called once per frame
@@ -23,12 +23,13 @@ public class quest : MonoBehaviour {
 		//this.transform.position = new Vector3 (xCoord, this.transform.position.y, zCoord);
 	}
 	void OnMouseUp(){
-		if (this.gameObject.tag == "QuestGiver") {
-            //Destroy (this.gameObject);
-            //window.GetComponent<questionWindow>().ShowWindow();
-          //  controller.GetComponent<qWindowDB>().ShowWindow();
-			controller.GetComponent<qWindowDB> ().ShowWindow (questionID);
-        }
+        //if (this.gameObject.tag == "QuestGiver") {
+        //Destroy (this.gameObject);
+        //window.GetComponent<questionWindow>().ShowWindow();
+        //  controller.GetComponent<qWindowDB>().ShowWindow();
+        //controller.GetComponent<qWindowDB> ().ShowWindow (questionID);
+        // }
+        questGiver.GetComponent<qWindowDB>().ShowWindow(questionID);
 	}
 
 }

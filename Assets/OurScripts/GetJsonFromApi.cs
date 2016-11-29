@@ -7,6 +7,7 @@ public class getJsonFromApi : MonoBehaviour {
 
 	private WWW www;
 	private bool loaded = false;
+    private bool linkedListsFull = false;
     public SortedList mountains, glaciers, riversLakes, cities;
 
 	void Start()
@@ -43,28 +44,36 @@ public class getJsonFromApi : MonoBehaviour {
             int retI = 0;
 			for (int i = 0; i < arr.Count; i++) {
                 qID = arr[i]["questionId"];
-                tag = arr[i]["tag"];
                 if (qID == questionID) {
                     retI = i;
                     didFind = true;
-				}
-                if(tag == "Borgir") {
-                    cities.Add(i, qID);
                 }
-                if(tag == "Jöklar") {
-                    glaciers.Add(i, qID);
+                if (linkedListsFull == false) {
+                    tag = arr[i]["tag"];
+                    if (tag == "Borgir") {
+                        cities.Add(i, qID);
+                    }
+                    if (tag == "Jöklar") {
+                        glaciers.Add(i, qID);
+                    }
+                    if (tag == "Fjöll") {
+                        mountains.Add(i, qID);
+                    }
+                    if (tag == "Ár og Vötn") {
+                        riversLakes.Add(i, qID);
+
+                    }
                 }
-                if(tag == "Fjöll") {
-                    mountains.Add(i, qID);
-                }
-                if(tag == "Ár og Vötn") {
-                    riversLakes.Add(i, qID);
+                if(i == (arr.Count - 1)) {
+                    linkedListsFull = true;
                 }
 			}
             if (didFind) {
+                didFind = false;
                 return arr[retI];
             }
 		}
+        Debug.Log("return null");
 		return null;
 	}
 
