@@ -20,7 +20,7 @@ public class quest : MonoBehaviour {
     
     // Update is called once per frame
     void Update () {
-		this.transform.position = new Vector3 (xCoord, this.transform.position.y, zCoord);
+		//this.transform.position = new Vector3 (xCoord, this.transform.position.y, zCoord);
 	}
 	void OnMouseUp(){
 		if (this.gameObject.tag == "QuestGiver") {
