@@ -8,16 +8,20 @@ public class quest : MonoBehaviour {
 	public float xCoord;
 	public float zCoord;
     private GameObject controller;
-    private GameObject questGiver;
+    public GameObject questGiver;
 
 
     // Use this for initialization
     void Start () {
 		//questGiver = GameObject.FindGameObjectWithTag("QuestGiver");
         controller = GameObject.FindWithTag("GameController");
-        questGiver = this.gameObject;
+
+        // print(questionID);
     }
-    
+    public void MoveToLoc() {
+        //print("QG :" + questGiver + " xCoord :" + xCoord + " zCoord :" + zCoord);
+        //controller.GetComponent<moveObjToTile>().MoveToTile(questGiver, xCoord, zCoord);
+    }
     // Update is called once per frame
     void Update () {
 		//this.transform.position = new Vector3 (xCoord, this.transform.position.y, zCoord);

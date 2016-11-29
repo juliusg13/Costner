@@ -9,6 +9,7 @@ public class getJsonFromApi : MonoBehaviour {
 	private bool loaded = false;
     private bool linkedListsFull = false;
     public SortedList mountains, glaciers, riversLakes, cities;
+    private GameObject controller;
 
 	void Start()
 	{
@@ -24,6 +25,7 @@ public class getJsonFromApi : MonoBehaviour {
 		if (www.error == null)
 		{
 			loaded = true;
+            fillLists();
 			//Debug.Log ("loaded = true");
 			//Debug.Log (GetQuestion ("1234"));
         }
@@ -32,22 +34,15 @@ public class getJsonFromApi : MonoBehaviour {
 			Debug.Log("WWW Error: " + www.error);
 		}
 	}
-
-	private JSONNode Question(string questionID)
-	{
-		if (loaded == true)
-		{
-			var N = JSON.Parse(www.text);
-            JSONArray arr = N["projects"].AsArray;
-            bool didFind = false;
+    private void fillLists() {
+        if (loaded == true) {
             string qID, tag;
-            int retI = 0;
-			for (int i = 0; i < arr.Count; i++) {
+            var N = JSON.Parse(www.text);
+            JSONArray arr = N["projects"].AsArray;
+
+            for (int i = 0; i < arr.Count; i++) {
                 qID = arr[i]["questionId"];
-                if (qID == questionID) {
-                    retI = i;
-                    didFind = true;
-                }
+
                 if (linkedListsFull == false) {
                     tag = arr[i]["tag"];
                     if (tag == "Borgir") {
@@ -64,18 +59,31 @@ public class getJsonFromApi : MonoBehaviour {
 
                     }
                 }
+                else return;
                 if(i == (arr.Count - 1)) {
                     linkedListsFull = true;
+                    controller.GetComponent<renderQuestionsByTags>().createByTag();
                 }
-			}
-            if (didFind) {
-                didFind = false;
-                return arr[retI];
             }
-		}
-        Debug.Log("return null");
-		return null;
-	}
+        }
+    }
+
+    private JSONNode Question(string questionID) {
+        if (loaded == true) {
+            var N = JSON.Parse(www.text);
+            JSONArray arr = N["projects"].AsArray;
+            string qID;
+
+            for (int i = 0; i < arr.Count; i++) {
+                qID = arr[i]["questionId"];
+
+                if (qID == questionID) {
+                    return arr[i];
+                }
+            }
+        }
+        return null;
+    }
 
 	///<summary>
 	///<para>Returns the question with the questionID as string</para>
@@ -183,7 +191,9 @@ public class getJsonFromApi : MonoBehaviour {
 		Debug.LogError("Database not loaded");
 		return 0;
 	}
+
     private void initLists() {
+        controller = GameObject.FindWithTag("GameController");
         mountains = new SortedList();
         glaciers = new SortedList();
         riversLakes = new SortedList();
