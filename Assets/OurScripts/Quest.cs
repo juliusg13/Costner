@@ -15,6 +15,7 @@ public class quest : MonoBehaviour {
     void Start () {
 		questGiver = GameObject.FindGameObjectWithTag("QuestGiver");
         controller = GameObject.FindWithTag("GameController");
+
     }
     
     // Update is called once per frame

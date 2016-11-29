@@ -7,9 +7,11 @@ public class getJsonFromApi : MonoBehaviour {
 
 	private WWW www;
 	private bool loaded = false;
+    public SortedList mountains, glaciers, riversLakes, cities;
 
 	void Start()
 	{
+        initLists();
 		var url = "http://geogame.api.costner.is/";
 		www = new WWW(url);
 		StartCoroutine(SendRequest());
@@ -36,15 +38,32 @@ public class getJsonFromApi : MonoBehaviour {
 		{
 			var N = JSON.Parse(www.text);
             JSONArray arr = N["projects"].AsArray;
-            string qID;
-			for (int i = 0; i < arr.Count; i++)
-			{
+            bool didFind = false;
+            string qID, tag;
+            int retI = 0;
+			for (int i = 0; i < arr.Count; i++) {
                 qID = arr[i]["questionId"];
-                if (qID == questionID)
-				{
-					return arr[i];
+                tag = arr[i]["tag"];
+                if (qID == questionID) {
+                    retI = i;
+                    didFind = true;
 				}
+                if(tag == "Borgir") {
+                    cities.Add(i, qID);
+                }
+                if(tag == "Jöklar") {
+                    glaciers.Add(i, qID);
+                }
+                if(tag == "Fjöll") {
+                    mountains.Add(i, qID);
+                }
+                if(tag == "Ár og Vötn") {
+                    riversLakes.Add(i, qID);
+                }
 			}
+            if (didFind) {
+                return arr[retI];
+            }
 		}
 		return null;
 	}
@@ -96,7 +115,7 @@ public class getJsonFromApi : MonoBehaviour {
 		};
 		return arr;
 	}
-
+    
 	///<summary>
 	///<para>Returns the latitude variable from the answerList as string</para>
 	///<returns>Returns: String</returns>
@@ -155,4 +174,10 @@ public class getJsonFromApi : MonoBehaviour {
 		Debug.LogError("Database not loaded");
 		return 0;
 	}
+    private void initLists() {
+        mountains = new SortedList();
+        glaciers = new SortedList();
+        riversLakes = new SortedList();
+        cities = new SortedList();
+    }
 }
