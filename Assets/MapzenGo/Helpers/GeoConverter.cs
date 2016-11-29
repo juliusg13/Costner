@@ -31,6 +31,14 @@ namespace MapzenGo.Helpers
             return new Vector2d(p.x, p.y);
         }
 
+        public static Vector2d TileToPixles(Vector2d t)
+        {
+            var p = new Vector2d();
+            p.x = (int)Math.Ceiling(t.x * (double)TileSize) - 1;
+            p.y = (int)Math.Ceiling(t.y * (double)TileSize) - 1;
+            return p;
+        }
+
         //Converts pixel coordinates in given zoom level of pyramid to EPSG:900913
         public static Vector2d PixelsToMeters(Vector2d p, int zoom)
         {

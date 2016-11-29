@@ -2,7 +2,7 @@
 using System;
 using MapzenGo.Models;
 
-public class MouseDrag : MonoBehaviour {
+public class mouseDrag : MonoBehaviour {
     //Changes object position when mouse is dragged
     
     [SerializeField] public double  dragSpeed           = 10;

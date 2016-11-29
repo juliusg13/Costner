@@ -1,15 +1,19 @@
 ﻿using UnityEngine;
 using System.Collections;
-using SimpleJSON;
+using simpleJSON;
 using System;
 
-public class GetJsonFromApi : MonoBehaviour {
+public class getJsonFromApi : MonoBehaviour {
 
 	private WWW www;
 	private bool loaded = false;
+    private bool linkedListsFull = false;
+    public SortedList mountains, glaciers, riversLakes, cities;
+    private GameObject controller;
 
 	void Start()
 	{
+        initLists();
 		var url = "http://geogame.api.costner.is/";
 		www = new WWW(url);
 		StartCoroutine(SendRequest());
@@ -21,33 +25,65 @@ public class GetJsonFromApi : MonoBehaviour {
 		if (www.error == null)
 		{
 			loaded = true;
+            fillLists();
 			//Debug.Log ("loaded = true");
-			//Debug.Log (GetQuestion ("\"1234\""));
-		}
+			//Debug.Log (GetQuestion ("1234"));
+        }
 		else
 		{
 			Debug.Log("WWW Error: " + www.error);
 		}
 	}
+    private void fillLists() {
+        if (loaded == true) {
+            string qID, tag;
+            var N = JSON.Parse(www.text);
+            JSONArray arr = N["projects"].AsArray;
 
-	private JSONNode Question(string questionID)
-	{
-		if (loaded == true)
-		{
-			var N = JSON.Parse(www.text);
+            for (int i = 0; i < arr.Count; i++) {
+                qID = arr[i]["questionId"];
+
+                if (linkedListsFull == false) {
+                    tag = arr[i]["tag"];
+                    if (tag == "Borgir") {
+                        cities.Add(i, qID);
+                    }
+                    if (tag == "Jöklar") {
+                        glaciers.Add(i, qID);
+                    }
+                    if (tag == "Fjöll") {
+                        mountains.Add(i, qID);
+                    }
+                    if (tag == "Ár og Vötn") {
+                        riversLakes.Add(i, qID);
+
+                    }
+                }
+                else return;
+                if(i == (arr.Count - 1)) {
+                    linkedListsFull = true;
+                    controller.GetComponent<renderQuestionsByTags>().createByTag();
+                }
+            }
+        }
+    }
+
+    private JSONNode Question(string questionID) {
+        if (loaded == true) {
+            var N = JSON.Parse(www.text);
+            JSONArray arr = N["projects"].AsArray;
             string qID;
-			for (int i = 0; i < N.Count; i++)
-			{
-                qID = N["projects"][i]["questionId"];
 
-                if (qID == questionID)
-				{
-					return N["projects"][i];
-				}
-			}
-		}
-		return null;
-	}
+            for (int i = 0; i < arr.Count; i++) {
+                qID = arr[i]["questionId"];
+
+                if (qID == questionID) {
+                    return arr[i];
+                }
+            }
+        }
+        return null;
+    }
 
 	///<summary>
 	///<para>Returns the question with the questionID as string</para>
@@ -96,7 +132,7 @@ public class GetJsonFromApi : MonoBehaviour {
 		};
 		return arr;
 	}
-
+    
 	///<summary>
 	///<para>Returns the latitude variable from the answerList as string</para>
 	///<returns>Returns: String</returns>
@@ -155,4 +191,12 @@ public class GetJsonFromApi : MonoBehaviour {
 		Debug.LogError("Database not loaded");
 		return 0;
 	}
+
+    private void initLists() {
+        controller = GameObject.FindWithTag("GameController");
+        mountains = new SortedList();
+        glaciers = new SortedList();
+        riversLakes = new SortedList();
+        cities = new SortedList();
+    }
 }
