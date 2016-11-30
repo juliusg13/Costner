@@ -14,13 +14,13 @@ public class quest : MonoBehaviour {
     // Use this for initialization
     void Start () {
 		//questGiver = GameObject.FindGameObjectWithTag("QuestGiver");
-        controller = GameObject.FindWithTag("GameController");
-
+      //  controller = GameObject.FindWithTag("GameController");
         // print(questionID);
     }
     public void MoveToLoc() {
         //print("QG :" + questGiver + " xCoord :" + xCoord + " zCoord :" + zCoord);
-        //controller.GetComponent<moveObjToTile>().MoveToTile(questGiver, xCoord, zCoord);
+        questGiver.GetComponent<moveObjToTile>().MoveToTile(questGiver, xCoord, zCoord);
+//        controller.GetComponent<moveObjToTile>().MoveToTile(questGiver, world, xCoord, zCoord);
     }
     // Update is called once per frame
     void Update () {

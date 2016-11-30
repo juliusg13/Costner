@@ -7,17 +7,24 @@ public class moveObjToTile : MonoBehaviour
 
     private float xCoord;//questGiver
     private float zCoord;
-    public GameObject world;
     int Zoom;
-    float xCoord2, zCoord2; //start
+    float xCoord2, zCoord2, worldEnlargement; //start
+    private GameObject world;
 
     // Use this for initialization
     void Start()
     {
-        Zoom = world.GetComponent<MapzenGo.Models.TileManager>().Zoom;
-        xCoord2 = world.GetComponent<MapzenGo.Models.TileManager>().Latitude;
-        zCoord2 = world.GetComponent<MapzenGo.Models.TileManager>().Longitude;
+        worldEnlargement = 6.114963f;
     }
+
+
+    /*
+     * 
+     * 
+     * handviss að við þurfum að nota sent in gameobject, ss questgiver. en ekki this.
+     * 
+     * 
+     * */
 
     // Use this for initialization
     /*void Start()
@@ -49,9 +56,17 @@ public class moveObjToTile : MonoBehaviour
     }*/
     public void MoveToTile(GameObject obj, float lat, float lon)
     {
-        xCoord = lat;
+        world = GameObject.FindWithTag("OpenWorld");
+
+        Zoom = world.GetComponent<MapzenGo.Models.TileManager>().Zoom;
+        xCoord2 = world.GetComponent<MapzenGo.Models.TileManager>().Latitude;
+        zCoord2 = world.GetComponent<MapzenGo.Models.TileManager>().Longitude;
+
         zCoord = lon;
-        
+        xCoord = lat;
+//        print("x is: " + xCoord + " x2 is: " + xCoord2);
+//        print("z is: " + zCoord + " z2 is: " + zCoord2);
+
         Vector2d vec = new Vector2d(xCoord, zCoord);
         Vector2d vec2 = new Vector2d(xCoord2, zCoord2);
 
@@ -64,15 +79,24 @@ public class moveObjToTile : MonoBehaviour
         Vector2d CenterInMercator = GM.TileBounds(tiles2, Zoom).Center;
         var rect = GM.TileBounds(tiles, Zoom);
 
+  
         obj.gameObject.transform.parent = world.transform;
         obj.gameObject.transform.position = (rect.Center - CenterInMercator).ToVector3();
-        obj.gameObject.transform.position = new Vector3(obj.transform.position.x, 15, obj.transform.position.z);
-        obj.transform.localScale = new Vector3(100, 100, 0);
+ //       print("RECT :" + rect.Center);
+ //       print("MERC :" + CenterInMercator);
+ //       print("rect: " + (rect.Center - CenterInMercator));
 
+        obj.gameObject.transform.position += new Vector3(0, 15f, 0);
+        obj.transform.localScale = new Vector3(100, 100, 0);
+        //Öskjuhlíð, Reykjavík, Iceland
+        //Hamraborg, Kópavogur, Iceland
+        //Háskólinn
+        //        print(obj.gameObject.transform.position);
+        /*
         Vector2d centerX = new Vector2d(obj.transform.position.x, obj.transform.position.y);
         Vector2d CPixel = GM.TileToPixles(centerX);
         Vector2d CMeter = GM.PixelsToMeters(CPixel, Zoom);
         print("Cmeter: " + CMeter);
-        print("Meter: " + meters);
+        print("Meter: " + meters);*/
     }
 }

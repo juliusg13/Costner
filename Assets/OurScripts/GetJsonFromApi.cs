@@ -8,7 +8,7 @@ public class getJsonFromApi : MonoBehaviour {
 	private WWW www;
 	private bool loaded = false;
     private bool linkedListsFull = false;
-    public SortedList mountains, glaciers, riversLakes, cities;
+    public SortedList mountains, glaciers, lakesRivers, cities;
     private GameObject controller;
 
 	void Start()
@@ -43,7 +43,7 @@ public class getJsonFromApi : MonoBehaviour {
             for (int i = 0; i < arr.Count; i++) {
                 qID = arr[i]["questionId"];
 
-                if (linkedListsFull == false) {
+               // if (linkedListsFull == false) {
                     tag = arr[i]["tag"];
                     if (tag == "Borgir") {
                         cities.Add(i, qID);
@@ -55,11 +55,11 @@ public class getJsonFromApi : MonoBehaviour {
                         mountains.Add(i, qID);
                     }
                     if (tag == "Ár og Vötn") {
-                        riversLakes.Add(i, qID);
+                        lakesRivers.Add(i, qID);
 
                     }
-                }
-                else return;
+                //}
+                //else return;
                 if(i == (arr.Count - 1)) {
                     linkedListsFull = true;
                     controller.GetComponent<renderQuestionsByTags>().createByTag();
@@ -196,7 +196,7 @@ public class getJsonFromApi : MonoBehaviour {
         controller = GameObject.FindWithTag("GameController");
         mountains = new SortedList();
         glaciers = new SortedList();
-        riversLakes = new SortedList();
+        lakesRivers = new SortedList();
         cities = new SortedList();
     }
 }
