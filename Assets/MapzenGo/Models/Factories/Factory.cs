@@ -21,7 +21,10 @@ namespace MapzenGo.Models.Factories
         public override void Create(Tile tile)
         {
             base.Create(tile);
-
+            if (XmlTag == "water" || XmlTag == "buildings")
+            {
+                return;
+            }
             if (MergeMeshes)
             {
                 if (!tile.Data.HasField(XmlTag))
