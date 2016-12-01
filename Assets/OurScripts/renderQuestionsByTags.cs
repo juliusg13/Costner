@@ -39,11 +39,9 @@ public class renderQuestionsByTags : MonoBehaviour {
             string qID;
             for (int i = 0; i < controller.GetComponent<getJsonFromApi>().cities.Count; i++) {
                 thisQuestion = (GameObject)Instantiate(questionMarker, new Vector3(0, 0, 0), Quaternion.Euler(new Vector3(90, 0, 0)));
-            //    print("thisQuestion instanciated at :" + thisQuestion.transform.position);
                 qID = controller.GetComponent<getJsonFromApi>().cities.GetByIndex(i).ToString();
                 thisQuestion.GetComponent<quest>().questGiver = thisQuestion;
                 setVariablesForCreatedQuestionGivers(thisQuestion, qID, "cities", i);
-                // Debug.Log(controller.GetComponent<getJsonFromApi>().cities.GetByIndex(i));
             }
         }
         if (glacierTag) {
@@ -54,7 +52,6 @@ public class renderQuestionsByTags : MonoBehaviour {
                 qID = controller.GetComponent<getJsonFromApi>().glaciers.GetByIndex(i).ToString();
                 thisQuestion.GetComponent<quest>().questGiver = thisQuestion;
                 setVariablesForCreatedQuestionGivers(thisQuestion, qID, "glaciers", i);
-                // Debug.Log(controller.GetComponent<getJsonFromApi>().cities.GetByIndex(i));
             }
         }
         if (mountainTag) {
@@ -65,7 +62,6 @@ public class renderQuestionsByTags : MonoBehaviour {
                 qID = controller.GetComponent<getJsonFromApi>().mountains.GetByIndex(i).ToString();
                 thisQuestion.GetComponent<quest>().questGiver = thisQuestion;
                 setVariablesForCreatedQuestionGivers(thisQuestion, qID, "mountains", i);
-                // Debug.Log(controller.GetComponent<getJsonFromApi>().cities.GetByIndex(i));
             }
         }
         if (lakeRiverTag) {
@@ -76,7 +72,6 @@ public class renderQuestionsByTags : MonoBehaviour {
                 qID = controller.GetComponent<getJsonFromApi>().lakesRivers.GetByIndex(i).ToString();
                 thisQuestion.GetComponent<quest>().questGiver = thisQuestion;
                 setVariablesForCreatedQuestionGivers(thisQuestion, qID, "lakesRivers", i);
-                // Debug.Log(controller.GetComponent<getJsonFromApi>().cities.GetByIndex(i));
             }
         }
     }

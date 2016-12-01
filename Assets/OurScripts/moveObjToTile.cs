@@ -92,7 +92,6 @@ public class moveObjToTile : MonoBehaviour
 
         obj.gameObject.transform.position += new Vector3(0, 15f, 0);
         obj.transform.localScale = new Vector3(100, 100, 0);
-        print("after localscale troll: " + obj.transform.position);
 
         //Öskjuhlíð, Reykjavík, Iceland
         //Hamraborg, Kópavogur, Iceland
