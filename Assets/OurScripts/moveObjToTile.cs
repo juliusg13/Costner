@@ -57,6 +57,7 @@ public class moveObjToTile : MonoBehaviour
     public void MoveToTile(GameObject obj, float lat, float lon)
     {
         world = GameObject.FindWithTag("OpenWorld");
+      //  print("inside of MoveTOTile we start at: " + obj.transform.position);
 
         Zoom = world.GetComponent<MapzenGo.Models.TileManager>().Zoom;
         xCoord2 = world.GetComponent<MapzenGo.Models.TileManager>().Latitude;
@@ -79,15 +80,20 @@ public class moveObjToTile : MonoBehaviour
         Vector2d CenterInMercator = GM.TileBounds(tiles2, Zoom).Center;
         var rect = GM.TileBounds(tiles, Zoom);
 
-  
-        obj.gameObject.transform.parent = world.transform;
-        obj.gameObject.transform.position = (rect.Center - CenterInMercator).ToVector3();
- //       print("RECT :" + rect.Center);
- //       print("MERC :" + CenterInMercator);
- //       print("rect: " + (rect.Center - CenterInMercator));
+      //  print("after all the vector initiations. " + obj.transform.position);
+
+        //obj.gameObject.transform.parent = world.transform;
+        obj.gameObject.transform.localPosition = (rect.Center - CenterInMercator).ToVector3();
+     //   print("after rect.center-centerinmercator " + obj.transform.position);
+
+        //       print("RECT :" + rect.Center);
+        //       print("MERC :" + CenterInMercator);
+        //       print("rect: " + (rect.Center - CenterInMercator));
 
         obj.gameObject.transform.position += new Vector3(0, 15f, 0);
         obj.transform.localScale = new Vector3(100, 100, 0);
+        print("after localscale troll: " + obj.transform.position);
+
         //Öskjuhlíð, Reykjavík, Iceland
         //Hamraborg, Kópavogur, Iceland
         //Háskólinn

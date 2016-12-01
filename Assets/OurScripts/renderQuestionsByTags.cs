@@ -4,10 +4,11 @@ using System.Collections;
 public class renderQuestionsByTags : MonoBehaviour {
     public bool cityTag, glacierTag, mountainTag, lakeRiverTag;
     public GameObject questionMarker;
-    GameObject controller;
+    GameObject controller, world;
     // Use this for initialization
     void Start() {
         controller = GameObject.FindWithTag("GameController");
+        world = GameObject.FindWithTag("OpenWorld");
         initFunction();
         //     Invoke("createByTag", 5);
     }
@@ -24,6 +25,9 @@ public class renderQuestionsByTags : MonoBehaviour {
     }
     void setVariablesForCreatedQuestionGivers(GameObject thisQuestion, string qID, string tag, int i) {
         thisQuestion.GetComponent<quest>().questionID = qID;
+        thisQuestion.transform.parent = world.transform;
+        thisQuestion.transform.position = new Vector3(0, 15, 0);
+      //  print("This baller was moved to " + thisQuestion.transform.position);
         thisQuestion.GetComponent<quest>().xCoord = float.Parse(controller.GetComponent<getJsonFromApi>().GetLatitude(qID));
         thisQuestion.GetComponent<quest>().zCoord = float.Parse(controller.GetComponent<getJsonFromApi>().GetLongitude(qID));
         thisQuestion.name = "QuestGiver:" + tag + i;
@@ -35,6 +39,7 @@ public class renderQuestionsByTags : MonoBehaviour {
             string qID;
             for (int i = 0; i < controller.GetComponent<getJsonFromApi>().cities.Count; i++) {
                 thisQuestion = (GameObject)Instantiate(questionMarker, new Vector3(0, 0, 0), Quaternion.Euler(new Vector3(90, 0, 0)));
+            //    print("thisQuestion instanciated at :" + thisQuestion.transform.position);
                 qID = controller.GetComponent<getJsonFromApi>().cities.GetByIndex(i).ToString();
                 thisQuestion.GetComponent<quest>().questGiver = thisQuestion;
                 setVariablesForCreatedQuestionGivers(thisQuestion, qID, "cities", i);

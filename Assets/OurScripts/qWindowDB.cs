@@ -12,7 +12,6 @@ public class qWindowDB : MonoBehaviour {
     private RectOffset qButtonRect;
     GUIStyle smallFont, centerTitle, centerText, questionText, renderWindow, questionOptions;
 	string[] data;
-    int counter;
     public int adventureCoins;
 
 	// Use this for initialization
@@ -33,7 +32,6 @@ public class qWindowDB : MonoBehaviour {
         skipRender = false;
         answer = false;
         correct = false;
-        counter = 0;
         adventureCoins = 1;
     }
 
@@ -69,17 +67,6 @@ public class qWindowDB : MonoBehaviour {
                                   "Reykjavík",
                                   "4"
           };*/
-        /*
-        if (counter == 0) {
-            data = controller.GetComponent<getJsonFromApi>().getQuestionForm("1234");
-            counter++;
-        } else if(counter == 1) {
-            data = controller.GetComponent<getJsonFromApi>().getQuestionForm("1235");
-            counter++;
-        }
-        else if (counter == 2) {
-            data = controller.GetComponent<getJsonFromApi>().getQuestionForm("1236");
-        } */
         data = controller.GetComponent<getJsonFromApi>().getQuestionForm(questionID);
     }
 
