@@ -10,21 +10,22 @@ public class moveObjToTile : MonoBehaviour
     int Zoom;
     float xCoord2, zCoord2, worldEnlargement; //start
     private GameObject world;
+    //private string questGiver;
 
     // Use this for initialization
     void Start()
     {
         worldEnlargement = 6.114963f;
+        world = GameObject.FindWithTag("OpenWorld");
     }
 
-
-    /*
-     * 
-     * 
-     * handviss að við þurfum að nota sent in gameobject, ss questgiver. en ekki this.
-     * 
-     * 
-     * */
+    void Update()
+    {
+        if(!world)
+        {
+            MoveToTile(this.gameObject, this.GetComponent<quest>().xCoord, this.GetComponent<quest>().zCoord);
+        }
+    }
 
     // Use this for initialization
     /*void Start()
@@ -57,7 +58,7 @@ public class moveObjToTile : MonoBehaviour
     public void MoveToTile(GameObject obj, float lat, float lon)
     {
         world = GameObject.FindWithTag("OpenWorld");
-      //  print("inside of MoveTOTile we start at: " + obj.transform.position);
+        //  print("inside of MoveTOTile we start at: " + obj.transform.position);
 
         Zoom = world.GetComponent<MapzenGo.Models.TileManager>().Zoom;
         xCoord2 = world.GetComponent<MapzenGo.Models.TileManager>().Latitude;
@@ -79,7 +80,6 @@ public class moveObjToTile : MonoBehaviour
 
         Vector2d CenterInMercator = GM.TileBounds(tiles2, Zoom).Center;
         var rect = GM.TileBounds(tiles, Zoom);
-
       //  print("after all the vector initiations. " + obj.transform.position);
 
         //obj.gameObject.transform.parent = world.transform;
