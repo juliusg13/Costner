@@ -4,7 +4,7 @@ using System.Collections;
 
 
 public class qWindowDB : MonoBehaviour {
-	private GameObject controller;
+	private GameObject controller, quest;
     private bool render, quitRender, skipRender, answer, correct;
     public bool answeredThisQuestionCorrectAlready;
 	
@@ -50,10 +50,13 @@ public class qWindowDB : MonoBehaviour {
 			correct = true;
             answeredThisQuestionCorrectAlready = true;
 			controller.GetComponent<rewardSystem>().increaseCoins(adventureCoins);
+            quest.GetComponent<quest>().changeColorCorrect();
+            
 	//		Missing a function that makes sure we do not get the same question back up.
 		} else {							//wrong asnwer 
 			answer = true;
 			correct = false;
+            quest.GetComponent<quest>().changeColorWrong();
 		}
 	}
     /// <summary>
@@ -190,8 +193,9 @@ public class qWindowDB : MonoBehaviour {
     /// <summary>
     /// sets the booleans in order for the windows to go from invisible to visible on screen.
     /// </summary>
-	public void ShowWindow(string questionID){
-		nextQuestion (questionID);
+	public void ShowWindow(string questionID, GameObject questGiver){
+        quest = questGiver;
+        nextQuestion (questionID);
 		render = true;
 		quitRender = true;
 		skipRender = true;

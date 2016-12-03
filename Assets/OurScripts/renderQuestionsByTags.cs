@@ -31,7 +31,7 @@ public class renderQuestionsByTags : MonoBehaviour {
         thisQuestion.GetComponent<quest>().xCoord = float.Parse(controller.GetComponent<getJsonFromApi>().GetLatitude(qID));
         thisQuestion.GetComponent<quest>().zCoord = float.Parse(controller.GetComponent<getJsonFromApi>().GetLongitude(qID));
         thisQuestion.name = "QuestGiver:" + tag + i;
-        thisQuestion.GetComponent<quest>().MoveToLoc();
+        thisQuestion.GetComponent<quest>().moveToLoc();
     }
     public void createByTag() {
         if (cityTag) {

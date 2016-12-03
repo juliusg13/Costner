@@ -13,18 +13,29 @@ public class quest : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
+
     }
-    public void MoveToLoc() {
+    public void moveToLoc() {
         //print("QG :" + questGiver + " xCoord :" + xCoord + " zCoord :" + zCoord);
         questGiver.GetComponent<moveObjToTile>().MoveToTile(questGiver, xCoord, zCoord);
     }
+    public void changeColorCorrect() {
+        SpriteRenderer renderer = questGiver.GetComponent<SpriteRenderer>();
+        renderer.color = new Color(1f, 1f, 1f);
+        questGiver.GetComponent<SpriteRenderer>().sprite = Resources.Load("Correct", typeof(Sprite)) as Sprite;
+        questGiver.GetComponent<Animator>().enabled = false;
+    }
+    public void changeColorWrong() {
+        SpriteRenderer renderer = questGiver.GetComponent<SpriteRenderer>();
+        renderer.color = new Color(0.8f, 0.1f, 0.05f);
+    }
     // Update is called once per frame
     void Update () {
-	}
-	void OnMouseUp(){
+    }
+    void OnMouseUp(){
         //Destroy (this.gameObject);
 
-        questGiver.GetComponent<qWindowDB>().ShowWindow(questionID);
+        questGiver.GetComponent<qWindowDB>().ShowWindow(questionID, questGiver);
 	}
 
 }
