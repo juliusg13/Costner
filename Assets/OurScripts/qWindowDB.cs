@@ -51,7 +51,7 @@ public class qWindowDB : MonoBehaviour {
             answeredThisQuestionCorrectAlready = true;
 			controller.GetComponent<rewardSystem>().increaseCoins(adventureCoins);
             quest.GetComponent<quest>().changeColorCorrect();
-            controller.GetComponent<soundController>().questionUISound(2);
+            //controller.GetComponent<soundController>().questionUISound(2);
             //		Missing a function that makes sure we do not get the same question back up.
         } else {							//wrong asnwer 
 			answer = true;
