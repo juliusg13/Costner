@@ -43,7 +43,7 @@ public class qWindowDB : MonoBehaviour {
     /// </summary>
     /// <param name="s">s is an integer in the form of a string to compare correct answer with.</param>
     void Answer(string s){
-        controller.GetComponent<soundController>().questionUISound(2);
+        
 
 		if (data[5] == s) {             //correct answer
 			answer = true;
@@ -51,13 +51,14 @@ public class qWindowDB : MonoBehaviour {
             answeredThisQuestionCorrectAlready = true;
 			controller.GetComponent<rewardSystem>().increaseCoins(adventureCoins);
             quest.GetComponent<quest>().changeColorCorrect();
-            
-	//		Missing a function that makes sure we do not get the same question back up.
-		} else {							//wrong asnwer 
+            controller.GetComponent<soundController>().questionUISound(2);
+            //		Missing a function that makes sure we do not get the same question back up.
+        } else {							//wrong asnwer 
 			answer = true;
 			correct = false;
             quest.GetComponent<quest>().changeColorWrong();
-		}
+            controller.GetComponent<soundController>().questionUISound(3);
+        }
 	}
     /// <summary>
     /// Function that GETs all the data for the question on this specific question mark, includes question, possible answers and correct answer.

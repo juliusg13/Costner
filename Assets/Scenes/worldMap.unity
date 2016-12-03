@@ -37,7 +37,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.45114613, g: 0.49976385, b: 0.56766605, a: 1}
+  m_IndirectSpecularColor: {r: 0.4511462, g: 0.4997639, b: 0.5676659, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -566,6 +566,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 5a6ad48d02c634b579f315c04a42be00, type: 3}
   - {fileID: 8300000, guid: 2853e0983577b40bc84063ae531cc247, type: 3}
   - {fileID: 8300000, guid: 7607de246ce4d463a9758d6c575d7ca1, type: 3}
+  - {fileID: 8300000, guid: 726df1fa114b64773ad65856d81b7c12, type: 3}
 --- !u!82 &569083394
 AudioSource:
   m_ObjectHideFlags: 0
@@ -654,7 +655,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 569083388}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a9b9c194ec08d974e9a617c95d078fda, type: 3}
+  m_Script: {fileID: 11500000, guid: 553f9d0a00f1ddc4ca93bd75595f9c80, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   questTiles: []
