@@ -43,7 +43,7 @@ public class qWindowDB : MonoBehaviour {
     /// </summary>
     /// <param name="s">s is an integer in the form of a string to compare correct answer with.</param>
     void Answer(string s){
-
+        controller.GetComponent<soundController>().questionUISound(2);
 
 		if (data[5] == s) {             //correct answer
 			answer = true;
@@ -199,6 +199,7 @@ public class qWindowDB : MonoBehaviour {
 		render = true;
 		quitRender = true;
 		skipRender = true;
+        controller.GetComponent<soundController>().questionUISound(0);
 	}
     /// <summary>
     /// sets the booleans to false to make visible windows invisible on screen.
@@ -209,6 +210,7 @@ public class qWindowDB : MonoBehaviour {
 		skipRender = false;
 		answer = false;
 		correct = false;
+        controller.GetComponent<soundController>().questionUISound(1);
 	}
     /// <summary>
     /// Dummy function just to gather the data for screen sizes.
