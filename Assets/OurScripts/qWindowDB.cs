@@ -6,6 +6,7 @@ using System.Collections;
 public class qWindowDB : MonoBehaviour {
 	private GameObject controller;
     private bool render, quitRender, skipRender, answer, correct;
+    public bool answeredThisQuestionCorrectAlready;
 	
 	float x, y, qX, qY;
 	private Rect windowRect, resultRect, questionButtonRect1, questionButtonRect2, questionButtonRect3, questionButtonRect4, quitRect, skipRect;
@@ -32,6 +33,7 @@ public class qWindowDB : MonoBehaviour {
         skipRender = false;
         answer = false;
         correct = false;
+        answeredThisQuestionCorrectAlready = false;
         adventureCoins = 1;
     }
 
@@ -46,6 +48,7 @@ public class qWindowDB : MonoBehaviour {
 		if (data[5] == s) {             //correct answer
 			answer = true;
 			correct = true;
+            answeredThisQuestionCorrectAlready = true;
 			controller.GetComponent<rewardSystem>().increaseCoins(adventureCoins);
 	//		Missing a function that makes sure we do not get the same question back up.
 		} else {							//wrong asnwer 
@@ -128,18 +131,39 @@ public class qWindowDB : MonoBehaviour {
 		if (windowID == 0) {
             GUI.skin.button = questionOptions;
 			GUI.TextField (new Rect (x * 0.03f, y * 0.07f, x * 0.75f, y * 0.25f), data[0], questionText);
-            
-            if (GUI.Button (questionButtonRect1, data[1])) {
-                Answer("1");
+            if (answeredThisQuestionCorrectAlready == true) {
+                if(data[5] == "1") {
+                    if(GUI.Button(questionButtonRect1, data[1])) {
+                        HideWindow();
+                    }
+                } else if(data[5] == "2") {
+                    if(GUI.Button(questionButtonRect2, data[2])) {
+                        HideWindow();
+                    }
+                } else if(data[5] == "3") {
+                    if(GUI.Button(questionButtonRect3, data[3])){
+                        HideWindow();
+                    }
+                } else if(data[5] == "4") {
+                    if(GUI.Button(questionButtonRect4, data[4])) {
+                        HideWindow();
+                    }
+                }
+
             }
-			if (GUI.Button (questionButtonRect2, data[2])) { 
-				Answer ("2");
-            }
-            if (GUI.Button (questionButtonRect3, data[3])) { 
-				Answer ("3");
-            }
-            if (GUI.Button (questionButtonRect4, data[4])) {
-                Answer ("4");
+            else {
+                if (GUI.Button(questionButtonRect1, data[1])) {
+                    Answer("1");
+                }
+                if (GUI.Button(questionButtonRect2, data[2])) {
+                    Answer("2");
+                }
+                if (GUI.Button(questionButtonRect3, data[3])) {
+                    Answer("3");
+                }
+                if (GUI.Button(questionButtonRect4, data[4])) {
+                    Answer("4");
+                }
             }
         }
 
