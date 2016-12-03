@@ -551,6 +551,101 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dfff83c6e0902dc49abfb3a6495c29c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &569083393
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 569083388}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f6cf9ac6c65df3246a3b74886dee5c97, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  uiClip:
+  - {fileID: 8300000, guid: 5a6ad48d02c634b579f315c04a42be00, type: 3}
+  - {fileID: 8300000, guid: 2853e0983577b40bc84063ae531cc247, type: 3}
+  - {fileID: 8300000, guid: 7607de246ce4d463a9758d6c575d7ca1, type: 3}
+--- !u!82 &569083394
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 569083388}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 1
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    - serializedVersion: 2
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
 --- !u!1 &721788612
 GameObject:
   m_ObjectHideFlags: 0
@@ -1568,6 +1663,11 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 114000014278193208, guid: 29c9edd04c91ad74ebee19c6240641c5,
+        type: 2}
+      propertyPath: coinsClip.Array.size
+      value: 23
+      objectReference: {fileID: 0}
     - target: {fileID: 224000010495937894, guid: 29c9edd04c91ad74ebee19c6240641c5,
         type: 2}
       propertyPath: m_LocalPosition.x
@@ -1658,6 +1758,121 @@ Prefab:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 114000014278193208, guid: 29c9edd04c91ad74ebee19c6240641c5,
+        type: 2}
+      propertyPath: coinsClip.Array.data[0]
+      value: 
+      objectReference: {fileID: 8300000, guid: 9f1f37735305c4cc99b07c19fe48675d, type: 3}
+    - target: {fileID: 114000014278193208, guid: 29c9edd04c91ad74ebee19c6240641c5,
+        type: 2}
+      propertyPath: coinsClip.Array.data[1]
+      value: 
+      objectReference: {fileID: 8300000, guid: d0440e1e7ebf542a1884646f52220a69, type: 3}
+    - target: {fileID: 114000014278193208, guid: 29c9edd04c91ad74ebee19c6240641c5,
+        type: 2}
+      propertyPath: coinsClip.Array.data[2]
+      value: 
+      objectReference: {fileID: 8300000, guid: 4bae819a7a1fb43dbaa5ecf65df5b7bc, type: 3}
+    - target: {fileID: 114000014278193208, guid: 29c9edd04c91ad74ebee19c6240641c5,
+        type: 2}
+      propertyPath: coinsClip.Array.data[3]
+      value: 
+      objectReference: {fileID: 8300000, guid: fb1943d1a7fb14c4a83617b1e8cc8e16, type: 3}
+    - target: {fileID: 114000014278193208, guid: 29c9edd04c91ad74ebee19c6240641c5,
+        type: 2}
+      propertyPath: coinsClip.Array.data[4]
+      value: 
+      objectReference: {fileID: 8300000, guid: b72d3026305554cdab9d02fe53284de5, type: 3}
+    - target: {fileID: 114000014278193208, guid: 29c9edd04c91ad74ebee19c6240641c5,
+        type: 2}
+      propertyPath: coinsClip.Array.data[6]
+      value: 
+      objectReference: {fileID: 8300000, guid: a04591ccf46144804bc251c9763df04f, type: 3}
+    - target: {fileID: 114000014278193208, guid: 29c9edd04c91ad74ebee19c6240641c5,
+        type: 2}
+      propertyPath: coinsClip.Array.data[5]
+      value: 
+      objectReference: {fileID: 8300000, guid: 71f5cfbe2855d49fc9fda59bb4d1c2c1, type: 3}
+    - target: {fileID: 114000014278193208, guid: 29c9edd04c91ad74ebee19c6240641c5,
+        type: 2}
+      propertyPath: coinsClip.Array.data[7]
+      value: 
+      objectReference: {fileID: 8300000, guid: 0d7d8448b8e094bb3bc676cba5037c68, type: 3}
+    - target: {fileID: 114000014278193208, guid: 29c9edd04c91ad74ebee19c6240641c5,
+        type: 2}
+      propertyPath: coinsClip.Array.data[8]
+      value: 
+      objectReference: {fileID: 8300000, guid: 180c0e7b4143b4217a27664c98e6f412, type: 3}
+    - target: {fileID: 114000014278193208, guid: 29c9edd04c91ad74ebee19c6240641c5,
+        type: 2}
+      propertyPath: coinsClip.Array.data[9]
+      value: 
+      objectReference: {fileID: 8300000, guid: b9b5a4914cb534e0da2057dff61debc7, type: 3}
+    - target: {fileID: 114000014278193208, guid: 29c9edd04c91ad74ebee19c6240641c5,
+        type: 2}
+      propertyPath: coinsClip.Array.data[10]
+      value: 
+      objectReference: {fileID: 8300000, guid: 0ed5d103077114165aa812bdadcbd51b, type: 3}
+    - target: {fileID: 114000014278193208, guid: 29c9edd04c91ad74ebee19c6240641c5,
+        type: 2}
+      propertyPath: coinsClip.Array.data[11]
+      value: 
+      objectReference: {fileID: 8300000, guid: 3451550659ef1456a8552d45ccb3702c, type: 3}
+    - target: {fileID: 114000014278193208, guid: 29c9edd04c91ad74ebee19c6240641c5,
+        type: 2}
+      propertyPath: coinsClip.Array.data[12]
+      value: 
+      objectReference: {fileID: 8300000, guid: bb43c8a183fe3488b95fc9bdc41d7a56, type: 3}
+    - target: {fileID: 114000014278193208, guid: 29c9edd04c91ad74ebee19c6240641c5,
+        type: 2}
+      propertyPath: coinsClip.Array.data[13]
+      value: 
+      objectReference: {fileID: 8300000, guid: ecb3655763dc44f4386bc23f94202892, type: 3}
+    - target: {fileID: 114000014278193208, guid: 29c9edd04c91ad74ebee19c6240641c5,
+        type: 2}
+      propertyPath: coinsClip.Array.data[14]
+      value: 
+      objectReference: {fileID: 8300000, guid: 2321f02309ef541e4803d787ccfc3554, type: 3}
+    - target: {fileID: 114000014278193208, guid: 29c9edd04c91ad74ebee19c6240641c5,
+        type: 2}
+      propertyPath: coinsClip.Array.data[15]
+      value: 
+      objectReference: {fileID: 8300000, guid: 54575e095bf204dfa9e95277e97277de, type: 3}
+    - target: {fileID: 114000014278193208, guid: 29c9edd04c91ad74ebee19c6240641c5,
+        type: 2}
+      propertyPath: coinsClip.Array.data[16]
+      value: 
+      objectReference: {fileID: 8300000, guid: 9bd31ab35f47e4afdb67073337ff106f, type: 3}
+    - target: {fileID: 114000014278193208, guid: 29c9edd04c91ad74ebee19c6240641c5,
+        type: 2}
+      propertyPath: coinsClip.Array.data[17]
+      value: 
+      objectReference: {fileID: 8300000, guid: 7718e899fcbb64c68adb42a99a627a7d, type: 3}
+    - target: {fileID: 114000014278193208, guid: 29c9edd04c91ad74ebee19c6240641c5,
+        type: 2}
+      propertyPath: coinsClip.Array.data[18]
+      value: 
+      objectReference: {fileID: 8300000, guid: 56fa1c8a8159a48c18163fb89317eb18, type: 3}
+    - target: {fileID: 114000014278193208, guid: 29c9edd04c91ad74ebee19c6240641c5,
+        type: 2}
+      propertyPath: coinsClip.Array.data[19]
+      value: 
+      objectReference: {fileID: 8300000, guid: de23bfd2f37594456a2ce7c0db456725, type: 3}
+    - target: {fileID: 114000014278193208, guid: 29c9edd04c91ad74ebee19c6240641c5,
+        type: 2}
+      propertyPath: coinsClip.Array.data[20]
+      value: 
+      objectReference: {fileID: 8300000, guid: 21cf986be074249e59f46c8d60738065, type: 3}
+    - target: {fileID: 114000014278193208, guid: 29c9edd04c91ad74ebee19c6240641c5,
+        type: 2}
+      propertyPath: coinsClip.Array.data[21]
+      value: 
+      objectReference: {fileID: 8300000, guid: bf508ad0e073f4b768f45ceb689aabc7, type: 3}
+    - target: {fileID: 114000014278193208, guid: 29c9edd04c91ad74ebee19c6240641c5,
+        type: 2}
+      propertyPath: coinsClip.Array.data[22]
+      value: 
+      objectReference: {fileID: 8300000, guid: ec039ca51696d4cd9a68b27d7fed1984, type: 3}
     m_RemovedComponents:
     - {fileID: 114000012734760452, guid: 29c9edd04c91ad74ebee19c6240641c5, type: 2}
     - {fileID: 114000011590612144, guid: 29c9edd04c91ad74ebee19c6240641c5, type: 2}
