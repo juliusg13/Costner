@@ -93,6 +93,8 @@ public class moveObjToTile : MonoBehaviour
         obj.gameObject.transform.position += new Vector3(0, 15f, 0);
         obj.transform.localScale = new Vector3(100, 100, 0);
 
+
+        GameObject.FindWithTag("GameController").GetComponent<controllerVariables>().questTiles.Add("tile " + ((tiles).ToString().Replace(" ", "")));
         //Öskjuhlíð, Reykjavík, Iceland
         //Hamraborg, Kópavogur, Iceland
         //Háskólinn

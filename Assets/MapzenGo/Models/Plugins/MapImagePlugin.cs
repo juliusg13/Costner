@@ -28,10 +28,24 @@ namespace MapzenGo.Models.Plugins
             ObservableWWW.GetWWW(url).Subscribe(
                 success =>
                 {
-                    if(rend)
+                    if (rend)
                     {
+                        GameObject world = GameObject.FindWithTag("OpenWorld");
+                        if (world.GetComponent<CachedDynamicTileManager>().Zoom < 14 && GameObject.Find("GameController").GetComponent<controllerVariables>().questTiles.Contains(go.parent.name))
+                        {
+                            rend.material.color = new Color(1f, 1f, 1f, 1f);
+
+                        }
+                        else if (world.GetComponent<CachedDynamicTileManager>().Zoom < 14)
+                        {
+                            rend.material.color = new Color(0.65f, 0.65f, 0.65f, 1);
+                        }
+                        else
+                        {
+                            rend.material.color = new Color(1f, 1f, 1f, 1f);
+                        }
                         rend.material.mainTexture = new Texture2D(512, 512, TextureFormat.DXT5, false);
-                        rend.material.color = new Color(1f, 1f, 1f, 1f);
+                        //rend.material.color = new Color(1f, 1f, 1f, 1f);
                         success.LoadImageIntoTexture((Texture2D)rend.material.mainTexture);
                     }
                 },
