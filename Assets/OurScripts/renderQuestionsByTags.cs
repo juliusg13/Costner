@@ -1,10 +1,13 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class renderQuestionsByTags : MonoBehaviour {
     public bool cityTag, glacierTag, mountainTag, lakeRiverTag;
     public GameObject questionMarker;
     GameObject controller, world;
+    public SortedList allQuestionsOnMap;
+    int llCounter;
     // Use this for initialization
     void Start() {
         controller = GameObject.FindWithTag("GameController");
@@ -22,6 +25,8 @@ public class renderQuestionsByTags : MonoBehaviour {
         glacierTag = false;
         mountainTag = true;
         lakeRiverTag = false;
+        allQuestionsOnMap = new SortedList();
+        llCounter = 0;
     }
     void setVariablesForCreatedQuestionGivers(GameObject thisQuestion, string qID, string tag, int i) {
         thisQuestion.GetComponent<quest>().questionID = qID;
@@ -32,6 +37,8 @@ public class renderQuestionsByTags : MonoBehaviour {
         thisQuestion.GetComponent<quest>().zCoord = float.Parse(controller.GetComponent<getJsonFromApi>().GetLongitude(qID));
         thisQuestion.name = "QuestGiver:" + tag + i;
         thisQuestion.GetComponent<quest>().moveToLoc();
+        allQuestionsOnMap.Add(llCounter, thisQuestion);
+        llCounter++;
     }
     public void createByTag() {
         if (cityTag) {

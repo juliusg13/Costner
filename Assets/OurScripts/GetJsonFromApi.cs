@@ -44,20 +44,19 @@ public class getJsonFromApi : MonoBehaviour {
                 qID = arr[i]["questionId"];
 
                // if (linkedListsFull == false) {
-                    tag = arr[i]["tag"];
-                    if (tag == "Borgir") {
-                        cities.Add(i, qID);
-                    }
-                    if (tag == "Jöklar") {
-                        glaciers.Add(i, qID);
-                    }
-                    if (tag == "Fjöll") {
-                        mountains.Add(i, qID);
-                    }
-                    if (tag == "Ár og Vötn") {
-                        lakesRivers.Add(i, qID);
-
-                    }
+                tag = arr[i]["tag"];
+                if (tag == "Borgir") {
+                    cities.Add(i, qID);
+                }
+                if (tag == "Jöklar") {
+                    glaciers.Add(i, qID);
+                }
+                if (tag == "Fjöll") {
+                    mountains.Add(i, qID);
+                }
+                if (tag == "Ár og Vötn") {
+                    lakesRivers.Add(i, qID);
+                }
                 //}
                 //else return;
                 if(i == (arr.Count - 1)) {
