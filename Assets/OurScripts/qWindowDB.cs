@@ -14,13 +14,14 @@ public class qWindowDB : MonoBehaviour {
     GUIStyle smallFont, centerTitle, centerText, questionText, renderWindow, questionOptions;
 	string[] data;
     public int adventureCoins;
+    private GameObject cam; 
 
 	// Use this for initialization
 	void Start () {
         setGUIStyles();
         initializeVariables();
         centerRectangle();
-
+        cam = GameObject.Find("Main Camera"); 
 		rectAssemble ();
 		controller = GameObject.FindWithTag("GameController");
 	}
@@ -103,7 +104,7 @@ public class qWindowDB : MonoBehaviour {
 		}
 		if (quitRender){
 			GUI.color = new Color(0.9f, 0.75f, 0.3f, 1f);
-			quitRect = GUI.Window(1, quitRect, DoMyWindow, "Fara aftur á kort");
+			quitRect = GUI.Window(1, quitRect, DoMyWindow, " ");
 		}
 		if (skipRender) {
 			skipRect = GUI.Window(2, skipRect, DoMyWindow, "Segja pass");
@@ -133,39 +134,45 @@ public class qWindowDB : MonoBehaviour {
 	void DoMyWindow(int windowID){
 		
 		if (windowID == 0) {
+            cam.GetComponent<mouseDrag>().enabled = false; 
             GUI.skin.button = questionOptions;
 			GUI.TextField (new Rect (x * 0.03f, y * 0.07f, x * 0.75f, y * 0.25f), data[0], questionText);
             if (answeredThisQuestionCorrectAlready == true) {
                 if(data[5] == "1") {
+        
                     if(GUI.Button(questionButtonRect1, data[1])) {
                         HideWindow();
                     }
                 } else if(data[5] == "2") {
                     if(GUI.Button(questionButtonRect2, data[2])) {
                         HideWindow();
-                    }
+                    }   
                 } else if(data[5] == "3") {
                     if(GUI.Button(questionButtonRect3, data[3])){
                         HideWindow();
                     }
                 } else if(data[5] == "4") {
                     if(GUI.Button(questionButtonRect4, data[4])) {
-                        HideWindow();
+                       HideWindow();
                     }
                 }
 
             }
             else {
                 if (GUI.Button(questionButtonRect1, data[1])) {
+                    HideWindow();
                     Answer("1");
                 }
                 if (GUI.Button(questionButtonRect2, data[2])) {
+                    HideWindow();
                     Answer("2");
                 }
                 if (GUI.Button(questionButtonRect3, data[3])) {
+                    HideWindow();
                     Answer("3");
                 }
                 if (GUI.Button(questionButtonRect4, data[4])) {
+                    HideWindow();
                     Answer("4");
                 }
             }
@@ -174,11 +181,13 @@ public class qWindowDB : MonoBehaviour {
 		if (windowID == 1){
             if (GUI.Button(new Rect(x * 0.018f, y * 0.05f, x * 0.04f, y * 0.08f), "Smelltu hér", smallFont)) {
                 HideWindow();
+                cam.GetComponent<mouseDrag>().enabled = true;
             }
 		}
-		if (windowID == 2) {
+		if (windowID == 2) {    
             if (GUI.Button(new Rect(x * 0.018f, y * 0.05f, x * 0.04f, y * 0.08f), "Smelltu hér", smallFont)) {
-                nextQuestion("nextQuestion");
+                HideWindow();
+                cam.GetComponent<mouseDrag>().enabled = true;
             }
 		}
 		if (windowID == 3) {
@@ -186,6 +195,7 @@ public class qWindowDB : MonoBehaviour {
             else if (!correct) GUI.TextField (new Rect ((qX / 8), (qY / 14), x * 0.4f, y * 0.15f), "Rangt hjá þér! Reyndu aftur eftir augnablik", centerTitle); //centertitle
             if (GUI.Button(new Rect(qX/7, qY/3, x*0.4f, y*0.1f), "Snilld!")){
                 HideWindow(); //Used to be next question.
+                cam.GetComponent<mouseDrag>().enabled = true;
                 //nextQuestion("nextQuestion");
             }
 		}
@@ -234,8 +244,8 @@ public class qWindowDB : MonoBehaviour {
         questionButtonRect2 = new Rect(x * 0.42f, y * 0.37f, x * 0.35f, y * 0.2f);
         questionButtonRect3 = new Rect(x * 0.03f, y * 0.59f, x * 0.35f, y * 0.2f);
         questionButtonRect4 = new Rect(x * 0.42f, y * 0.59f, x * 0.35f, y * 0.2f);
-        quitRect = new Rect((x*0.007f), (y * 0.007f), (x / 10), (y / 10));
-		skipRect = new Rect((x * 0.007f), (y * 0.9f), (x / 10), (y / 10));
+        quitRect = new Rect((x*0.0007f), (y * 0.07f), (x / 10), (y / 10));
+		skipRect = new Rect((x * 0.0007f), (y * 0.9f), (x / 10), (y / 10));
         qButtonRect = new RectOffset();
 	}
     /// <summary>
