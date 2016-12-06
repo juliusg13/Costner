@@ -106,7 +106,9 @@ public class qWindowDB : MonoBehaviour {
 		if (render) {
 			GUI.color = new Color (0.1f, 0.25f, 0.7f, 1f);
 			windowRect = GUI.Window(0, windowRect, DoMyWindow, "Spurning: ");
-		}
+            GUI.color = new Color32(255, 255, 255, 0);
+            GUI.Box(new Rect(0, 0, Screen.width, Screen.height), "");
+        }
 		if (quitRender){
 			GUI.color = new Color(0.9f, 0.75f, 0.3f, 1f);
 			quitRect = GUI.Window(1, quitRect, DoMyWindow, " ");
