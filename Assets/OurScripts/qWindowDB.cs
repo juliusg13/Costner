@@ -1,23 +1,25 @@
 ﻿using UnityEngine;
 using System.Collections;
-
-
+using System.Text;
+using System.Collections.Generic;
+using System;
 
 public class qWindowDB : MonoBehaviour {
-	private GameObject controller, quest;
+    private GameObject controller, quest;
     private bool render, quitRender, skipRender, answer, correct;
     public bool answeredThisQuestionCorrectAlready;
-	
-	float x, y, qX, qY;
-	private Rect windowRect, resultRect, questionButtonRect1, questionButtonRect2, questionButtonRect3, questionButtonRect4, quitRect, skipRect;
+
+    float x, y, qX, qY;
+    private Rect windowRect, resultRect, questionButtonRect1, questionButtonRect2, questionButtonRect3, questionButtonRect4, quitRect, skipRect;
     private RectOffset qButtonRect;
     GUIStyle smallFont, centerTitle, centerText, questionText, renderWindow, questionOptions;
-	string[] data;
+    string[] data;
     public int adventureCoins;
-    private GameObject cam; 
+    private GameObject cam;
+    private string qID;
 
-	// Use this for initialization
-	void Start () {
+    // Use this for initialization
+    void Start () {
         setGUIStyles();
         initializeVariables();
         centerRectangle();
@@ -44,23 +46,27 @@ public class qWindowDB : MonoBehaviour {
     /// </summary>
     /// <param name="s">s is an integer in the form of a string to compare correct answer with.</param>
     void Answer(string s){
-        
 
-		if (data[5] == s) {             //correct answer
-			answer = true;
-			correct = true;
+        if (data[5] == s)
+        {             //correct answer
+            answer = true;
+            correct = true;
             answeredThisQuestionCorrectAlready = true;
-			controller.GetComponent<rewardSystem>().increaseCoins(adventureCoins);
+            controller.GetComponent<rewardSystem>().increaseCoins(adventureCoins);
             quest.GetComponent<quest>().changeColorCorrect();
             //controller.GetComponent<soundController>().questionUISound(2);
             //		Missing a function that makes sure we do not get the same question back up.
-        } else {							//wrong asnwer 
-			answer = true;
-			correct = false;
+        }
+        else {                          //wrong asnwer 
+            answer = true;
+            correct = false;
             quest.GetComponent<quest>().changeColorWrong();
             controller.GetComponent<soundController>().questionUISound(3);
         }
-	}
+        StartCoroutine(PostRequest(correct, s));
+    }
+
+
     /// <summary>
     /// Function that GETs all the data for the question on this specific question mark, includes question, possible answers and correct answer.
     /// </summary>
@@ -201,10 +207,28 @@ public class qWindowDB : MonoBehaviour {
 		}
 
 	}
+
+    /// <summary>
+    /// json string with all the information about the students answer sent to costner api
+    /// </summary>
+    IEnumerator PostRequest(bool sCorrect, string studentAnswer)
+    {
+        WWWForm form = new WWWForm();
+        Dictionary<string, string> headers = new Dictionary<string, string>();
+        headers.Add("Content-Type", "application/json");
+        string jsonStr = "{\"studentId\":\"57d6fbde879baa8c33bc58fa\",\"applicationId\":\"3685211157\",\"applicationName\":\"GeoGame\",\"questionId\":" + qID + ", \"questionTitle\": \"" + data[0] + "\",\"levelId\":\"123563\", \"levelName\":\"Borgir\",\"answerCorrect\": \"" + sCorrect.ToString().ToLower() + "\",\"studentsAnswer\": \"" + data[Convert.ToInt32(studentAnswer)] + "\",\"correctAnswer\": \"" + data[Convert.ToInt32(data[5])] + "\", \"answerDescription\":\"123\"}";
+        //               "{\"studentId\":\"57d6fbde879baa8c33bc58fa\",\"applicationId\":\"3685211157\",\"applicationName\":\"GeoGame\",\"questionId\":\"2468539\", \"questionTitle\":\"Hver er höfuðborg Íslands\",\"levelId\":\"123563\", \"levelName\":\"Borgir\",\"answerCorrect\": \"true\",\"studentsAnswer\": \"Reykjavík\", \"correctAnswer\": \"Reykjavík\", \"answerDescription\":\"123\"}";
+        var formData = Encoding.UTF8.GetBytes(jsonStr);
+        WWW www = new WWW("https://postman.api.costner.is/answers", formData, headers);
+        yield return www;
+        print(www.text);
+    }
+
     /// <summary>
     /// sets the booleans in order for the windows to go from invisible to visible on screen.
     /// </summary>
 	public void ShowWindow(string questionID, GameObject questGiver){
+        qID = questionID;
         quest = questGiver;
         nextQuestion (questionID);
 		render = true;
