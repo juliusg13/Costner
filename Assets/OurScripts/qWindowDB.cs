@@ -37,7 +37,6 @@ public class qWindowDB : MonoBehaviour {
         answer = false;
         correct = false;
         answeredThisQuestionCorrectAlready = false;
-        adventureCoins = 1;
     }
 
     /// <summary>
