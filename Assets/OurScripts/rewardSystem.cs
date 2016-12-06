@@ -43,4 +43,7 @@ public class rewardSystem : MonoBehaviour {
         adventureText = "Ævintýra krónur: " + adventureCoins.ToString();
         moneyUI.GetComponent<Text>().text = adventureText;
     }
+	public int returnCoins (){
+		return adventureCoins;
+	}
 }
