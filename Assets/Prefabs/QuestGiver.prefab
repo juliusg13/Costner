@@ -111,7 +111,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 773bb2ef7698dea40b0246d44de89c28, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  adventureCoins: 1
+  answeredThisQuestionCorrectAlready: 0
+  adventureCoins: 5
 --- !u!212 &212000013267504424
 SpriteRenderer:
   m_ObjectHideFlags: 1

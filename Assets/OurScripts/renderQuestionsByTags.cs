@@ -4,6 +4,7 @@ using System.Collections.Generic;
 
 public class renderQuestionsByTags : MonoBehaviour {
     public bool cityTag, glacierTag, mountainTag, lakeRiverTag;
+    private bool cityAlreadyRendered, glacierAlreadyRendered, mountainAlreadyRendered, lakeRiverAlreadyRendered;
     public GameObject questionMarker;
     GameObject controller, world;
     public SortedList allQuestionsOnMap;
@@ -23,10 +24,34 @@ public class renderQuestionsByTags : MonoBehaviour {
     void initFunction() {
         cityTag = true;
         glacierTag = false;
-        mountainTag = true;
+        mountainTag = false;
         lakeRiverTag = false;
         allQuestionsOnMap = new SortedList();
         llCounter = 0;
+    }
+    public void setBoolean(string tag) {
+    print(tag);
+        if(tag == "cityTag") {
+            cityTag = true;
+            createByTag();
+            cityAlreadyRendered = true;
+        }
+        if(tag == "glacierTag") {
+            glacierTag = true;
+            createByTag();
+            glacierAlreadyRendered = true;
+        }
+        if(tag == "mountainTag") {
+            mountainTag = true;
+            createByTag();
+            mountainAlreadyRendered = true;
+        }
+        if (tag == "lakeRiverTag") {
+            lakeRiverTag = true;
+            createByTag();
+            mountainAlreadyRendered = true;
+        }
+        
     }
     void setVariablesForCreatedQuestionGivers(GameObject thisQuestion, string qID, string tag, int i) {
         thisQuestion.GetComponent<quest>().questionID = qID;
@@ -41,7 +66,7 @@ public class renderQuestionsByTags : MonoBehaviour {
         llCounter++;
     }
     public void createByTag() {
-        if (cityTag) {
+        if (cityTag && !cityAlreadyRendered) {
             GameObject thisQuestion;
             string qID;
             for (int i = 0; i < controller.GetComponent<getJsonFromApi>().cities.Count; i++) {
@@ -51,7 +76,7 @@ public class renderQuestionsByTags : MonoBehaviour {
                 setVariablesForCreatedQuestionGivers(thisQuestion, qID, "cities", i);
             }
         }
-        if (glacierTag) {
+        if (glacierTag && !glacierAlreadyRendered) {
             GameObject thisQuestion;
             string qID;
             for (int i = 0; i < controller.GetComponent<getJsonFromApi>().glaciers.Count; i++) {
@@ -61,7 +86,7 @@ public class renderQuestionsByTags : MonoBehaviour {
                 setVariablesForCreatedQuestionGivers(thisQuestion, qID, "glaciers", i);
             }
         }
-        if (mountainTag) {
+        if (mountainTag && !mountainAlreadyRendered) {
             GameObject thisQuestion;
             string qID;
             for (int i = 0; i < controller.GetComponent<getJsonFromApi>().mountains.Count; i++) {
@@ -71,7 +96,7 @@ public class renderQuestionsByTags : MonoBehaviour {
                 setVariablesForCreatedQuestionGivers(thisQuestion, qID, "mountains", i);
             }
         }
-        if (lakeRiverTag) {
+        if (lakeRiverTag && !lakeRiverAlreadyRendered) {
             GameObject thisQuestion;
             string qID;
             for (int i = 0; i < controller.GetComponent<getJsonFromApi>().lakesRivers.Count; i++) {
