@@ -4,11 +4,12 @@ using MapzenGo.Models;
 
 public class mouseDrag : MonoBehaviour {
     //Changes object position when mouse is dragged
-    public double  dragSpeed = 10;
-    public float   scrollSpeed = 10;
-    public int maxZoom = 230;
-    public int minZoom = 90;
-    public int startPos = 160;
+    private float  dragSpeed = 10;
+    private float andDragSpeed = 1;
+    private float   scrollSpeed = 10;
+    private int maxZoom = 230;
+    private int minZoom = 90;
+    private int startPos = 160;
     public GameObject world;
     float dragH, dragV; //Drag horizontal and vertical
     float d;
@@ -21,9 +22,14 @@ public class mouseDrag : MonoBehaviour {
 
     void Update()
     {
-    /*LEFT CLICK DRAG*/
-        //If left click
-        if (Input.GetMouseButton(0))
+        if (Application.platform == RuntimePlatform.Android)
+        {
+            AndroidDrag();
+            return;
+        }
+            /*LEFT CLICK DRAG*/
+            //If left click
+            if (Input.GetMouseButton(0))
         {
             dragH = Convert.ToInt32(dragSpeed) * -Input.GetAxis("Mouse X");
             dragV = Convert.ToInt32(dragSpeed) * -Input.GetAxis("Mouse Y");
@@ -92,6 +98,15 @@ public class mouseDrag : MonoBehaviour {
             position[1] = startPos;
             transform.position = position;
             newZoom.y = startPos;
+        }
+    }
+
+    void AndroidDrag()
+    {
+        if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Moved)
+        {
+            Vector2 touchDeltaPosition = Input.GetTouch(0).deltaPosition;
+            transform.Translate(-touchDeltaPosition.x * andDragSpeed, -touchDeltaPosition.y * andDragSpeed, 0);
         }
     }
 }

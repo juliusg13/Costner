@@ -81,7 +81,7 @@ namespace MapzenGo.Models
         {
             var rect = GM.TileBounds(tileTms, Zoom);
             var tile = new GameObject("tile " + tileTms.x + "-" + tileTms.y).AddComponent<Tile>();
-
+            yield return null;
             tile.Zoom = Zoom;
             tile.TileTms = tileTms;
             tile.TileCenter = rect.Center;
@@ -93,22 +93,31 @@ namespace MapzenGo.Models
             tile.transform.SetParent(TileHost, false);
             LoadTile(tileTms, tile);
             
-            yield return null;
+            
         }
 
         protected virtual void LoadTile(Vector2d tileTms, Tile tile)
         {
             var url = string.Format(_mapzenUrl, _mapzenLayers, Zoom, tileTms.x, tileTms.y, _mapzenFormat, _key);
             //Debug.Log(url);
-            ObservableWWW.Get(url)
+            /*ObservableWWW.Get(url)
                 .Subscribe(
                     text => { ConstructTile(text, tile); }, //success
-                    exp => Debug.Log("Error fetching -> " + url)); //failure
+                    exp => Debug.Log("Error fetching -> " + url)); //failure*/
+           StartCoroutine(SendToConstructTile(url, tile));
+        }
+
+        IEnumerator SendToConstructTile(string url, Tile tile)
+        {
+            WWW www = new WWW(url);
+            yield return www;
+            ConstructTile(www.text, tile);
+
         }
 
         protected void ConstructTile(string text, Tile tile)
         {
-            var heavyMethod = Observable.Start(() => new JSONObject(text));
+            /*var heavyMethod = Observable.Start(() => new JSONObject(text));
 
             heavyMethod.ObserveOnMainThread().Subscribe(mapData =>
             {
@@ -120,7 +129,13 @@ namespace MapzenGo.Models
                 {
                     factory.Create(tile);
                 }
-            });
+            });*/
+            if (!tile) // checks if tile still exists and haven't destroyed yet
+                return;
+            foreach (var factory in _plugins)
+            {
+                factory.Create(tile);
+            }
         }
     }
 }

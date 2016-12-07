@@ -3,6 +3,7 @@ using System.Text;
 using MapzenGo.Helpers;
 using UniRx;
 using UnityEngine;
+using System.Collections;
 
 namespace MapzenGo.Models
 {
@@ -13,18 +14,18 @@ namespace MapzenGo.Models
 
         public override void Start()
         {
-            CacheFolderPath = Path.Combine(Application.dataPath, RelativeCachePath);
-            CacheFolderPath = CacheFolderPath.Format(Zoom);
-            if (!Directory.Exists(CacheFolderPath))
-                Directory.CreateDirectory(CacheFolderPath);
+            //CacheFolderPath = Path.Combine(Application.dataPath, RelativeCachePath);
+            //CacheFolderPath = CacheFolderPath.Format(Zoom);
+            /*if (!Directory.Exists(CacheFolderPath))
+                Directory.CreateDirectory(CacheFolderPath);*/
             base.Start();
         }
 
         protected override void LoadTile(Vector2d tileTms, Tile tile)
         {
             var url = string.Format(_mapzenUrl, _mapzenLayers, Zoom, tileTms.x, tileTms.y, _mapzenFormat, _key);
-            var tilePath = Path.Combine(CacheFolderPath, tileTms.x + "_" + tileTms.y);
-            if (File.Exists(tilePath))
+            //var tilePath = Path.Combine(CacheFolderPath, tileTms.x + "_" + tileTms.y);
+            /*if (File.Exists(tilePath))
             {
                 var r = new StreamReader(tilePath, Encoding.Default);
                 var mapData = r.ReadToEnd();
@@ -38,13 +39,31 @@ namespace MapzenGo.Models
                         var sr = File.CreateText(tilePath);
                         sr.Write(success);
                         sr.Close();
+                        print(success);
                         ConstructTile(success, tile);
                     },
                     error =>
                     {
                         Debug.Log(error);
-                    });
-            }
+                    });*/
+            /*ObservableWWW.Get(url).Subscribe(
+            success =>
+            {
+                ConstructTile(success, tile);
+            },
+            error =>
+            {
+                Debug.Log(error);
+            });*/
+            StartCoroutine(SendToConstructTile(url, tile));
+            
+        }
+        IEnumerator SendToConstructTile(string url, Tile tile)
+        {
+            WWW www = new WWW(url);
+            yield return www;
+            ConstructTile(www.text, tile);
+
         }
     }
 }
