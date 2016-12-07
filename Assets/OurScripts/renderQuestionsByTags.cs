@@ -22,7 +22,8 @@ public class renderQuestionsByTags : MonoBehaviour {
 
     }
     void initFunction() {
-        cityTag = true;
+        cityTag = false;
+        //cityAlreadyRendered = true;
         glacierTag = false;
         mountainTag = false;
         lakeRiverTag = false;
@@ -30,7 +31,7 @@ public class renderQuestionsByTags : MonoBehaviour {
         llCounter = 0;
     }
     public void setBoolean(string tag) {
-    print(tag);
+    //print(tag);
         if(tag == "cityTag") {
             cityTag = true;
             createByTag();
