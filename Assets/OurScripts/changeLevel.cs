@@ -165,6 +165,7 @@ public class changeLevel : MonoBehaviour {
             }
             else {
                 Debug.Log("Þig vantar fleiri ævintýrakrónur");
+                setNonInteractable(true, true, true, false);
             }
         }
         else if ((alreadyUnlocked2 == true) && (buttonNumber == 3)) {
@@ -175,6 +176,7 @@ public class changeLevel : MonoBehaviour {
             }
             else {
                 Debug.Log("Þig vantar fleiri ævintýrakrónur");
+                setNonInteractable(true, true, false, false);
             }
         } else if ((alreadyUnlocked1 == true)  && (buttonNumber == 2)) {
             if (adventureCoins >= level2Cost) {
@@ -184,6 +186,7 @@ public class changeLevel : MonoBehaviour {
             }
             else {
                 Debug.Log("Þig vantar fleiri ævintýrakrónur");
+                setNonInteractable(true, false, false, false);
             }
         } else if((buttonNumber == 1) && (!alreadyUnlocked1)) {
             if (adventureCoins >= level1Cost) {
