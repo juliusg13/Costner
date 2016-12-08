@@ -15,7 +15,7 @@ public class qWindowDB : MonoBehaviour {
     GUIStyle smallFont, centerTitle, centerText, questionText, renderWindow, questionOptions;
     string[] data;
     public int adventureCoins;
-    private GameObject cam;
+    private GameObject cam, randomQuestionWindow;
     private string qID;
 
     // Use this for initialization
@@ -26,7 +26,8 @@ public class qWindowDB : MonoBehaviour {
         cam = GameObject.Find("Main Camera"); 
 		rectAssemble ();
 		controller = GameObject.FindWithTag("GameController");
-	}
+        randomQuestionWindow = GameObject.Find("/Canvas/randomQuestion");
+    }
     /// <summary>
     /// Function that sets basic variables initally.
     /// </summary>
@@ -200,7 +201,7 @@ public class qWindowDB : MonoBehaviour {
 		if (windowID == 3) {
             if (correct) GUI.TextField (new Rect ((qX/4), (qY/14), x*0.20f, y*0.15f), "Rétt hjá þér, vel gert", centerTitle);
             else if (!correct) GUI.TextField (new Rect ((qX / 8), (qY / 14), x * 0.4f, y * 0.15f), "Rangt hjá þér! Reyndu aftur eftir augnablik", centerTitle); //centertitle
-            if (GUI.Button(new Rect(qX/7, qY/3, x*0.4f, y*0.1f), "Snilld!")){
+            if (GUI.Button(new Rect(qX/7, qY/3, x*0.4f, y*0.1f), "Halda áfram")){
                 HideWindow(); //Used to be next question.
                 cam.GetComponent<mouseDrag>().enabled = true;
                 //nextQuestion("nextQuestion");
@@ -234,7 +235,8 @@ public class qWindowDB : MonoBehaviour {
         nextQuestion (questionID);
 		render = true;
 		quitRender = true;
-		skipRender = true;
+		skipRender = false;
+        randomQuestionWindow.SetActive(false);
         controller.GetComponent<soundController>().questionUISound(0);
 	}
     /// <summary>
@@ -246,6 +248,7 @@ public class qWindowDB : MonoBehaviour {
 		skipRender = false;
 		answer = false;
 		correct = false;
+        randomQuestionWindow.SetActive(true);
         controller.GetComponent<soundController>().questionUISound(1);
 	}
     /// <summary>
