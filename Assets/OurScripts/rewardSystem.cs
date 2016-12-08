@@ -3,7 +3,7 @@ using UnityEngine.UI;
 using System.Collections;
 
 public class rewardSystem : MonoBehaviour {
-    private int adventureCoins;
+    public int adventureCoins;
     private string adventureText;
     private GUIText coinText;
     public AudioClip[] coinsClip;
@@ -16,7 +16,6 @@ public class rewardSystem : MonoBehaviour {
     void Start () {
         _soundController = GetComponentInParent<soundController>();
         coinsSound = GetComponent<AudioSource>();
-        adventureCoins = 0;
         adventureText = "Ævintýra krónur: " + adventureCoins.ToString();
         moneyUI = GameObject.Find("CoinUI");
         updateUIText();

@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.EventSystems;
 
 public class quest : MonoBehaviour {
 
@@ -34,8 +35,12 @@ public class quest : MonoBehaviour {
     }
     void OnMouseUp(){
         //Destroy (this.gameObject);
-
-        questGiver.GetComponent<qWindowDB>().ShowWindow(questionID, questGiver);
+        if (!EventSystem.current.IsPointerOverGameObject())
+        {
+            questGiver.GetComponent<qWindowDB>().ShowWindow(questionID, questGiver);
+            Debug.Log("Clicked on the UI");
+        }
+        
 	}
 
 }

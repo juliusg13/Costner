@@ -4,126 +4,274 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using UnityEngine.Events;
+using UnityEngine.EventSystems;
 
 public class changeLevel : MonoBehaviour {
-
+ 
 	public GameObject levelImage, controller;
-    private GameObject b1, b2, b3;
-    Toggle t1, t2, t3, t4;
-	public int adventureCoins;
+    private GameObject b1, b2, b3, b4, randomQuestion;
+    bool alreadyUnlocked1, alreadyUnlocked2, alreadyUnlocked3, alreadyUnlocked4, wasSomethingToggled;
+    public int level1Cost, level2Cost, level3Cost, level4Cost;
+    GameObject cityToggle, mountainToggle, glacierToggle, lakeRiverToggle, levelCostImage;
+    GameObject spilaButton;
+
+    private int adventureCoins;
 	public Toggle citys, mountains, glacier;
-	Canvas toggleGroup;
+	Canvas toggleParent;
+    ToggleGroup tGroup;
+    string tag;
 
 
+   public void Start () {
+		controller = GameObject.FindWithTag("GameController");
+        setBools();
+        Loadlevel(true);
+        setPriceText();
+    }
+    void setBools() {
+        alreadyUnlocked1 = false;
+        alreadyUnlocked2 = false;
+        alreadyUnlocked3 = false;
+        alreadyUnlocked4 = false;
+        wasSomethingToggled = false;
+    }
+    void setPriceText() {
+        b1.GetComponentInChildren<Text>().text = "LEVEL 1 - " + level1Cost.ToString() + "kr";
+        b2.GetComponentInChildren<Text>().text = "LEVEL 2 - " + level2Cost.ToString() + "kr";
+        b3.GetComponentInChildren<Text>().text = "LEVEL 3 - " + level3Cost.ToString() + "kr";
+        b4.GetComponentInChildren<Text>().text = "LEVEL 4 - " + level4Cost.ToString() + "kr";
+    }
+    void setIndividualText(GameObject bWhich, string num) {
+        bWhich.GetComponentInChildren<Text>().text = "LEVEL " + num;
+        bWhich.gameObject.GetComponentInChildren<Text>().color = new Color(0f, 0.7f, 0.01569f);
+    }
 	// Opens the level menu
 	public void Loadlevel(bool changeLevel) {
-		levelImage.SetActive(true);
-
+        levelImage.SetActive(true);
+        tag = "";
+        wasSomethingToggled = false;
         b1 = GameObject.Find("Canvas/levelsImage/level1Button");
         b2 = GameObject.Find("/Canvas/levelsImage/level2Button");
         b3 = GameObject.Find("/Canvas/levelsImage/level3Button");
+        b4 = GameObject.Find("/Canvas/levelsImage/level4Button");
+        b1.GetComponent<Button>().onClick.AddListener(delegate { setInteractable(1); });
+        b2.GetComponent<Button>().onClick.AddListener(delegate { setInteractable(2); });
+        b3.GetComponent<Button>().onClick.AddListener(delegate { setInteractable(3); });
+        b4.GetComponent<Button>().onClick.AddListener(delegate { setInteractable(4); });
 
-		t1 = GameObject.Find("/Canvas/toggleGroup/CityToggle").GetComponent<Toggle>();
-		print(t1);
-		t2 = GameObject.Find("/Canvas/toggleGroup/MountainToggle").GetComponent<Toggle>();
-		t3 = GameObject.Find("/Canvas/toggleGroup/GlacierToggle").GetComponent<Toggle>();
-		t4 = GameObject.Find("/Canvas/toggleGroup/LakeRiverToggle").GetComponent<Toggle>();
-        print(b1 + " " + b2 + " " + b3);
-        controller = GameObject.FindWithTag("GameController");
-        //Hé þarf að nteractivatea question windowinn 
-        toggleGroup = GameObject.Find("/Canvas/toggleGroup").GetComponent<Canvas>();
+        cityToggle = GameObject.Find("/Canvas/toggleParent/CityToggle");
+		mountainToggle = GameObject.Find("/Canvas/toggleParent/MountainToggle");
+		glacierToggle = GameObject.Find("/Canvas/toggleParent/GlacierToggle");
+		lakeRiverToggle = GameObject.Find("/Canvas/toggleParent/LakeRiverToggle");
+        cityToggle.GetComponent<Toggle>().onValueChanged.AddListener(delegate { setTagCity(); });
+        mountainToggle.GetComponent<Toggle>().onValueChanged.AddListener(delegate { setTagMountain(); });
+        glacierToggle.GetComponent<Toggle>().onValueChanged.AddListener(delegate { setTagGlacier(); });
+        lakeRiverToggle.GetComponent<Toggle>().onValueChanged.AddListener(delegate { setTagLakeRiver(); });
+
+        levelCostImage = GameObject.Find("/Canvas/levelsImage/levelCost");
+        spilaButton = GameObject.Find("/Canvas/toggleParent/Spila");
+
+        toggleParent = GameObject.Find("Canvas/toggleParent").GetComponent<Canvas>();
+        tGroup = GameObject.Find("Canvas/toggleParent").GetComponent<ToggleGroup>();
+        randomQuestion = GameObject.Find("/Canvas/randomQuestion");
+        tGroup.SetAllTogglesOff();
+        adventureCoins = controller.GetComponent<rewardSystem>().returnCoins();
+
+        if (alreadyUnlocked4) {
+            b4.gameObject.GetComponentInChildren<Text>().color = new Color(0f, 0.7f, 0.01569f);
+            b3.gameObject.GetComponentInChildren<Text>().color = new Color(0f, 0.7f, 0.01569f);
+            b2.gameObject.GetComponentInChildren<Text>().color = new Color(0f, 0.7f, 0.01569f);
+            b1.gameObject.GetComponentInChildren<Text>().color = new Color(0f, 0.7f, 0.01569f);
+            setNonInteractable(true, true, true, true);
+        } 
+        else if (alreadyUnlocked3) {
+            b4.gameObject.GetComponentInChildren<Text>().color = new Color(0.6f, 0.6f, 0f);
+            b3.gameObject.GetComponentInChildren<Text>().color = new Color(0f, 0.7f, 0.01569f);
+            b2.gameObject.GetComponentInChildren<Text>().color = new Color(0f, 0.7f, 0.01569f);
+            b1.gameObject.GetComponentInChildren<Text>().color = new Color(0f, 0.7f, 0.01569f);
+            setNonInteractable(true, true, true, true);
+        }
+        else if (alreadyUnlocked2) {
+            b4.gameObject.GetComponentInChildren<Text>().color = new Color(0.7f, 0f, 0f);
+            b3.gameObject.GetComponentInChildren<Text>().color = new Color(0.7f, 0.7f, 0f);
+            b2.gameObject.GetComponentInChildren<Text>().color = new Color(0f, 0.7f, 0.01569f);
+            b1.gameObject.GetComponentInChildren<Text>().color = new Color(0f, 0.7f, 0.01569f);
+            setNonInteractable(true, true, true, false);
+        }
+        else if (alreadyUnlocked1) {
+            
+            b4.gameObject.GetComponentInChildren<Text>().color = new Color(0.7f, 0f, 0f);
+            b3.gameObject.GetComponentInChildren<Text>().color = new Color(0.7f, 0f, 0f);
+            b2.gameObject.GetComponentInChildren<Text>().color = new Color(0.7f, 0.7f, 0.01569f);
+            b1.gameObject.GetComponentInChildren<Text>().color = new Color(0f, 0.7f, 0.01569f);
+            setNonInteractable(true, true, false, false);
+        }
+        else{
+            b4.gameObject.GetComponentInChildren<Text>().color = new Color(0.7f, 0f, 0f);
+            b3.gameObject.GetComponentInChildren<Text>().color = new Color(0.7f, 0f, 0f);
+            b2.gameObject.GetComponentInChildren<Text>().color = new Color(0.7f, 0f, 0f);
+            b1.gameObject.GetComponentInChildren<Text>().color = new Color(0.7f, 0.7f, 0f);
+            setNonInteractable(true, false, false, false);
+        }
+        enableRandomQuestion(false);
     }
 
 	// Sends you back to continue playing the game aftur pushing a level button
 	public void BackToGame() {
-		toggleGroup.enabled = false;
-
-		levelImage.SetActive(false);
+        setNonInteractable(true, true, true, true);
+        if (cityToggle.GetComponent<Toggle>().isOn) {
+            //setTag("cityTag");
+            cityToggle.SetActive(false);
+        }
+        if (mountainToggle.GetComponent<Toggle>().isOn) {
+            //setTag("mountainTag");
+            mountainToggle.SetActive(false);
+        }
+        if (glacierToggle.GetComponent<Toggle>().isOn) {
+            //setTag("glacierTag");
+            glacierToggle.SetActive(false);
+        }
+        if (lakeRiverToggle.GetComponent<Toggle>().isOn) {
+            //setTag("lakeRiverTag");
+            lakeRiverToggle.SetActive(false);
+        }
+        callRenderByTag(tag);
+        toggleParent.enabled = false;
+        levelImage.SetActive(false);
+        enableRandomQuestion(true);
     }
-
-   public void Start () {
-        //setLevels();
-		controller = GameObject.FindWithTag("GameController");
-	}
-
+    private void setNonInteractable(bool set1, bool set2, bool set3, bool set4) {
+        b1.gameObject.GetComponent<Button>().interactable = set1;
+        b2.gameObject.GetComponent<Button>().interactable = set2;
+        b3.gameObject.GetComponent<Button>().interactable = set3;
+        b4.gameObject.GetComponent<Button>().interactable = set4;
+    }
 	// The game starts at level 1 and unavailable to go to level2 and 3
-	public void setLevels () {
-        b1.gameObject.GetComponent<Button>().interactable = true;
-		b2.gameObject.GetComponent<Button>().interactable = false;
-		b3.gameObject.GetComponent<Button>().interactable = false;
-	}
     public void setInteractable(int buttonNumber) {
-        adventureCoins = controller.GetComponent<rewardSystem>().returnCoins();
-        print(adventureCoins);
-
-        if (adventureCoins >= 10 && buttonNumber == 3) {
-            b2.gameObject.GetComponent<Button>().interactable = true;
-            b3.gameObject.GetComponent<Button>().interactable = true;
-            nextLevel(3);
-            return;
-        } else if(adventureCoins >= 5 && buttonNumber == 2) {
-            b2.gameObject.GetComponent<Button>().interactable = true;
-            nextLevel(2);
-            return;
-        } else {
-            Debug.Log("Þig vantar fleiri ævintýrakrónur");
+        setSpilaButton(false);
+        if ((alreadyUnlocked3 == true) && (buttonNumber == 4)) {
+            if ((adventureCoins >= level4Cost)) {
+                setNonInteractable(true, true, true, true);
+                b4.gameObject.GetComponent<Button>().onClick.RemoveAllListeners();
+                b4.gameObject.GetComponent<Button>().onClick.AddListener(BackToGame);
+                nextLevel(4);
+            }
+            else {
+                Debug.Log("Þig vantar fleiri ævintýrakrónur");
+            }
+        }
+        else if ((alreadyUnlocked2 == true) && (buttonNumber == 3)) {
+            if (adventureCoins >= level3Cost) {
+                setNonInteractable(true, true, true, false);
+                b3.gameObject.GetComponent<Button>().onClick.RemoveAllListeners();
+                b3.gameObject.GetComponent<Button>().onClick.AddListener(BackToGame);
+                nextLevel(3);
+            }
+            else {
+                Debug.Log("Þig vantar fleiri ævintýrakrónur");
+            }
+        } else if ((alreadyUnlocked1 == true)  && (buttonNumber == 2)) {
+            if (adventureCoins >= level2Cost) {
+                setNonInteractable(true, true, false, false);
+                b2.gameObject.GetComponent<Button>().onClick.RemoveAllListeners();
+                b2.gameObject.GetComponent<Button>().onClick.AddListener(BackToGame);
+                nextLevel(2);
+            }
+            else {
+                Debug.Log("Þig vantar fleiri ævintýrakrónur");
+            }
+        } else if((buttonNumber == 1) && (!alreadyUnlocked1)) {
+            if (adventureCoins >= level1Cost) {
+                setNonInteractable(true, false, false, false);
+                b1.gameObject.GetComponent<Button>().onClick.RemoveAllListeners();
+                b1.gameObject.GetComponent<Button>().onClick.AddListener(BackToGame);
+                nextLevel(1);
+            } else {
+                Debug.Log("Þig vantar fleiri ævintýrakrónur");
+            }
+        } else { 
+            Debug.Log("Þú þarft að leysa stigið á undan");
         }
     }
 
-	public void nextLevel (int buttonNumber) {
-        if(buttonNumber == 2) {
-            controller.GetComponent<rewardSystem>().spendCoins(5);
-            //print("button 2 pressed");
-            toggleGroup.enabled = true;
-            chooseLevelTag();
-           
+	public void nextLevel (int buttonNumber) { 
+        if (buttonNumber == 1 && !alreadyUnlocked1) {
+            setNonInteractable(false, false, false, false);
+            controller.GetComponent<rewardSystem>().spendCoins(level1Cost);
+            toggleParent.enabled = true;
+            alreadyUnlocked1 = true;
+            setIndividualText(b1, "1");
         }
-        if (buttonNumber == 3) {
-            controller.GetComponent<rewardSystem>().spendCoins(10);
-            //print("button 3 pressed");
-			toggleGroup.enabled = true;
-           chooseLevelTag();
+        else if(buttonNumber == 2 && !alreadyUnlocked2) {
+            setNonInteractable(false, false, false, false);
+            controller.GetComponent<rewardSystem>().spendCoins(level2Cost);
+            toggleParent.enabled = true;
+            alreadyUnlocked2 = true;
+            setIndividualText(b2, "2");
+        }
+        else if (buttonNumber == 3 && !alreadyUnlocked3) {
+            setNonInteractable(false, false, false, false);
+            controller.GetComponent<rewardSystem>().spendCoins(level3Cost);
+            toggleParent.enabled = true;
+            alreadyUnlocked3 = true;
+            setIndividualText(b3, "3");
+        }
+        else if (buttonNumber == 4 && !alreadyUnlocked4) {
+            setNonInteractable(false, false, false, false);
+            controller.GetComponent<rewardSystem>().spendCoins(level4Cost);
+            toggleParent.enabled = true;
+            alreadyUnlocked4 = true;
+            setIndividualText(b4, "4");
         }
     }
 
-    public void chooseLevelTag ()
-	{
-		print ("POOP");
-		print(t1);
-		if (t1.isOn) {
-			controller.GetComponent<renderQuestionsByTags> ().setBoolean ("cityTag");
-		}
-		if (t2.enabled == true) {
-			controller.GetComponent<renderQuestionsByTags> ().setBoolean ("mountainTag");
-			print("opo");
-		}
-		if (t3.isOn) {
-			controller.GetComponent<renderQuestionsByTags> ().setBoolean ("glacierTag");
-		}
-		if (t4.isOn) {
-		print("<wesdfgjhj");
-			controller.GetComponent<renderQuestionsByTags> ().setBoolean ("lakeRiverTag");
-		}
+    private void callRenderByTag(string tag) {
+        controller.GetComponent<renderQuestionsByTags>().setBoolean(tag);
+    }
+    private void setTagCity() {
+        tag = "cityTag";
+        setSpilaButton(true);
+    }
+    private void setTagGlacier() {
+        tag = "glacierTag";
+        setSpilaButton(true);
+    }
+    private void setTagMountain() {
+        tag = "mountainTag";
+        setSpilaButton(true);
+    }
+    private void setTagLakeRiver() {
+        tag = "lakeRiverTag";
+        setSpilaButton(true);
+    }
+    private void setSpilaButton(bool set) {
+        spilaButton.SetActive(set);
+    }
 
-	}
-		/* void OnGUI (){
-
-		if(t2.GetComponent<Toggle>().enabled) {
-		print("wat");
-			//controller.GetComponent<renderQuestionsByTag> ().setBoolean ("cityTag");
-			controller.GetComponent<renderQuestionsByTags>().setBoolean("cityTag");
-		}
-
-	}
-
-	void OnGUI() {
-        GUILayout.BeginVertical("Toggle");
-        selGridInt = GUILayout.SelectionGrid(selGridInt, radioButton, 1);
-        if (GUILayout.Button("Spila"))
-            Debug.Log("You chose " + radioButton[selGridInt]);
+    public void enableRandomQuestion(bool showOrNot) {
+        randomQuestion.SetActive(showOrNot);
+    }
+    /*
+    public void OnPointerEnter(PointerEventData eventData) {
+        if(eventData.pointerEnter) {
+            showCost(level4Cost);
+        }
         
-        GUILayout.EndVertical();
-    }*/
+        if(this.gameObject.name == "level1Button") {
+            showCost(level1Cost);
+        } else if(this.gameObject.name == "level2Button") {
+            showCost(level2Cost);
+        } else if(this.gameObject.name == "level3Button") {
+            showCost(level3Cost);
+        } else if(this.gameObject.name == "level4Button") {
+            showCost(level4Cost);
+        }
+    }
+    void showCost(int cost) {
+        string setText = "Kostar: " + cost.ToString();
+        levelCostImage.GetComponentInChildren<Text>().text = setText;
+    }
+*/
 }
 
 
