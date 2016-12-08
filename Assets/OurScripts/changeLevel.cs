@@ -12,7 +12,7 @@ public class changeLevel : MonoBehaviour {
     private GameObject b1, b2, b3, b4, randomQuestion;
     bool alreadyUnlocked1, alreadyUnlocked2, alreadyUnlocked3, alreadyUnlocked4, wasSomethingToggled;
     public int level1Cost, level2Cost, level3Cost, level4Cost;
-    GameObject cityToggle, mountainToggle, glacierToggle, lakeRiverToggle, levelCostImage;
+    GameObject cityToggle, mountainToggle, glacierToggle, lakeRiverToggle, levelCostImage, moneyUI;
     GameObject spilaButton;
 
     private int adventureCoins;
@@ -24,6 +24,7 @@ public class changeLevel : MonoBehaviour {
 
    public void Start () {
 		controller = GameObject.FindWithTag("GameController");
+        moneyUI = GameObject.Find("CoinUI");
         setBools();
         Loadlevel(true);
         setPriceText();
@@ -48,6 +49,7 @@ public class changeLevel : MonoBehaviour {
 	// Opens the level menu
 	public void Loadlevel(bool changeLevel) {
         levelImage.SetActive(true);
+        moneyUI.GetComponent<Text>().color = new Color(0f, 0.7f, 0.01569f);
         tag = "";
         wasSomethingToggled = false;
         b1 = GameObject.Find("Canvas/levelsImage/level1Button");
@@ -139,6 +141,7 @@ public class changeLevel : MonoBehaviour {
         toggleParent.enabled = false;
         levelImage.SetActive(false);
         enableRandomQuestion(true);
+        moneyUI.GetComponent<Text>().color = new Color(0f, 0f, 0f);
     }
     private void setNonInteractable(bool set1, bool set2, bool set3, bool set4) {
         b1.gameObject.GetComponent<Button>().interactable = set1;
@@ -149,9 +152,9 @@ public class changeLevel : MonoBehaviour {
 	// The game starts at level 1 and unavailable to go to level2 and 3
     public void setInteractable(int buttonNumber) {
         setSpilaButton(false);
+        setNonInteractable(false, false, false, false);
         if ((alreadyUnlocked3 == true) && (buttonNumber == 4)) {
             if ((adventureCoins >= level4Cost)) {
-                setNonInteractable(true, true, true, true);
                 b4.gameObject.GetComponent<Button>().onClick.RemoveAllListeners();
                 b4.gameObject.GetComponent<Button>().onClick.AddListener(BackToGame);
                 nextLevel(4);
@@ -162,7 +165,6 @@ public class changeLevel : MonoBehaviour {
         }
         else if ((alreadyUnlocked2 == true) && (buttonNumber == 3)) {
             if (adventureCoins >= level3Cost) {
-                setNonInteractable(true, true, true, false);
                 b3.gameObject.GetComponent<Button>().onClick.RemoveAllListeners();
                 b3.gameObject.GetComponent<Button>().onClick.AddListener(BackToGame);
                 nextLevel(3);
@@ -172,7 +174,6 @@ public class changeLevel : MonoBehaviour {
             }
         } else if ((alreadyUnlocked1 == true)  && (buttonNumber == 2)) {
             if (adventureCoins >= level2Cost) {
-                setNonInteractable(true, true, false, false);
                 b2.gameObject.GetComponent<Button>().onClick.RemoveAllListeners();
                 b2.gameObject.GetComponent<Button>().onClick.AddListener(BackToGame);
                 nextLevel(2);
@@ -182,7 +183,6 @@ public class changeLevel : MonoBehaviour {
             }
         } else if((buttonNumber == 1) && (!alreadyUnlocked1)) {
             if (adventureCoins >= level1Cost) {
-                setNonInteractable(true, false, false, false);
                 b1.gameObject.GetComponent<Button>().onClick.RemoveAllListeners();
                 b1.gameObject.GetComponent<Button>().onClick.AddListener(BackToGame);
                 nextLevel(1);
