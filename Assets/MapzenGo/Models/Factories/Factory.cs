@@ -15,12 +15,12 @@ namespace MapzenGo.Models.Factories
 
         public virtual void Start()
         {
-            Query = (geo) => true;
+            //Query = (geo) => true;
         }
 
         public override void Create(Tile tile)
         {
-            base.Create(tile);
+            /*base.Create(tile);
             if (XmlTag == "water" || XmlTag == "buildings")
             {
                 return;
@@ -46,7 +46,7 @@ namespace MapzenGo.Models.Factories
                         entity.transform.SetParent(tile.transform, false);
                     }
                 }
-            }
+            }*/
         }
 
         protected virtual IEnumerable<MonoBehaviour> Create(Vector2d tileMercPos, JSONObject geo)

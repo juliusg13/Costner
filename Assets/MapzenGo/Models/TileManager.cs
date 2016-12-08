@@ -70,8 +70,11 @@ namespace MapzenGo.Models
                 for (int j = -Range; j <= Range; j++)
                 {
                     var v = new Vector2d(tms.x + i, tms.y + j);
-                    if (Tiles.ContainsKey(v))
-                        continue;
+                    if (Application.platform != RuntimePlatform.Android)
+                    {
+                        if (Tiles.ContainsKey(v))
+                            continue;
+                    }
                     StartCoroutine(CreateTile(v, center));
                 }
             }
@@ -81,6 +84,8 @@ namespace MapzenGo.Models
         {
             var rect = GM.TileBounds(tileTms, Zoom);
             var tile = new GameObject("tile " + tileTms.x + "-" + tileTms.y).AddComponent<Tile>();
+
+            yield return null;
 
             tile.Zoom = Zoom;
             tile.TileTms = tileTms;
@@ -93,34 +98,63 @@ namespace MapzenGo.Models
             tile.transform.SetParent(TileHost, false);
             LoadTile(tileTms, tile);
             
-            yield return null;
+            
         }
 
         protected virtual void LoadTile(Vector2d tileTms, Tile tile)
         {
             var url = string.Format(_mapzenUrl, _mapzenLayers, Zoom, tileTms.x, tileTms.y, _mapzenFormat, _key);
             //Debug.Log(url);
-            ObservableWWW.Get(url)
+            if (Application.platform != RuntimePlatform.Android)
+            {
+                ObservableWWW.Get(url)
                 .Subscribe(
                     text => { ConstructTile(text, tile); }, //success
                     exp => Debug.Log("Error fetching -> " + url)); //failure
+            }
+            else
+            {
+                StartCoroutine(SendToConstructTile(url, tile));
+            }
+                
         }
 
         protected void ConstructTile(string text, Tile tile)
         {
-            var heavyMethod = Observable.Start(() => new JSONObject(text));
+            if (Application.platform != RuntimePlatform.Android)
+            {
+                var heavyMethod = Observable.Start(() => new JSONObject(text));
 
-            heavyMethod.ObserveOnMainThread().Subscribe(mapData =>
+                heavyMethod.ObserveOnMainThread().Subscribe(mapData =>
+                {
+                    if (!tile) // checks if tile still exists and haven't destroyed yet
+                        return;
+                    tile.Data = mapData;
+
+                    foreach (var factory in _plugins)
+                    {
+                        factory.Create(tile);
+                    }
+                });
+            }
+            else
             {
                 if (!tile) // checks if tile still exists and haven't destroyed yet
                     return;
-                tile.Data = mapData;
-
                 foreach (var factory in _plugins)
                 {
                     factory.Create(tile);
                 }
-            });
+            }
+                
+        }
+
+        IEnumerator SendToConstructTile(string url, Tile tile)
+        {
+            WWW www = new WWW(url);
+            yield return www;
+            ConstructTile(www.text, tile);
+
         }
     }
 }
