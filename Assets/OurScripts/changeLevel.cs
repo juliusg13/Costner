@@ -12,7 +12,7 @@ public class changeLevel : MonoBehaviour {
     private GameObject b1, b2, b3, b4, randomQuestion;
     bool alreadyUnlocked1, alreadyUnlocked2, alreadyUnlocked3, alreadyUnlocked4, wasSomethingToggled;
     public int level1Cost, level2Cost, level3Cost, level4Cost;
-    GameObject cityToggle, mountainToggle, glacierToggle, lakeRiverToggle, levelCostImage;
+    GameObject cityToggle, mountainToggle, glacierToggle, lakeRiverToggle, levelCostImage, moneyUI;
     GameObject spilaButton;
 
     private int adventureCoins;
@@ -24,6 +24,7 @@ public class changeLevel : MonoBehaviour {
 
    public void Start () {
 		controller = GameObject.FindWithTag("GameController");
+        moneyUI = GameObject.Find("CoinUI");
         setBools();
         Loadlevel(true);
         setPriceText();
@@ -48,6 +49,7 @@ public class changeLevel : MonoBehaviour {
 	// Opens the level menu
 	public void Loadlevel(bool changeLevel) {
         levelImage.SetActive(true);
+        moneyUI.GetComponent<Text>().color = new Color(0f, 0.7f, 0.01569f);
         tag = "";
         wasSomethingToggled = false;
         b1 = GameObject.Find("Canvas/levelsImage/level1Button");
@@ -139,6 +141,7 @@ public class changeLevel : MonoBehaviour {
         toggleParent.enabled = false;
         levelImage.SetActive(false);
         enableRandomQuestion(true);
+        moneyUI.GetComponent<Text>().color = new Color(0f, 0f, 0f);
     }
     private void setNonInteractable(bool set1, bool set2, bool set3, bool set4) {
         b1.gameObject.GetComponent<Button>().interactable = set1;
