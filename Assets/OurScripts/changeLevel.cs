@@ -26,7 +26,7 @@ public class changeLevel : MonoBehaviour {
 		controller = GameObject.FindWithTag("GameController");
         moneyUI = GameObject.Find("CoinUI");
         setBools();
-        Loadlevel(true);
+        Loadlevel();
         setPriceText();
     }
     void setBools() {
@@ -47,7 +47,7 @@ public class changeLevel : MonoBehaviour {
         bWhich.gameObject.GetComponentInChildren<Text>().color = new Color(0f, 0.7f, 0.01569f);
     }
 	// Opens the level menu
-	public void Loadlevel(bool changeLevel) {
+	public void Loadlevel() {
         levelImage.SetActive(true);
         moneyUI.GetComponent<Text>().color = new Color(0f, 0.7f, 0.01569f);
         tag = "";
