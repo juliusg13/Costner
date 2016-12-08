@@ -70,8 +70,8 @@ namespace MapzenGo.Models
                 for (int j = -Range; j <= Range; j++)
                 {
                     var v = new Vector2d(tms.x + i, tms.y + j);
-                    if (Tiles.ContainsKey(v))
-                        continue;
+                    //if (Tiles.ContainsKey(v))
+                        //continue;
                     StartCoroutine(CreateTile(v, center));
                 }
             }

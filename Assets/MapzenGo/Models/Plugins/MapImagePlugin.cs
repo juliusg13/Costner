@@ -45,7 +45,6 @@ namespace MapzenGo.Models.Plugins
                             rend.material.color = new Color(1f, 1f, 1f, 1f);
                         }
                         rend.material.mainTexture = new Texture2D(512, 512, TextureFormat.DXT5, false);
-                        //rend.material.color = new Color(1f, 1f, 1f, 1f);
                         success.LoadImageIntoTexture((Texture2D)rend.material.mainTexture);
                     }
                 },
