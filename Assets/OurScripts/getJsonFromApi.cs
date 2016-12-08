@@ -7,7 +7,7 @@ public class getJsonFromApi : MonoBehaviour {
 
 	private WWW www;
 	private bool loaded = false;
-    private bool linkedListsFull = false;
+  //  private bool linkedListsFull = false;
     public SortedList mountains, glaciers, lakesRivers, cities;
     private GameObject controller;
 
@@ -60,7 +60,7 @@ public class getJsonFromApi : MonoBehaviour {
                 //}
                 //else return;
                 if(i == (arr.Count - 1)) {
-                    linkedListsFull = true;
+                   // linkedListsFull = true;
                     controller.GetComponent<renderQuestionsByTags>().createByTag();
                 }
             }

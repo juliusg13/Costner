@@ -12,7 +12,7 @@ public class qWindowDB : MonoBehaviour {
     float x, y, qX, qY;
     private Rect windowRect, resultRect, questionButtonRect1, questionButtonRect2, questionButtonRect3, questionButtonRect4, quitRect, skipRect;
     private RectOffset qButtonRect;
-    GUIStyle smallFont, centerTitle, centerText, questionText, renderWindow, questionOptions;
+    GUIStyle smallFont, centerTitle, centerText, questionText, questionOptions;
     string[] data;
     public int adventureCoins;
     private GameObject cam, randomQuestionWindow;
@@ -112,7 +112,7 @@ public class qWindowDB : MonoBehaviour {
         }
 		if (quitRender){
 			GUI.color = new Color(0.9f, 0.75f, 0.3f, 1f);
-			quitRect = GUI.Window(1, quitRect, DoMyWindow, " ");
+			quitRect = GUI.Window(1, quitRect, DoMyWindow, "");
 		}
 		if (skipRender) {
 			skipRect = GUI.Window(2, skipRect, DoMyWindow, "Segja pass");
@@ -194,7 +194,7 @@ public class qWindowDB : MonoBehaviour {
         }
 
 		if (windowID == 1){
-            if (GUI.Button(new Rect(x * 0.018f, y * 0.05f, x * 0.04f, y * 0.08f), "Smelltu hér", smallFont)) {
+            if (GUI.Button(new Rect(x * 0.018f, y * 0.05f, x * 0.04f, y * 0.08f), "Svara seinna", smallFont)) {
                 render = false;
                 quitRender = false;
             }
@@ -294,7 +294,7 @@ public class qWindowDB : MonoBehaviour {
         centerText = new GUIStyle();
         centerTitle = new GUIStyle();
         questionText = new GUIStyle();
-        renderWindow = new GUIStyle();
+        //renderWindow = new GUIStyle();
         questionOptions = new GUIStyle();
       
         smallFont.fontSize = 15;

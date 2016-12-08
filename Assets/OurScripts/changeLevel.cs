@@ -12,7 +12,7 @@ public class changeLevel : MonoBehaviour {
     private GameObject b1, b2, b3, b4, randomQuestion;
     bool alreadyUnlocked1, alreadyUnlocked2, alreadyUnlocked3, alreadyUnlocked4, wasSomethingToggled;
     public int level1Cost, level2Cost, level3Cost, level4Cost;
-    GameObject cityToggle, mountainToggle, glacierToggle, lakeRiverToggle, levelCostImage, moneyUI;
+    GameObject cityToggle, mountainToggle, glacierToggle, lakeRiverToggle, moneyUI;
     GameObject spilaButton;
 
     private int adventureCoins;
@@ -27,6 +27,7 @@ public class changeLevel : MonoBehaviour {
         moneyUI = GameObject.Find("CoinUI");
         setBools();
         Loadlevel();
+        //setButtons();
         setPriceText();
     }
     void setBools() {
@@ -35,6 +36,12 @@ public class changeLevel : MonoBehaviour {
         alreadyUnlocked3 = false;
         alreadyUnlocked4 = false;
         wasSomethingToggled = false;
+    }
+    void setButtons() {
+        b1 = GameObject.Find("Canvas/levelsImage/level1Button");
+        b2 = GameObject.Find("Canvas/levelsImage/level2Button");
+        b3 = GameObject.Find("Canvas/levelsImage/level3Button");
+        b4 = GameObject.Find("Canvas/levelsImage/level4Button");
     }
     void setPriceText() {
         b1.GetComponentInChildren<Text>().text = "LEVEL 1 - " + level1Cost.ToString() + "kr";
@@ -52,10 +59,7 @@ public class changeLevel : MonoBehaviour {
         moneyUI.GetComponent<Text>().color = new Color(0f, 0.7f, 0.01569f);
         tag = "";
         wasSomethingToggled = false;
-        b1 = GameObject.Find("Canvas/levelsImage/level1Button");
-        b2 = GameObject.Find("/Canvas/levelsImage/level2Button");
-        b3 = GameObject.Find("/Canvas/levelsImage/level3Button");
-        b4 = GameObject.Find("/Canvas/levelsImage/level4Button");
+        setButtons();
         b1.GetComponent<Button>().onClick.AddListener(delegate { setInteractable(1); });
         b2.GetComponent<Button>().onClick.AddListener(delegate { setInteractable(2); });
         b3.GetComponent<Button>().onClick.AddListener(delegate { setInteractable(3); });
@@ -70,7 +74,7 @@ public class changeLevel : MonoBehaviour {
         glacierToggle.GetComponent<Toggle>().onValueChanged.AddListener(delegate { setTagGlacier(); });
         lakeRiverToggle.GetComponent<Toggle>().onValueChanged.AddListener(delegate { setTagLakeRiver(); });
 
-        levelCostImage = GameObject.Find("/Canvas/levelsImage/levelCost");
+        //levelCostImage = GameObject.Find("/Canvas/levelsImage/levelCost");
         spilaButton = GameObject.Find("/Canvas/toggleParent/Spila");
 
         toggleParent = GameObject.Find("Canvas/toggleParent").GetComponent<Canvas>();

@@ -50,7 +50,7 @@ public class renderQuestionsByTags : MonoBehaviour {
         if (tag == "lakeRiverTag") {
             lakeRiverTag = true;
             createByTag();
-            mountainAlreadyRendered = true;
+            lakeRiverAlreadyRendered = true;
         }
         
     }

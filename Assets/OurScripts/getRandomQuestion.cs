@@ -45,7 +45,7 @@ public class getRandomQuestion : MonoBehaviour {
     void moveCamera(GameObject q) {
         float x = q.gameObject.transform.position.x;
         float z = q.gameObject.transform.position.z;
-        float y = camera.gameObject.transform.position.y;
+        //float y = camera.gameObject.transform.position.y;
         camera.gameObject.transform.position = new Vector3(x, 160f, z);
     }
 }
