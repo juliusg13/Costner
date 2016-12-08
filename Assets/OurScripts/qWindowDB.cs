@@ -142,7 +142,6 @@ public class qWindowDB : MonoBehaviour {
 	void DoMyWindow(int windowID){
 		
 		if (windowID == 0) {
-            cam.GetComponent<mouseDrag>().enabled = false; 
             GUI.skin.button = questionOptions;
 			GUI.TextField (new Rect (x * 0.03f, y * 0.07f, x * 0.75f, y * 0.25f), data[0], questionText);
             if (answeredThisQuestionCorrectAlready == true) {
@@ -168,19 +167,27 @@ public class qWindowDB : MonoBehaviour {
             }
             else {
                 if (GUI.Button(questionButtonRect1, data[1])) {
-                    HideWindow();
+                    render = false;
+                    quitRender = false;
+                    //HideWindow();
                     Answer("1");
                 }
                 if (GUI.Button(questionButtonRect2, data[2])) {
-                    HideWindow();
+                    render = false;
+                    quitRender = false;
+                    //HideWindow();
                     Answer("2");
                 }
                 if (GUI.Button(questionButtonRect3, data[3])) {
-                    HideWindow();
+                    render = false;
+                    quitRender = false;
+                    //HideWindow();
                     Answer("3");
                 }
                 if (GUI.Button(questionButtonRect4, data[4])) {
-                    HideWindow();
+                    render = false;
+                    quitRender = false;
+                    //HideWindow();
                     Answer("4");
                 }
             }
@@ -188,22 +195,23 @@ public class qWindowDB : MonoBehaviour {
 
 		if (windowID == 1){
             if (GUI.Button(new Rect(x * 0.018f, y * 0.05f, x * 0.04f, y * 0.08f), "Smelltu hér", smallFont)) {
-                HideWindow();
-                cam.GetComponent<mouseDrag>().enabled = true;
+                render = false;
+                quitRender = false;
             }
 		}
 		if (windowID == 2) {    
             if (GUI.Button(new Rect(x * 0.018f, y * 0.05f, x * 0.04f, y * 0.08f), "Smelltu hér", smallFont)) {
-                HideWindow();
-                cam.GetComponent<mouseDrag>().enabled = true;
+                render = false;
+                quitRender = false;
             }
 		}
 		if (windowID == 3) {
             if (correct) GUI.TextField (new Rect ((qX/4), (qY/14), x*0.20f, y*0.15f), "Rétt hjá þér, vel gert", centerTitle);
-            else if (!correct) GUI.TextField (new Rect ((qX / 8), (qY / 14), x * 0.4f, y * 0.15f), "Rangt hjá þér! Reyndu aftur eftir augnablik", centerTitle); //centertitle
+            else if (!correct) GUI.TextField (new Rect ((qX / 8), (qY / 14), x * 0.4f, y * 0.15f), "Rangt hjá þér! Reyndu aftur", centerTitle); //centertitle
             if (GUI.Button(new Rect(qX/7, qY/3, x*0.4f, y*0.1f), "Halda áfram")){
+
                 HideWindow(); //Used to be next question.
-                cam.GetComponent<mouseDrag>().enabled = true;
+
                 //nextQuestion("nextQuestion");
             }
 		}
@@ -230,12 +238,13 @@ public class qWindowDB : MonoBehaviour {
     /// sets the booleans in order for the windows to go from invisible to visible on screen.
     /// </summary>
 	public void ShowWindow(string questionID, GameObject questGiver){
+        cam.GetComponent<mouseDrag>().enabled = false;
         qID = questionID;
         quest = questGiver;
         nextQuestion (questionID);
 		render = true;
 		quitRender = true;
-		skipRender = false;
+//		skipRender = true;
         randomQuestionWindow.SetActive(false);
         controller.GetComponent<soundController>().questionUISound(0);
 	}
@@ -243,7 +252,8 @@ public class qWindowDB : MonoBehaviour {
     /// sets the booleans to false to make visible windows invisible on screen.
     /// </summary>
 	public void HideWindow(){
-		render = false;
+        cam.GetComponent<mouseDrag>().enabled = true;
+        render = false;
 		quitRender = false;
 		skipRender = false;
 		answer = false;
