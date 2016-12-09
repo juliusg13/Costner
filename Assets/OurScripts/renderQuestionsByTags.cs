@@ -55,6 +55,7 @@ public class renderQuestionsByTags : MonoBehaviour {
         
     }
     void setVariablesForCreatedQuestionGivers(GameObject thisQuestion, string qID, string tag, int i) {
+        world = GameObject.FindWithTag("OpenWorld");
         thisQuestion.GetComponent<quest>().questionID = qID;
         thisQuestion.transform.parent = world.transform;
         thisQuestion.transform.position = new Vector3(0, 15, 0);
