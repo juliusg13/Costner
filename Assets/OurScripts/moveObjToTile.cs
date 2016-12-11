@@ -8,14 +8,13 @@ public class moveObjToTile : MonoBehaviour
     private float xCoord;//questGiver
     private float zCoord;
     int Zoom;
-    float xCoord2, zCoord2, worldEnlargement; //start
+    float xCoord2, zCoord2; //start
     private GameObject world;
     //private string questGiver;
 
     // Use this for initialization
     void Start()
     {
-        worldEnlargement = 6.114963f;
         world = GameObject.FindWithTag("OpenWorld");
     }
 

@@ -9,7 +9,7 @@ using UnityEngine.EventSystems;
 public class changeLevel : MonoBehaviour {
  
 	public GameObject levelImage, controller;
-    private GameObject b1, b2, b3, b4, randomQuestion;
+    private GameObject b1, b2, b3, b4, randomQuestion, menuButton;
     bool alreadyUnlocked1, alreadyUnlocked2, alreadyUnlocked3, alreadyUnlocked4, wasSomethingToggled;
     public int level1Cost, level2Cost, level3Cost, level4Cost;
     GameObject cityToggle, mountainToggle, glacierToggle, lakeRiverToggle, moneyUI;
@@ -80,6 +80,7 @@ public class changeLevel : MonoBehaviour {
         toggleParent = GameObject.Find("Canvas/toggleParent").GetComponent<Canvas>();
         tGroup = GameObject.Find("Canvas/toggleParent").GetComponent<ToggleGroup>();
         randomQuestion = GameObject.Find("/Canvas/randomQuestion");
+        menuButton = GameObject.Find("Canvas/settings");
         tGroup.SetAllTogglesOff();
         adventureCoins = controller.GetComponent<rewardSystem>().returnCoins();
 
@@ -257,6 +258,7 @@ public class changeLevel : MonoBehaviour {
 
     public void enableRandomQuestion(bool showOrNot) {
         randomQuestion.SetActive(showOrNot);
+        menuButton.SetActive(showOrNot);
     }
     /*
     public void OnPointerEnter(PointerEventData eventData) {
