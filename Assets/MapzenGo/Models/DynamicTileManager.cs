@@ -8,17 +8,21 @@ namespace MapzenGo.Models
 {
     public class DynamicTileManager : TileManager
     {
-        [SerializeField] private Rect _centerCollider;
-        [SerializeField] private Transform _player;
-        [SerializeField] private int _removeAfter;
-        [SerializeField] private bool _keepCentralized;
+        [SerializeField]
+        private Rect _centerCollider;
+        [SerializeField]
+        private Transform _player;
+        [SerializeField]
+        private int _removeAfter;
+        [SerializeField]
+        private bool _keepCentralized;
 
         public override void Start()
         {
             base.Start();
             _removeAfter = Math.Max(_removeAfter, Range * 2 + 1);
             var rect = new Vector2(TileSize, TileSize);
-            _centerCollider = new Rect(Vector2.zero - rect / 2 , rect);
+            _centerCollider = new Rect(Vector2.zero - rect / 2, rect);
         }
 
         void Update()
@@ -49,17 +53,17 @@ namespace MapzenGo.Models
             {
                 foreach (var tile in Tiles.Values)
                 {
-                    tile.transform.position -= new Vector3((float) (tileDif.x*TileSize), 0, (float) (-tileDif.y*TileSize));
+                    tile.transform.position -= new Vector3((float)(tileDif.x * TileSize), 0, (float)(-tileDif.y * TileSize));
                 }
 
                 CenterInMercator = GM.TileBounds(CenterTms, Zoom).Center;
-                var difInUnity = new Vector3((float) (tileDif.x*TileSize), 0, (float) (-tileDif.y*TileSize));
+                var difInUnity = new Vector3((float)(tileDif.x * TileSize), 0, (float)(-tileDif.y * TileSize));
                 _player.position -= difInUnity;
                 Camera.main.transform.position -= difInUnity;
             }
             else
             {
-                var difInUnity = new Vector2(tileDif.x*TileSize, -tileDif.y*TileSize);
+                var difInUnity = new Vector2(tileDif.x * TileSize, -tileDif.y * TileSize);
                 _centerCollider.position += difInUnity;
             }
         }

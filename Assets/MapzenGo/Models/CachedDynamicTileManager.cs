@@ -23,7 +23,6 @@ namespace MapzenGo.Models
             }
             base.Start();
         }
-
         protected override void LoadTile(Vector2d tileTms, Tile tile)
         {
             var url = string.Format(_mapzenUrl, _mapzenLayers, Zoom, tileTms.x, tileTms.y, _mapzenFormat, _key);
@@ -56,7 +55,6 @@ namespace MapzenGo.Models
                         });
                 }
             }
-                
         }
 
         IEnumerator SendToConstructTile(string url, Tile tile)

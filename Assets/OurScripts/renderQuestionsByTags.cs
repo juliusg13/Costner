@@ -6,7 +6,7 @@ public class renderQuestionsByTags : MonoBehaviour {
     public bool cityTag, glacierTag, mountainTag, lakeRiverTag;
     private bool cityAlreadyRendered, glacierAlreadyRendered, mountainAlreadyRendered, lakeRiverAlreadyRendered;
     public GameObject questionMarker;
-    GameObject controller, world;
+    GameObject controller, world, qparent;
     public SortedList allQuestionsOnMap;
     int llCounter;
     // Use this for initialization
@@ -55,9 +55,10 @@ public class renderQuestionsByTags : MonoBehaviour {
         
     }
     void setVariablesForCreatedQuestionGivers(GameObject thisQuestion, string qID, string tag, int i) {
-        world = GameObject.FindWithTag("OpenWorld");
+        world = GameObject.Find("World");
+        qparent = GameObject.Find("questionParent");
         thisQuestion.GetComponent<quest>().questionID = qID;
-        thisQuestion.transform.parent = world.transform;
+        thisQuestion.transform.parent = qparent.transform;
         thisQuestion.transform.position = new Vector3(0, 15, 0);
       //  print("This baller was moved to " + thisQuestion.transform.position);
         thisQuestion.GetComponent<quest>().xCoord = float.Parse(controller.GetComponent<getJsonFromApi>().GetLatitude(qID));

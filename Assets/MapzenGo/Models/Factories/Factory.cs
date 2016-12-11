@@ -10,18 +10,18 @@ namespace MapzenGo.Models.Factories
     {
         public bool MergeMeshes;
         public float Order = 1;
-        public virtual string XmlTag {get { return ""; } }
+        public virtual string XmlTag { get { return ""; } }
         public virtual Func<JSONObject, bool> Query { get; set; }
 
         public virtual void Start()
         {
-            //Query = (geo) => true;
+            Query = (geo) => true;
         }
 
         public override void Create(Tile tile)
         {
-            /*base.Create(tile);
-            if (XmlTag == "water" || XmlTag == "buildings")
+            base.Create(tile);
+            /*if (XmlTag == "water" || XmlTag == "buildings")
             {
                 return;
             }
@@ -59,6 +59,6 @@ namespace MapzenGo.Models.Factories
             return null;
         }
 
-        
+
     }
 }
