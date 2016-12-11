@@ -29,37 +29,46 @@ public class mouseDrag : MonoBehaviour {
         {
             AndroidDrag();
             AndroidZoom();
-            return;
         }
-        /*LEFT CLICK DRAG*/
-        //If left click
-        if (Input.GetMouseButton(0))
+        else
         {
-            dragH = Convert.ToInt32(dragSpeed) * -Input.GetAxis("Mouse X");
-            dragV = Convert.ToInt32(dragSpeed) * -Input.GetAxis("Mouse Y");
-            this.gameObject.transform.Translate(dragH, dragV, 0);
+            /*LEFT CLICK DRAG*/
+            //If left click
+            if (Input.GetMouseButton(0))
+            {
+                dragH = Convert.ToInt32(dragSpeed) * -Input.GetAxis("Mouse X");
+                dragV = Convert.ToInt32(dragSpeed) * -Input.GetAxis("Mouse Y");
+                this.gameObject.transform.Translate(dragH, dragV, 0);
+            }
+
+            /*SCROLL UP AND DOWN*/
+            d = Input.GetAxis("Mouse ScrollWheel"); //Detect scroll wheel 
+            
+            //If scroll up
+            if (d < 0f && newZoom.y < maxZoom + 10)
+            {
+                newZoom.y = newZoom.y + scrollSpeed;
+            }
+
+            //If scroll down  
+            else if (d > 0f && newZoom.y > minZoom - 10)
+            {
+                newZoom.y = newZoom.y - scrollSpeed;
+            }
+
+            //smooth zoom
+            transform.position = new Vector3(transform.position.x, Mathf.Lerp(transform.position.y, newZoom.y, Time.deltaTime), transform.position.z);
         }
 
-        /*SCROLL UP AND DOWN*/
-        d = Input.GetAxis("Mouse ScrollWheel"); //Detect scroll wheel 
-        //If scroll up
-        if (d < 0f && newZoom.y < maxZoom + 10)
-        {
-            newZoom.y = newZoom.y + scrollSpeed;
-        }
+        //change zoom levels
+        ZoomPlus();
+        ZoomMinus();
+    }
 
-        //If scroll down  
-        else if (d > 0f && newZoom.y > minZoom - 10)
-        {
-            newZoom.y = newZoom.y - scrollSpeed;
-        }
-
-        //smooth zoom
-        transform.position = new Vector3(transform.position.x, Mathf.Lerp(transform.position.y, newZoom.y, Time.deltaTime), transform.position.z);
-
-        //If user scrolls up enough. We decrease the zoom, clone the world and delete the original
-        //y position and dragSpeed reset
-        if (d < 0f && newZoom.y >= maxZoom && world.GetComponent<CachedDynamicTileManager>().Zoom > 3)
+    //If user scrolls down enough. We increase the zoom, clone the world and delete the original
+    void ZoomPlus()
+    {
+        if (newZoom.y >= maxZoom && world.GetComponent<CachedDynamicTileManager>().Zoom > 3)
         {
             GameObject oldWorld = world;
             oldWorld.GetComponent<CachedDynamicTileManager>().Zoom--;
@@ -78,15 +87,20 @@ public class mouseDrag : MonoBehaviour {
                 }
             }
             world = newWorld;
+
             //reset camera y position
             Vector3 position = transform.position;
             position[1] = startPos;
             transform.position = position;
             newZoom.y = startPos;
         }
+    }
 
-        //If user scrolls down enough. We increase the zoom, clone the world and delete the original
-        if (d > 0f && newZoom.y <= minZoom && world.GetComponent<CachedDynamicTileManager>().Zoom < 16)
+    //If user scrolls up enough. We decrease the zoom, clone the world and delete the original
+    //y position and dragSpeed reset
+    void ZoomMinus()
+    {
+        if (newZoom.y <= minZoom && world.GetComponent<CachedDynamicTileManager>().Zoom < 16)
         {
             GameObject oldWorld = world;
             oldWorld.GetComponent<CachedDynamicTileManager>().Zoom++;
@@ -104,14 +118,13 @@ public class mouseDrag : MonoBehaviour {
                 }
             }
             world = newWorld;
+
             //reset camera y position
             Vector3 position = transform.position;
             position[1] = startPos;
             transform.position = position;
             newZoom.y = startPos;
         }
-
-        
     }
 
     void AndroidDrag()
@@ -141,10 +154,10 @@ public class mouseDrag : MonoBehaviour {
             // Find the difference in the distances between each frame.
             float deltaMagnitudeDiff = prevTouchDeltaMag - touchDeltaMag;
 
-            newZoom.y = newZoom.y + deltaMagnitudeDiff;
+            newZoom.y = (newZoom.y + (deltaMagnitudeDiff * 3));
 
-            //smooth zoom
-            transform.position = new Vector3(transform.position.x, Mathf.Lerp(transform.position.y, newZoom.y, Time.deltaTime), transform.position.z);
+            //zoom
+            transform.position = new Vector3(transform.position.x, newZoom.y, transform.position.z);
         }
     }
 }
