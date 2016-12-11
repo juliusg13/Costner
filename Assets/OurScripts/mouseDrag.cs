@@ -28,6 +28,7 @@ public class mouseDrag : MonoBehaviour {
         if (Application.platform == RuntimePlatform.Android)
         {
             AndroidDrag();
+            AndroidZoom();
             return;
         }
         /*LEFT CLICK DRAG*/
@@ -40,84 +41,77 @@ public class mouseDrag : MonoBehaviour {
         }
 
         /*SCROLL UP AND DOWN*/
-        if (Application.platform == RuntimePlatform.Android)
+        d = Input.GetAxis("Mouse ScrollWheel"); //Detect scroll wheel 
+        //If scroll up
+        if (d < 0f && newZoom.y < maxZoom + 10)
         {
-
+            newZoom.y = newZoom.y + scrollSpeed;
         }
-        else
+
+        //If scroll down  
+        else if (d > 0f && newZoom.y > minZoom - 10)
         {
-
-               d = Input.GetAxis("Mouse ScrollWheel"); //Detect scroll wheel 
-            //If scroll up
-            if (d < 0f && newZoom.y < maxZoom + 10)
-            {
-                newZoom.y = newZoom.y + scrollSpeed;
-            }
-
-            //If scroll down  
-            else if (d > 0f && newZoom.y > minZoom - 10)
-            {
-                newZoom.y = newZoom.y - scrollSpeed;
-            }
-
-            //smooth zoom
-            transform.position = new Vector3(transform.position.x, Mathf.Lerp(transform.position.y, newZoom.y, Time.deltaTime), transform.position.z);
-
-            //If user scrolls up enough. We decrease the zoom, clone the world and delete the original
-            //y position and dragSpeed reset
-            if (d < 0f && newZoom.y >= maxZoom && world.GetComponent<CachedDynamicTileManager>().Zoom > 3)
-            {
-                GameObject oldWorld = world;
-                oldWorld.GetComponent<CachedDynamicTileManager>().Zoom--;
-                qParent = GameObject.Find("questionParent");
-                qParent.transform.parent = worldMapQParent.transform;
-                GameObject newWorld = Instantiate(oldWorld);
-
-                qParent.transform.parent = newWorld.transform;
-                Destroy(oldWorld);
-                newWorld.name = "World";
-                for (int i = newWorld.transform.childCount - 1; i > -1; i--)
-                {
-                    if (newWorld.transform.GetChild(i).name == "Tiles")
-                    {
-                        Destroy(newWorld.transform.GetChild(i).gameObject);
-                    }
-                }
-                world = newWorld;
-                //reset camera y position
-                Vector3 position = transform.position;
-                position[1] = startPos;
-                transform.position = position;
-                newZoom.y = startPos;
-            }
-
-            //If user scrolls down enough. We increase the zoom, clone the world and delete the original
-            if (d > 0f && newZoom.y <= minZoom && world.GetComponent<CachedDynamicTileManager>().Zoom < 16)
-            {
-                GameObject oldWorld = world;
-                oldWorld.GetComponent<CachedDynamicTileManager>().Zoom++;
-                qParent = GameObject.Find("questionParent");
-                qParent.transform.parent = worldMapQParent.transform;
-                GameObject newWorld = Instantiate(oldWorld);
-                qParent.transform.parent = newWorld.transform;
-                Destroy(oldWorld);
-                newWorld.name = "World";
-                for (int i = newWorld.transform.childCount - 1; i > -1; i--)
-                {
-                    if (newWorld.transform.GetChild(i).name == "Tiles")
-                    {
-                        Destroy(newWorld.transform.GetChild(i).gameObject);
-                    }
-                }
-                world = newWorld;
-                //reset camera y position
-                Vector3 position = transform.position;
-                position[1] = startPos;
-                transform.position = position;
-                newZoom.y = startPos;
-            }
-
+            newZoom.y = newZoom.y - scrollSpeed;
         }
+
+        //smooth zoom
+        transform.position = new Vector3(transform.position.x, Mathf.Lerp(transform.position.y, newZoom.y, Time.deltaTime), transform.position.z);
+
+        //If user scrolls up enough. We decrease the zoom, clone the world and delete the original
+        //y position and dragSpeed reset
+        if (d < 0f && newZoom.y >= maxZoom && world.GetComponent<CachedDynamicTileManager>().Zoom > 3)
+        {
+            GameObject oldWorld = world;
+            oldWorld.GetComponent<CachedDynamicTileManager>().Zoom--;
+            qParent = GameObject.Find("questionParent");
+            qParent.transform.parent = worldMapQParent.transform;
+            GameObject newWorld = Instantiate(oldWorld);
+
+            qParent.transform.parent = newWorld.transform;
+            Destroy(oldWorld);
+            newWorld.name = "World";
+            for (int i = newWorld.transform.childCount - 1; i > -1; i--)
+            {
+                if (newWorld.transform.GetChild(i).name == "Tiles")
+                {
+                    Destroy(newWorld.transform.GetChild(i).gameObject);
+                }
+            }
+            world = newWorld;
+            //reset camera y position
+            Vector3 position = transform.position;
+            position[1] = startPos;
+            transform.position = position;
+            newZoom.y = startPos;
+        }
+
+        //If user scrolls down enough. We increase the zoom, clone the world and delete the original
+        if (d > 0f && newZoom.y <= minZoom && world.GetComponent<CachedDynamicTileManager>().Zoom < 16)
+        {
+            GameObject oldWorld = world;
+            oldWorld.GetComponent<CachedDynamicTileManager>().Zoom++;
+            qParent = GameObject.Find("questionParent");
+            qParent.transform.parent = worldMapQParent.transform;
+            GameObject newWorld = Instantiate(oldWorld);
+            qParent.transform.parent = newWorld.transform;
+            Destroy(oldWorld);
+            newWorld.name = "World";
+            for (int i = newWorld.transform.childCount - 1; i > -1; i--)
+            {
+                if (newWorld.transform.GetChild(i).name == "Tiles")
+                {
+                    Destroy(newWorld.transform.GetChild(i).gameObject);
+                }
+            }
+            world = newWorld;
+            //reset camera y position
+            Vector3 position = transform.position;
+            position[1] = startPos;
+            transform.position = position;
+            newZoom.y = startPos;
+        }
+
+        
     }
 
     void AndroidDrag()
@@ -126,6 +120,31 @@ public class mouseDrag : MonoBehaviour {
         {
             Vector2 touchDeltaPosition = Input.GetTouch(0).deltaPosition;
             transform.Translate(-touchDeltaPosition.x * andDragSpeed, -touchDeltaPosition.y * andDragSpeed, 0);
+        }
+    }
+
+    void AndroidZoom()
+    {
+        if(Input.touchCount == 2)
+        {
+            Touch touchZero = Input.GetTouch(0); //touch 1
+            Touch touchOne = Input.GetTouch(1);  //touch 2
+
+            // Find the position in the previous frame of each touch.
+            Vector2 touchZeroPrevPos = touchZero.position - touchZero.deltaPosition;
+            Vector2 touchOnePrevPos = touchOne.position - touchOne.deltaPosition;
+
+            // Find the magnitude of the vector (the distance) between the touches in each frame.
+            float prevTouchDeltaMag = (touchZeroPrevPos - touchOnePrevPos).magnitude;
+            float touchDeltaMag = (touchZero.position - touchOne.position).magnitude;
+
+            // Find the difference in the distances between each frame.
+            float deltaMagnitudeDiff = prevTouchDeltaMag - touchDeltaMag;
+
+            newZoom.y = newZoom.y + deltaMagnitudeDiff;
+
+            //smooth zoom
+            transform.position = new Vector3(transform.position.x, Mathf.Lerp(transform.position.y, newZoom.y, Time.deltaTime), transform.position.z);
         }
     }
 }
