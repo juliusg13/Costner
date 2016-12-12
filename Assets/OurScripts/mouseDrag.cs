@@ -157,7 +157,10 @@ public class mouseDrag : MonoBehaviour {
             newZoom.y = (newZoom.y + (deltaMagnitudeDiff * 3));
 
             //zoom
-            transform.position = new Vector3(transform.position.x, newZoom.y, transform.position.z);
+            if (newZoom.y < maxZoom + 10 && newZoom.y > minZoom - 10)
+            {
+                transform.position = new Vector3(transform.position.x, newZoom.y, transform.position.z);
+            }
         }
     }
 }

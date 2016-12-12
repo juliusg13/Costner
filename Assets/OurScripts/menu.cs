@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+
 using UnityEngine;
 
 public class menu : MonoBehaviour {
@@ -25,10 +26,11 @@ public class menu : MonoBehaviour {
         menuImage.SetActive(false);
     }
     public void quitGame() {
-        if (UnityEditor.EditorApplication.isPlaying) {
+#if UNITY_EDITOR
+         if(UnityEditor.EditorApplication.isPlaying)
             UnityEditor.EditorApplication.isPlaying = false;
-        }
-        else if (Application.platform == RuntimePlatform.Android) {
+#endif
+         if (Application.platform == RuntimePlatform.Android) {
             AndroidJavaObject activity = new AndroidJavaClass("com.unity3d.player.UnityPlayer").GetStatic<AndroidJavaObject>("currentActivity");
             activity.Call<bool>("moveTaskToBack", true);
         } else { 
