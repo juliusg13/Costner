@@ -192,6 +192,7 @@ public class qWindowDB : MonoBehaviour {
             if (GUI.Button(new Rect(quitRect.position.x,quitRect.position.y, quitRect.width, quitRect.height), "Aftur á kort", smallFont)) {
                 render = false;
                 quitRender = false;
+                hideUIButtons(true);
             }
 		}
 		if (windowID == 2) {    
