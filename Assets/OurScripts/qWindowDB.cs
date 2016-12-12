@@ -15,7 +15,7 @@ public class qWindowDB : MonoBehaviour {
     GUIStyle smallFont, centerTitle, centerText, questionText, questionOptions;
     string[] data;
     public int adventureCoins;
-    private GameObject cam, randomQuestionWindow;
+    private GameObject cam, randomQuestionWindow, levelsWindow, menuWindow;
     private string qID;
 
     // Use this for initialization
@@ -27,6 +27,8 @@ public class qWindowDB : MonoBehaviour {
 		rectAssemble ();
 		controller = GameObject.FindWithTag("GameController");
         randomQuestionWindow = GameObject.Find("/Canvas/randomQuestion");
+        levelsWindow = GameObject.Find("Canvas/settings");
+        menuWindow = GameObject.Find("Canvas/levelsButton");
     }
     /// <summary>
     /// Function that sets basic variables initally.
@@ -245,7 +247,7 @@ public class qWindowDB : MonoBehaviour {
 		render = true;
 		quitRender = true;
 //		skipRender = true;
-        randomQuestionWindow.SetActive(false);
+        hideUIButtons(false);
         controller.GetComponent<soundController>().questionUISound(0);
 	}
     /// <summary>
@@ -258,9 +260,14 @@ public class qWindowDB : MonoBehaviour {
 		skipRender = false;
 		answer = false;
 		correct = false;
-        randomQuestionWindow.SetActive(true);
+        hideUIButtons(true);
         controller.GetComponent<soundController>().questionUISound(1);
 	}
+    private void hideUIButtons(bool setBool) {
+        randomQuestionWindow.SetActive(setBool);
+        levelsWindow.SetActive(setBool);
+        menuWindow.SetActive(setBool);
+    }
     /// <summary>
     /// Dummy function just to gather the data for screen sizes.
     /// </summary>
