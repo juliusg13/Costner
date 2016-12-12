@@ -189,7 +189,7 @@ public class qWindowDB : MonoBehaviour {
         }
 
 		if (windowID == 1){
-            if (GUI.Button(new Rect(x * 0.018f, y * 0.05f, x * 0.04f, y * 0.08f), "Svara seinna", smallFont)) {
+            if (GUI.Button(new Rect(quitRect.position.x,quitRect.position.y, quitRect.width, quitRect.height), "Aftur á kort", smallFont)) {
                 render = false;
                 quitRender = false;
             }
@@ -302,6 +302,7 @@ public class qWindowDB : MonoBehaviour {
         quitButton = new GUIStyle();
 
         smallFont.fontSize = 15;
+        smallFont.alignment = TextAnchor.MiddleCenter;
 
         centerText.alignment = TextAnchor.MiddleCenter;
         centerText.fontSize = 25;
