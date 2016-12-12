@@ -9,10 +9,11 @@ public class qWindowDB : MonoBehaviour {
     private bool render, quitRender, skipRender, answer, correct;
     public bool answeredThisQuestionCorrectAlready;
 
+    public Texture2D theButton; 
     float x, y, qX, qY;
     private Rect windowRect, resultRect, questionButtonRect1, questionButtonRect2, questionButtonRect3, questionButtonRect4, quitRect, skipRect;
     private RectOffset qButtonRect;
-    GUIStyle smallFont, centerTitle, centerText, questionText, questionOptions;
+    GUIStyle smallFont, centerTitle, centerText, questionText, questionOptions, content, buttonContent, renderWindow, quitButton;
     string[] data;
     public int adventureCoins;
     private GameObject cam, randomQuestionWindow;
@@ -73,14 +74,6 @@ public class qWindowDB : MonoBehaviour {
 	void nextQuestion(string questionID){
 		answer = false;
 		correct = false;
-        /*  data = new string[] {
-                                  "Hver er höfuðborg Íslands?",
-                                  "Bangkok",
-                                  "Jerúsalem",
-                                  "Selfoss",
-                                  "Reykjavík",
-                                  "4"
-          };*/
         data = controller.GetComponent<getJsonFromApi>().getQuestionForm(questionID);
     }
 
@@ -106,13 +99,13 @@ public class qWindowDB : MonoBehaviour {
 	//	GUI.skin.button.fontSize = 30;
 		if (render) {
 			GUI.color = new Color (0.1f, 0.25f, 0.7f, 1f);
-			windowRect = GUI.Window(0, windowRect, DoMyWindow, "Spurning: ");
+			windowRect = GUI.Window(0, windowRect, DoMyWindow, " ", renderWindow);
             GUI.color = new Color32(255, 255, 255, 0);
             GUI.Box(new Rect(0, 0, Screen.width, Screen.height), "");
         }
 		if (quitRender){
 			GUI.color = new Color(0.9f, 0.75f, 0.3f, 1f);
-			quitRect = GUI.Window(1, quitRect, DoMyWindow, "");
+			quitRect = GUI.Window(1, quitRect, DoMyWindow, "", quitButton);
 		}
 		if (skipRender) {
 			skipRect = GUI.Window(2, skipRect, DoMyWindow, "Segja pass");
@@ -166,25 +159,25 @@ public class qWindowDB : MonoBehaviour {
 
             }
             else {
-                if (GUI.Button(questionButtonRect1, data[1])) {
+                if (GUI.Button(questionButtonRect1, data[1], content)) {
                     render = false;
                     quitRender = false;
                     //HideWindow();
                     Answer("1");
                 }
-                if (GUI.Button(questionButtonRect2, data[2])) {
+                if (GUI.Button(questionButtonRect2, data[2], content)) {
                     render = false;
                     quitRender = false;
                     //HideWindow();
                     Answer("2");
                 }
-                if (GUI.Button(questionButtonRect3, data[3])) {
+                if (GUI.Button(questionButtonRect3, data[3], content)) {
                     render = false;
                     quitRender = false;
                     //HideWindow();
                     Answer("3");
                 }
-                if (GUI.Button(questionButtonRect4, data[4])) {
+                if (GUI.Button(questionButtonRect4, data[4], content)) {
                     render = false;
                     quitRender = false;
                     //HideWindow();
@@ -208,7 +201,7 @@ public class qWindowDB : MonoBehaviour {
 		if (windowID == 3) {
             if (correct) GUI.TextField (new Rect ((qX/4), (qY/14), x*0.20f, y*0.15f), "Rétt hjá þér, vel gert", centerTitle);
             else if (!correct) GUI.TextField (new Rect ((qX / 8), (qY / 14), x * 0.4f, y * 0.15f), "Rangt hjá þér! Reyndu aftur", centerTitle); //centertitle
-            if (GUI.Button(new Rect(qX/7, qY/3, x*0.4f, y*0.1f), "Halda áfram")){
+            if (GUI.Button(new Rect(qX/7, qY/3, x*0.4f, y*0.1f), "Halda áfram", content)){
 
                 HideWindow(); //Used to be next question.
 
@@ -282,21 +275,25 @@ public class qWindowDB : MonoBehaviour {
         questionButtonRect2 = new Rect(x * 0.42f, y * 0.37f, x * 0.35f, y * 0.2f);
         questionButtonRect3 = new Rect(x * 0.03f, y * 0.59f, x * 0.35f, y * 0.2f);
         questionButtonRect4 = new Rect(x * 0.42f, y * 0.59f, x * 0.35f, y * 0.2f);
-        quitRect = new Rect((x*0.0007f), (y * 0.07f), (x / 10), (y / 10));
+        quitRect = new Rect((x*0.0f), (y * 0.0f), (x / 10), (y / 10));
 		skipRect = new Rect((x * 0.0007f), (y * 0.9f), (x / 10), (y / 10));
         qButtonRect = new RectOffset();
 	}
     /// <summary>
     /// Helper function that creates various GUI styles for each element that needs one.
     /// </summary>
-    private void setGUIStyles() {
+    private void setGUIStyles()
+    {
         smallFont = new GUIStyle();
         centerText = new GUIStyle();
         centerTitle = new GUIStyle();
         questionText = new GUIStyle();
-        //renderWindow = new GUIStyle();
+        renderWindow = new GUIStyle();
         questionOptions = new GUIStyle();
-      
+        content = new GUIStyle();
+        buttonContent = new GUIStyle();
+        quitButton = new GUIStyle();
+
         smallFont.fontSize = 15;
 
         centerText.alignment = TextAnchor.MiddleCenter;
@@ -307,10 +304,37 @@ public class qWindowDB : MonoBehaviour {
 
         questionText.fontSize = 25;
         questionText.alignment = TextAnchor.MiddleCenter;
-        // renderWindow.normal.background
+        questionText.normal.textColor = Color.white; 
+        
+        renderWindow.normal.background = MakeTex(1, 1, new Color(0.03f, 0.0f, 0.22f, 0.8f));
 
         questionOptions.fontSize = 25;
         questionOptions.alignment = TextAnchor.MiddleCenter;
         //questionOptions.border = qButtonRect;
+
+        content.normal.background = theButton;
+        content.alignment = TextAnchor.MiddleCenter;
+        content.fontSize = 24;
+
+        quitButton.normal.background = MakeTex(1, 1, new Color(1f, 0.32f, 0.0f));
+
+        // buttonContent.alignment = TextAnchor.MiddleCenter; 
     }
+
+
+    private Texture2D MakeTex(int width, int height, Color col)
+    {
+        Color[] pix = new Color[width * height];
+
+        for (int i = 0; i < pix.Length; i++)
+            pix[i] = col;
+
+        Texture2D result = new Texture2D(width, height);
+        result.SetPixels(pix);
+        result.Apply();
+
+        return result;
+    }
+
 }
+

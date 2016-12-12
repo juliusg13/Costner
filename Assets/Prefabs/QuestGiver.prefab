@@ -112,6 +112,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   answeredThisQuestionCorrectAlready: 0
+  theButton: {fileID: 2800000, guid: 32a730fd417cbc744b984a59ebd895c4, type: 3}
   adventureCoins: 5
 --- !u!212 &212000013267504424
 SpriteRenderer:
