@@ -9,7 +9,7 @@ using UnityEngine.EventSystems;
 public class changeLevel : MonoBehaviour {
  
 	public GameObject levelImage, controller;
-    private GameObject b1, b2, b3, b4, randomQuestion, menuButton;
+    private GameObject b1, b2, b3, b4, randomQuestion, menuButton, levelsReturn;
     bool alreadyUnlocked1, alreadyUnlocked2, alreadyUnlocked3, alreadyUnlocked4, wasSomethingToggled;
     public int level1Cost, level2Cost, level3Cost, level4Cost;
     GameObject cityToggle, mountainToggle, glacierToggle, lakeRiverToggle, moneyUI;
@@ -81,6 +81,7 @@ public class changeLevel : MonoBehaviour {
         tGroup = GameObject.Find("Canvas/toggleParent").GetComponent<ToggleGroup>();
         randomQuestion = GameObject.Find("/Canvas/randomQuestion");
         menuButton = GameObject.Find("Canvas/settings");
+        levelsReturn = GameObject.Find("Canvas/levelsImage/levelsReturn");
         tGroup.SetAllTogglesOff();
         adventureCoins = controller.GetComponent<rewardSystem>().returnCoins();
 
@@ -146,6 +147,7 @@ public class changeLevel : MonoBehaviour {
         toggleParent.enabled = false;
         levelImage.SetActive(false);
         enableRandomQuestion(true);
+        levelsReturn.GetComponent<Button>().interactable = true;
         moneyUI.GetComponent<Text>().color = new Color(0f, 0f, 0f);
     }
     private void setNonInteractable(bool set1, bool set2, bool set3, bool set4) {
@@ -196,15 +198,18 @@ public class changeLevel : MonoBehaviour {
                 nextLevel(1);
             } else {
                 Debug.Log("Þig vantar fleiri ævintýrakrónur");
+                levelsReturn.GetComponent<Button>().interactable = true;
             }
         } else { 
             Debug.Log("Þú þarft að leysa stigið á undan");
+            levelsReturn.GetComponent<Button>().interactable = true;
         }
     }
 
 	public void nextLevel (int buttonNumber) { 
         if (buttonNumber == 1 && !alreadyUnlocked1) {
             setNonInteractable(false, false, false, false);
+            levelsReturn.GetComponent<Button>().interactable = false;
             controller.GetComponent<rewardSystem>().spendCoins(level1Cost);
             toggleParent.enabled = true;
             alreadyUnlocked1 = true;
@@ -212,6 +217,7 @@ public class changeLevel : MonoBehaviour {
         }
         else if(buttonNumber == 2 && !alreadyUnlocked2) {
             setNonInteractable(false, false, false, false);
+            levelsReturn.GetComponent<Button>().interactable = false;
             controller.GetComponent<rewardSystem>().spendCoins(level2Cost);
             toggleParent.enabled = true;
             alreadyUnlocked2 = true;
@@ -219,6 +225,7 @@ public class changeLevel : MonoBehaviour {
         }
         else if (buttonNumber == 3 && !alreadyUnlocked3) {
             setNonInteractable(false, false, false, false);
+            levelsReturn.GetComponent<Button>().interactable = false;
             controller.GetComponent<rewardSystem>().spendCoins(level3Cost);
             toggleParent.enabled = true;
             alreadyUnlocked3 = true;
@@ -226,6 +233,7 @@ public class changeLevel : MonoBehaviour {
         }
         else if (buttonNumber == 4 && !alreadyUnlocked4) {
             setNonInteractable(false, false, false, false);
+            levelsReturn.GetComponent<Button>().interactable = false;
             controller.GetComponent<rewardSystem>().spendCoins(level4Cost);
             toggleParent.enabled = true;
             alreadyUnlocked4 = true;
