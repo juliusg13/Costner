@@ -25,6 +25,10 @@ public class mouseDrag : MonoBehaviour {
 
     void Update()
     {
+        if (world == null)
+        {
+            world = GameObject.Find("World");
+        }
         if (Application.platform == RuntimePlatform.Android)
         {
             AndroidDrag();
