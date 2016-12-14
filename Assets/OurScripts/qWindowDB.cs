@@ -226,7 +226,11 @@ public class qWindowDB : MonoBehaviour
             {
                 render = false;
                 quitRender = false;
+<<<<<<< HEAD
+                hideUIButtons(true);
+=======
                 hideUIButtons(true); 
+>>>>>>> dfb0ab10cb5b1a83bffd03ba0ebd642f63d36ee5
                 cam.GetComponent<mouseDrag>().enabled = true;
                 //slide.SetActive(true);
             }

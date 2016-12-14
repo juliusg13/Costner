@@ -72,6 +72,7 @@ public class mouseDrag : MonoBehaviour {
     //If user scrolls down enough. We increase the zoom, clone the world and delete the original
     void ZoomPlus()
     {
+        world = GameObject.Find("World");
         if (newZoom.y >= maxZoom && world.GetComponent<CachedDynamicTileManager>().Zoom > 3)
         {
             GameObject oldWorld = world;
@@ -104,6 +105,7 @@ public class mouseDrag : MonoBehaviour {
     //y position and dragSpeed reset
     void ZoomMinus()
     {
+        world = GameObject.Find("World");
         if (newZoom.y <= minZoom && world.GetComponent<CachedDynamicTileManager>().Zoom < 16)
         {
             GameObject oldWorld = world;
@@ -142,7 +144,8 @@ public class mouseDrag : MonoBehaviour {
 
     void AndroidZoom()
     {
-        if(Input.touchCount == 2)
+        world = GameObject.Find("World");
+        if (Input.touchCount == 2)
         {
             Touch touchZero = Input.GetTouch(0); //touch 1
             Touch touchOne = Input.GetTouch(1);  //touch 2
