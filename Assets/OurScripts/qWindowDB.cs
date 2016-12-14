@@ -193,6 +193,7 @@ public class qWindowDB : MonoBehaviour {
                 render = false;
                 quitRender = false;
                 hideUIButtons(true);
+                cam.GetComponent<mouseDrag>().enabled = true;
             }
 		}
 		if (windowID == 2) {    
