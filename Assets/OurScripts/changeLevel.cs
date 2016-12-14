@@ -8,7 +8,7 @@ using UnityEngine.EventSystems;
 
 public class changeLevel : MonoBehaviour {
  
-	public GameObject levelImage, controller;
+	public GameObject levelImage, controller, sliderParent;
     private GameObject b1, b2, b3, b4, randomQuestion, menuButton, levelsReturn;
     bool alreadyUnlocked1, alreadyUnlocked2, alreadyUnlocked3, alreadyUnlocked4, wasSomethingToggled;
     public int level1Cost, level2Cost, level3Cost, level4Cost;
@@ -147,6 +147,7 @@ public class changeLevel : MonoBehaviour {
         toggleParent.enabled = false;
         levelImage.SetActive(false);
         enableRandomQuestion(true);
+        sliderParent.SetActive(true);
         levelsReturn.GetComponent<Button>().interactable = true;
         moneyUI.GetComponent<Text>().color = new Color(0f, 0f, 0f);
     }

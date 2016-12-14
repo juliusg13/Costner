@@ -4,29 +4,31 @@ using System.Text;
 using System.Collections.Generic;
 using System;
 
-public class qWindowDB : MonoBehaviour {
+public class qWindowDB : MonoBehaviour
+{
     private GameObject controller, quest;
     private bool render, quitRender, skipRender, answer, correct;
     public bool answeredThisQuestionCorrectAlready;
 
-    public Texture2D theButton; 
+    public Texture2D theButton;
     float x, y, qX, qY;
     private Rect windowRect, resultRect, questionButtonRect1, questionButtonRect2, questionButtonRect3, questionButtonRect4, quitRect, skipRect;
     private RectOffset qButtonRect;
-    GUIStyle smallFont, centerTitle, centerText, questionText, questionOptions, content, buttonContent, renderWindow, quitButton;
+    GUIStyle smallFont, centerTitle, centerText, questionText, questionOptions, content, buttonContent, renderWindow, quitButton, right, wrong, rightAns;
     string[] data;
     public int adventureCoins;
     private GameObject cam, randomQuestionWindow, levelsWindow, menuWindow;
     private string qID;
 
     // Use this for initialization
-    void Start () {
+    void Start()
+    {
         setGUIStyles();
         initializeVariables();
         centerRectangle();
-        cam = GameObject.Find("Main Camera"); 
-		rectAssemble ();
-		controller = GameObject.FindWithTag("GameController");
+        cam = GameObject.Find("Main Camera");
+        rectAssemble();
+        controller = GameObject.FindWithTag("GameController");
         randomQuestionWindow = GameObject.Find("/Canvas/randomQuestion");
         levelsWindow = GameObject.Find("Canvas/settings");
         menuWindow = GameObject.Find("Canvas/levelsButton");
@@ -34,7 +36,8 @@ public class qWindowDB : MonoBehaviour {
     /// <summary>
     /// Function that sets basic variables initally.
     /// </summary>
-    void initializeVariables() {
+    void initializeVariables()
+    {
         render = false;
         quitRender = false;
         skipRender = false;
@@ -48,7 +51,8 @@ public class qWindowDB : MonoBehaviour {
     /// Rewards currency if answered correct.
     /// </summary>
     /// <param name="s">s is an integer in the form of a string to compare correct answer with.</param>
-    void Answer(string s){
+    void Answer(string s)
+    {
 
         if (data[5] == s)
         {             //correct answer
@@ -60,7 +64,8 @@ public class qWindowDB : MonoBehaviour {
             //controller.GetComponent<soundController>().questionUISound(2);
             //		Missing a function that makes sure we do not get the same question back up.
         }
-        else {                          //wrong asnwer 
+        else
+        {                          //wrong asnwer 
             answer = true;
             correct = false;
             quest.GetComponent<quest>().changeColorWrong();
@@ -73,17 +78,19 @@ public class qWindowDB : MonoBehaviour {
     /// <summary>
     /// Function that GETs all the data for the question on this specific question mark, includes question, possible answers and correct answer.
     /// </summary>
-	void nextQuestion(string questionID){
-		answer = false;
-		correct = false;
+	void nextQuestion(string questionID)
+    {
+        answer = false;
+        correct = false;
         data = controller.GetComponent<getJsonFromApi>().getQuestionForm(questionID);
     }
 
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
+
+    // Update is called once per frame
+    void Update()
+    {
+
+    }
 
     /// <summary>
     /// OnGUI is a built in function.
@@ -96,31 +103,38 @@ public class qWindowDB : MonoBehaviour {
     /// 
     /// Sizes are always relative to master window.
     /// </summary>
-	void OnGUI(){
-	//	GUI.skin.textField.fontSize = 30;
-	//	GUI.skin.button.fontSize = 30;
-		if (render) {
-			GUI.color = new Color (0.1f, 0.25f, 0.7f, 1f);
-			windowRect = GUI.Window(0, windowRect, DoMyWindow, " ", renderWindow);
+	void OnGUI()
+    {
+        //	GUI.skin.textField.fontSize = 30;
+        //	GUI.skin.button.fontSize = 30;
+        if (render)
+        {
+            GUI.color = new Color(0.1f, 0.25f, 0.7f, 1f);
+            windowRect = GUI.Window(0, windowRect, DoMyWindow, " ", renderWindow);
             GUI.color = new Color32(255, 255, 255, 0);
             GUI.Box(new Rect(0, 0, Screen.width, Screen.height), "");
         }
-		if (quitRender){
-			GUI.color = new Color(0.9f, 0.75f, 0.3f, 1f);
-			quitRect = GUI.Window(1, quitRect, DoMyWindow, "", quitButton);
-		}
-		if (skipRender) {
-			skipRect = GUI.Window(2, skipRect, DoMyWindow, "Segja pass");
-		}
-		if (answer && correct) {
-			GUI.color = new Color (0.1f, 1f, 0.1f, 1f);
-			resultRect = GUI.Window (3, resultRect, DoMyWindow, "Svar");
-		} else if(answer) {
-			GUI.color = Color.red;
-			resultRect = GUI.Window(3, resultRect, DoMyWindow, "Svar");
-		}
+        if (quitRender)
+        {
+            GUI.color = new Color(0.9f, 0.75f, 0.3f, 1f);
+            quitRect = GUI.Window(1, quitRect, DoMyWindow, "", quitButton);
+        }
+        if (skipRender)
+        {
+            skipRect = GUI.Window(2, skipRect, DoMyWindow, "Segja pass");
+        }
+        if (answer && correct)
+        {
+            GUI.color = new Color(0.1f, 1f, 0.1f, 2f);
+            resultRect = GUI.Window(3, resultRect, DoMyWindow, "", right);
+        }
+        else if (answer)
+        {
+            GUI.color = Color.red;
+            resultRect = GUI.Window(3, resultRect, DoMyWindow, "", wrong);
+        }
 
-	}
+    }
     /// <summary>
     /// this is a continuous function like OnGUI.
     /// 
@@ -134,52 +148,71 @@ public class qWindowDB : MonoBehaviour {
     /// lastly windowid 3 handles different outcomes of the answers the user does.
     /// </summary>
     /// <param name="windowID">windowID is the window we are rendering at that point of time.</param>
-	void DoMyWindow(int windowID){
-		
-		if (windowID == 0) {
+	void DoMyWindow(int windowID)
+    {
+
+        if (windowID == 0)
+        {
             GUI.skin.button = questionOptions;
-			GUI.TextField (new Rect (x * 0.03f, y * 0.07f, x * 0.75f, y * 0.25f), data[0], questionText);
-            if (answeredThisQuestionCorrectAlready == true) {
-                if(data[5] == "1") {
-        
-                    if(GUI.Button(questionButtonRect1, data[1])) {
+            GUI.TextField(new Rect(x * 0.03f, y * 0.07f, x * 0.75f, y * 0.25f), data[0], questionText);
+            if (answeredThisQuestionCorrectAlready == true)
+            {
+                if (data[5] == "1")
+                {
+
+                    if (GUI.Button(questionButtonRect1, data[1], rightAns))
+                    {
                         HideWindow();
                     }
-                } else if(data[5] == "2") {
-                    if(GUI.Button(questionButtonRect2, data[2])) {
-                        HideWindow();
-                    }   
-                } else if(data[5] == "3") {
-                    if(GUI.Button(questionButtonRect3, data[3])){
+                }
+                else if (data[5] == "2")
+                {
+                    if (GUI.Button(questionButtonRect2, data[2], rightAns))
+                    {
                         HideWindow();
                     }
-                } else if(data[5] == "4") {
-                    if(GUI.Button(questionButtonRect4, data[4])) {
-                       HideWindow();
+                }
+                else if (data[5] == "3")
+                {
+                    if (GUI.Button(questionButtonRect3, data[3], rightAns))
+                    {
+                        HideWindow();
+                    }
+                }
+                else if (data[5] == "4")
+                {
+                    if (GUI.Button(questionButtonRect4, data[4], rightAns))
+                    {
+                        HideWindow();
                     }
                 }
 
             }
-            else {
-                if (GUI.Button(questionButtonRect1, data[1], content)) {
+            else
+            {
+                if (GUI.Button(questionButtonRect1, data[1], content))
+                {
                     render = false;
                     quitRender = false;
                     //HideWindow();
                     Answer("1");
                 }
-                if (GUI.Button(questionButtonRect2, data[2], content)) {
+                if (GUI.Button(questionButtonRect2, data[2], content))
+                {
                     render = false;
                     quitRender = false;
                     //HideWindow();
                     Answer("2");
                 }
-                if (GUI.Button(questionButtonRect3, data[3], content)) {
+                if (GUI.Button(questionButtonRect3, data[3], content))
+                {
                     render = false;
                     quitRender = false;
                     //HideWindow();
                     Answer("3");
                 }
-                if (GUI.Button(questionButtonRect4, data[4], content)) {
+                if (GUI.Button(questionButtonRect4, data[4], content))
+                {
                     render = false;
                     quitRender = false;
                     //HideWindow();
@@ -188,32 +221,42 @@ public class qWindowDB : MonoBehaviour {
             }
         }
 
-		if (windowID == 1){
-            if (GUI.Button(new Rect(quitRect.position.x,quitRect.position.y, quitRect.width, quitRect.height), "Aftur á kort", smallFont)) {
+        if (windowID == 1)
+        {
+            if (GUI.Button(new Rect(quitRect.position.x, quitRect.position.y, quitRect.width, quitRect.height), "Aftur á kort", smallFont))
+            {
                 render = false;
                 quitRender = false;
+<<<<<<< HEAD
                 hideUIButtons(true);
+=======
+                hideUIButtons(true); 
+>>>>>>> dfb0ab10cb5b1a83bffd03ba0ebd642f63d36ee5
                 cam.GetComponent<mouseDrag>().enabled = true;
             }
-		}
-		if (windowID == 2) {    
-            if (GUI.Button(new Rect(x * 0.018f, y * 0.05f, x * 0.04f, y * 0.08f), "Smelltu hér", smallFont)) {
+        }
+        if (windowID == 2)
+        {
+            if (GUI.Button(new Rect(x * 0.018f, y * 0.05f, x * 0.04f, y * 0.08f), "Smelltu hér", smallFont))
+            {
                 render = false;
                 quitRender = false;
             }
-		}
-		if (windowID == 3) {
-            if (correct) GUI.TextField (new Rect ((qX/4), (qY/14), x*0.20f, y*0.15f), "Rétt hjá þér, vel gert", centerTitle);
-            else if (!correct) GUI.TextField (new Rect ((qX / 8), (qY / 14), x * 0.4f, y * 0.15f), "Rangt hjá þér! Reyndu aftur", centerTitle); //centertitle
-            if (GUI.Button(new Rect(qX/7, qY/3, x*0.4f, y*0.1f), "Halda áfram", content)){
+        }
+        if (windowID == 3)
+        {
+            if (correct) GUI.TextField(new Rect((qX / 4), (qY / 14), x * 0.20f, y * 0.15f), "Rétt hjá þér, vel gert", centerTitle);
+            else if (!correct) GUI.TextField(new Rect((qX / 8), (qY / 14), x * 0.4f, y * 0.15f), "Rangt hjá þér! Reyndu aftur", centerTitle); //centertitle
+            if (GUI.Button(new Rect(qX / 7, qY / 3, x * 0.4f, y * 0.1f), "Halda áfram", content))
+            {
 
                 HideWindow(); //Used to be next question.
 
                 //nextQuestion("nextQuestion");
             }
-		}
+        }
 
-	}
+    }
 
     /// <summary>
     /// json string with all the information about the students answer sent to costner api
@@ -234,31 +277,34 @@ public class qWindowDB : MonoBehaviour {
     /// <summary>
     /// sets the booleans in order for the windows to go from invisible to visible on screen.
     /// </summary>
-	public void ShowWindow(string questionID, GameObject questGiver){
+	public void ShowWindow(string questionID, GameObject questGiver)
+    {
         cam.GetComponent<mouseDrag>().enabled = false;
         qID = questionID;
         quest = questGiver;
-        nextQuestion (questionID);
-		render = true;
-		quitRender = true;
-//		skipRender = true;
+        nextQuestion(questionID);
+        render = true;
+        quitRender = true;
+        //		skipRender = true;
         hideUIButtons(false);
         controller.GetComponent<soundController>().questionUISound(0);
-	}
+    }
     /// <summary>
     /// sets the booleans to false to make visible windows invisible on screen.
     /// </summary>
-	public void HideWindow(){
+	public void HideWindow()
+    {
         cam.GetComponent<mouseDrag>().enabled = true;
         render = false;
-		quitRender = false;
-		skipRender = false;
-		answer = false;
-		correct = false;
+        quitRender = false;
+        skipRender = false;
+        answer = false;
+        correct = false;
         hideUIButtons(true);
         controller.GetComponent<soundController>().questionUISound(1);
-	}
-    private void hideUIButtons(bool setBool) {
+    }
+    private void hideUIButtons(bool setBool)
+    {
         randomQuestionWindow.SetActive(setBool);
         levelsWindow.SetActive(setBool);
         menuWindow.SetActive(setBool);
@@ -266,9 +312,10 @@ public class qWindowDB : MonoBehaviour {
     /// <summary>
     /// Dummy function just to gather the data for screen sizes.
     /// </summary>
-	private void centerRectangle(){
-		x = Screen.width;
-		y = Screen.height;
+	private void centerRectangle()
+    {
+        x = Screen.width;
+        y = Screen.height;
 
         qX = x * 0.8f;
         qY = y * 0.8f;
@@ -277,17 +324,19 @@ public class qWindowDB : MonoBehaviour {
     /// Function that sets the window sizes for the window renderings.
     /// Sizes are relative to master window.
     /// </summary>
-	private void rectAssemble(){
-		windowRect = new Rect(x*0.1f, y*0.1f, qX, qY);
-		resultRect = new Rect((qX/2) - x*0.2f, (qY/2) - y*0.1f, x*0.6f, y*0.4f);
-        questionButtonRect1 = new Rect(x * 0.03f, y * 0.37f, x * 0.35f, y * 0.2f);
-        questionButtonRect2 = new Rect(x * 0.42f, y * 0.37f, x * 0.35f, y * 0.2f);
-        questionButtonRect3 = new Rect(x * 0.03f, y * 0.59f, x * 0.35f, y * 0.2f);
-        questionButtonRect4 = new Rect(x * 0.42f, y * 0.59f, x * 0.35f, y * 0.2f);
-        quitRect = new Rect((x*0.0f), (y * 0.0f), (x / 10), (y / 10));
-		skipRect = new Rect((x * 0.0007f), (y * 0.9f), (x / 10), (y / 10));
+	private void rectAssemble()
+    {
+        windowRect = new Rect(x * 0.1f, y * 0.1f, qX, qY);
+        resultRect = new Rect((qX / 2) - x * 0.2f, (qY / 2) - y * 0.1f, x * 0.6f, y * 0.4f);
+        //questionButtonRect1 = new Rect(x * 0.03f, y * 0.37f, x * 0.35f, y * 0.2f);
+        questionButtonRect1 = new Rect(x * 0.03f, y * 0.37f, x * 0.35f, y * 0.15f);
+        questionButtonRect2 = new Rect(x * 0.42f, y * 0.37f, x * 0.35f, y * 0.15f);
+        questionButtonRect3 = new Rect(x * 0.03f, y * 0.59f, x * 0.35f, y * 0.15f);
+        questionButtonRect4 = new Rect(x * 0.42f, y * 0.59f, x * 0.35f, y * 0.15f);
+        quitRect = new Rect((x * 0.0f), (y * 0.0f), (x / 10), (y / 10));
+        skipRect = new Rect((x * 0.0007f), (y * 0.9f), (x / 10), (y / 10));
         qButtonRect = new RectOffset();
-	}
+    }
     /// <summary>
     /// Helper function that creates various GUI styles for each element that needs one.
     /// </summary>
@@ -302,6 +351,10 @@ public class qWindowDB : MonoBehaviour {
         content = new GUIStyle();
         buttonContent = new GUIStyle();
         quitButton = new GUIStyle();
+        right = new GUIStyle();
+        wrong = new GUIStyle();
+        rightAns = new GUIStyle();
+
 
         smallFont.fontSize = 15;
         smallFont.alignment = TextAnchor.MiddleCenter;
@@ -314,8 +367,8 @@ public class qWindowDB : MonoBehaviour {
 
         questionText.fontSize = 25;
         questionText.alignment = TextAnchor.MiddleCenter;
-        questionText.normal.textColor = Color.white; 
-        
+        questionText.normal.textColor = Color.white;
+
         renderWindow.normal.background = MakeTex(1, 1, new Color(0.03f, 0.0f, 0.22f, 0.8f));
 
         questionOptions.fontSize = 25;
@@ -325,8 +378,17 @@ public class qWindowDB : MonoBehaviour {
         content.normal.background = theButton;
         content.alignment = TextAnchor.MiddleCenter;
         content.fontSize = 24;
+        content.normal.background = MakeTex(1, 1, new Color(0.17f, 1f, 0.56f));
 
         quitButton.normal.background = MakeTex(1, 1, new Color(1f, 0.32f, 0.0f));
+
+        wrong.normal.background = MakeTex(1, 1, new Color(1f, 0f, 0f, 0.8f));
+
+        right.normal.background = MakeTex(1, 1, new Color(0.11f, 0.77f, 0f, 0.8f));
+
+        rightAns.normal.textColor = Color.white;
+        rightAns.fontSize = 24;
+        rightAns.alignment = TextAnchor.MiddleCenter;
 
         // buttonContent.alignment = TextAnchor.MiddleCenter; 
     }
