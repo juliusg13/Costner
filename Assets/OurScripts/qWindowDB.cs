@@ -17,7 +17,7 @@ public class qWindowDB : MonoBehaviour
     GUIStyle smallFont, centerTitle, centerText, questionText, questionOptions, content, buttonContent, renderWindow, quitButton, right, wrong, rightAns;
     string[] data;
     public int adventureCoins;
-    private GameObject cam, randomQuestionWindow, levelsWindow, menuWindow;
+    private GameObject cam, randomQuestionWindow, levelsWindow, menuWindow, slide;
     private string qID;
 
     // Use this for initialization
@@ -27,6 +27,7 @@ public class qWindowDB : MonoBehaviour
         initializeVariables();
         centerRectangle();
         cam = GameObject.Find("Main Camera");
+        slide = GameObject.Find("sliderParent");
         rectAssemble();
         controller = GameObject.FindWithTag("GameController");
         randomQuestionWindow = GameObject.Find("/Canvas/randomQuestion");
@@ -159,7 +160,6 @@ public class qWindowDB : MonoBehaviour
             {
                 if (data[5] == "1")
                 {
-
                     if (GUI.Button(questionButtonRect1, data[1], rightAns))
                     {
                         HideWindow();
@@ -186,7 +186,6 @@ public class qWindowDB : MonoBehaviour
                         HideWindow();
                     }
                 }
-
             }
             else
             {
@@ -229,6 +228,7 @@ public class qWindowDB : MonoBehaviour
                 quitRender = false;
                 hideUIButtons(true); 
                 cam.GetComponent<mouseDrag>().enabled = true;
+                //slide.SetActive(true);
             }
         }
         if (windowID == 2)
@@ -284,6 +284,7 @@ public class qWindowDB : MonoBehaviour
         //		skipRender = true;
         hideUIButtons(false);
         controller.GetComponent<soundController>().questionUISound(0);
+        //slide.SetActive(false);
     }
     /// <summary>
     /// sets the booleans to false to make visible windows invisible on screen.
@@ -298,6 +299,7 @@ public class qWindowDB : MonoBehaviour
         correct = false;
         hideUIButtons(true);
         controller.GetComponent<soundController>().questionUISound(1);
+        //slide.SetActive(true);
     }
     private void hideUIButtons(bool setBool)
     {

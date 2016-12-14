@@ -147,7 +147,7 @@ public class changeLevel : MonoBehaviour {
         toggleParent.enabled = false;
         levelImage.SetActive(false);
         enableRandomQuestion(true);
-        sliderParent.SetActive(true);
+        //sliderParent.SetActive(true);
         levelsReturn.GetComponent<Button>().interactable = true;
         moneyUI.GetComponent<Text>().color = new Color(0f, 0f, 0f);
     }
