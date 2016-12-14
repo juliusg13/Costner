@@ -9,7 +9,7 @@ public class rewardSystem : MonoBehaviour {
     public AudioClip[] coinsClip;
     AudioSource coinsSound;
     public Canvas coinUI;
-    GameObject moneyUI;
+    GameObject moneyUI, notifyLevelUnlocked, canv;
     soundController _soundController;
 
     // Use this for initialization
@@ -18,6 +18,8 @@ public class rewardSystem : MonoBehaviour {
         coinsSound = GetComponent<AudioSource>();
         adventureText = "Ævintýra krónur: " + adventureCoins.ToString();
         moneyUI = GameObject.Find("CoinUI");
+        notifyLevelUnlocked = GameObject.Find("notifyLevelUnlocked");
+        canv = GameObject.Find("Canvas");
         updateUIText();
     }
     public void randomCoinClip() {

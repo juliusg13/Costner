@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class menu : MonoBehaviour {
-    GameObject menuImage, canv;
+    GameObject menuImage, canv, notifyNoQuestions;
     float x, y;
 	// Use this for initialization
 	void Start () {
@@ -27,6 +27,7 @@ public class menu : MonoBehaviour {
         menuImage.SetActive(false);
         canv.GetComponent<zoomController>().displayZoomChildren(true);
     }
+
     public void quitGame() {
 #if UNITY_EDITOR
          if(UnityEditor.EditorApplication.isPlaying)

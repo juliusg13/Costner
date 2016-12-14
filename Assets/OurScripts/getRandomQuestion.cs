@@ -4,22 +4,30 @@ using UnityEngine;
 using MapzenGo.Models;
 
 public class getRandomQuestion : MonoBehaviour {
-    GameObject controller, questionObject, cam, world, qParent, worldMapQParent;
+    GameObject controller, questionObject, cam, world, qParent, worldMapQParent, notifyNoMoreQuestions, notifyLevelUnlocked;
     string questionName;
     int linkedListCount, random, zoom;
+    List<string> alreadyAnsweredQ;
     public int numberOfNewWorldsDistance;
     float camX, camZ, x, z, absX, absZ, distance, maxDistance;
     string qID;
+    bool alreadyShowedLevelNotification;
 	// Use this for initialization
 	void Start () {
         controller = GameObject.FindWithTag("GameController");
         cam = GameObject.FindWithTag("MainCamera");
         world = GameObject.FindWithTag("OpenWorld");
         worldMapQParent = GameObject.Find("worldMAPQParent");
+        notifyNoMoreQuestions = GameObject.Find("notifyNoQuestions");
+        notifyLevelUnlocked = GameObject.Find("notifyLevelUnlocked");
+        alreadyShowedLevelNotification = false;
         linkedListCount = 0;
         random = 0;
         numberOfNewWorldsDistance = 2;
-	}
+        displayNotifyNoQuestions(false);
+        displayNotifyLevelUnlocked(false);
+
+    }
 	
 	// Update is called once per frame
 	void Update () {
@@ -28,11 +36,33 @@ public class getRandomQuestion : MonoBehaviour {
     public void findQuestion() {
         linkedListCount = controller.GetComponent<renderQuestionsByTags>().allQuestionsOnMap.Count;
         random = Random.Range(0, linkedListCount);
+        alreadyAnsweredQ = new List<string>();
         while (!isValidQuestion(random)) {
             random = Random.Range(0, linkedListCount);
+            if(alreadyAnsweredQ.Count == linkedListCount) {
+                print("alreadyansweredq Count: " + alreadyAnsweredQ.Count.ToString() + " linked list count: " + linkedListCount);
+                displayNotifyNoQuestions(true);
+                return;
+            }
         }
         moveCamera(questionObject);
     }
+    public void displayNotifyNoQuestions(bool set) {
+        notifyNoMoreQuestions.SetActive(set);
+    }
+    public void displayNotifyLevelUnlocked(bool set) {
+        if(alreadyShowedLevelNotification == true) {
+            return;
+        }
+        if(set == true) {
+            alreadyShowedLevelNotification = true;
+        }
+        notifyLevelUnlocked.SetActive(set);
+    }
+    public void notifyLevelUnlockedFalse() {
+        notifyLevelUnlocked.SetActive(false);
+    }
+    
     /// <summary>
     /// If the question has been answered already then it is invalid, hence return false.
     /// </summary>
@@ -43,6 +73,7 @@ public class getRandomQuestion : MonoBehaviour {
         //print(questionObject);
 
         if(questionObject.GetComponent<qWindowDB>().answeredThisQuestionCorrectAlready == true) {
+            alreadyAnsweredQ.Add(questionObject.GetComponent<qWindowDB>().qID);
             return false;
         }
         return true;
@@ -66,8 +97,8 @@ public class getRandomQuestion : MonoBehaviour {
             repositionQuestions();
 
         } else {
-            cam.gameObject.transform.position = new Vector3(x, 160f, z);
-            world.GetComponent<MapzenGo.Models.TileManager>().Zoom = 16;
+            cam.gameObject.transform.position = new Vector3(x, cam.transform.position.y, z);
+            //world.GetComponent<MapzenGo.Models.TileManager>().Zoom = 16;
         }
     }
 

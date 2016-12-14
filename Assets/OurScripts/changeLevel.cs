@@ -10,7 +10,8 @@ public class changeLevel : MonoBehaviour {
  
 	public GameObject levelImage, controller;
     private GameObject b1, b2, b3, b4, randomQuestion, menuButton, levelsReturn;
-    bool alreadyUnlocked1, alreadyUnlocked2, alreadyUnlocked3, alreadyUnlocked4, wasSomethingToggled;
+    bool alreadyUnlocked1, alreadyUnlocked3, alreadyUnlocked4, wasSomethingToggled;
+    public bool alreadyUnlocked2;
     public int level1Cost, level2Cost, level3Cost, level4Cost;
     GameObject cityToggle, mountainToggle, glacierToggle, lakeRiverToggle, moneyUI, canv;
     GameObject spilaButton;

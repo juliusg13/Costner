@@ -17,8 +17,8 @@ public class qWindowDB : MonoBehaviour
     GUIStyle smallFont, centerTitle, centerText, questionText, questionOptions, content, buttonContent, renderWindow, quitButton, right, wrong, rightAns;
     string[] data;
     public int adventureCoins;
-    private GameObject cam, randomQuestionWindow, levelsWindow, menuWindow, slide;
-    private string qID;
+    private GameObject cam, randomQuestionWindow, levelsWindow, menuWindow, slide, canv;
+    public string qID;
 
     // Use this for initialization
     void Start()
@@ -33,6 +33,7 @@ public class qWindowDB : MonoBehaviour
         randomQuestionWindow = GameObject.Find("/Canvas/randomQuestion");
         levelsWindow = GameObject.Find("Canvas/settings");
         menuWindow = GameObject.Find("Canvas/levelsButton");
+        canv = GameObject.Find("Canvas");
     }
     /// <summary>
     /// Function that sets basic variables initally.
@@ -72,7 +73,9 @@ public class qWindowDB : MonoBehaviour
             quest.GetComponent<quest>().changeColorWrong();
             controller.GetComponent<soundController>().questionUISound(3);
         }
-        StartCoroutine(PostRequest(correct, s));
+        if (Application.platform != RuntimePlatform.Android) {
+            StartCoroutine(PostRequest(correct, s));
+        }
     }
 
 
@@ -247,7 +250,10 @@ public class qWindowDB : MonoBehaviour
             {
 
                 HideWindow(); //Used to be next question.
-
+                int advCoin = controller.GetComponent<rewardSystem>().returnCoins();
+                if((advCoin >= canv.GetComponent<changeLevel>().level2Cost) && (canv.GetComponent<changeLevel>().alreadyUnlocked2 == false)) {
+                    canv.GetComponent<getRandomQuestion>().displayNotifyLevelUnlocked(true);
+                }
                 //nextQuestion("nextQuestion");
             }
         }
