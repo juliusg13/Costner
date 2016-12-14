@@ -8,11 +8,11 @@ using UnityEngine.EventSystems;
 
 public class changeLevel : MonoBehaviour {
  
-	public GameObject levelImage, controller, sliderParent;
+	public GameObject levelImage, controller;
     private GameObject b1, b2, b3, b4, randomQuestion, menuButton, levelsReturn;
     bool alreadyUnlocked1, alreadyUnlocked2, alreadyUnlocked3, alreadyUnlocked4, wasSomethingToggled;
     public int level1Cost, level2Cost, level3Cost, level4Cost;
-    GameObject cityToggle, mountainToggle, glacierToggle, lakeRiverToggle, moneyUI;
+    GameObject cityToggle, mountainToggle, glacierToggle, lakeRiverToggle, moneyUI, canv;
     GameObject spilaButton;
 
     private int adventureCoins;
@@ -82,6 +82,7 @@ public class changeLevel : MonoBehaviour {
         randomQuestion = GameObject.Find("/Canvas/randomQuestion");
         menuButton = GameObject.Find("Canvas/settings");
         levelsReturn = GameObject.Find("Canvas/levelsImage/levelsReturn");
+        canv = GameObject.Find("Canvas");
         tGroup.SetAllTogglesOff();
         adventureCoins = controller.GetComponent<rewardSystem>().returnCoins();
 
@@ -147,7 +148,6 @@ public class changeLevel : MonoBehaviour {
         toggleParent.enabled = false;
         levelImage.SetActive(false);
         enableRandomQuestion(true);
-        //sliderParent.SetActive(true);
         levelsReturn.GetComponent<Button>().interactable = true;
         moneyUI.GetComponent<Text>().color = new Color(0f, 0f, 0f);
     }
@@ -268,6 +268,7 @@ public class changeLevel : MonoBehaviour {
     public void enableRandomQuestion(bool showOrNot) {
         randomQuestion.SetActive(showOrNot);
         menuButton.SetActive(showOrNot);
+        canv.GetComponent<zoomController>().displayZoomChildren(showOrNot);
     }
     /*
     public void OnPointerEnter(PointerEventData eventData) {

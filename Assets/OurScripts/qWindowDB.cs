@@ -27,7 +27,7 @@ public class qWindowDB : MonoBehaviour
         initializeVariables();
         centerRectangle();
         cam = GameObject.Find("Main Camera");
-        slide = GameObject.Find("sliderParent");
+        slide = GameObject.Find("zoomParent");
         rectAssemble();
         controller = GameObject.FindWithTag("GameController");
         randomQuestionWindow = GameObject.Find("/Canvas/randomQuestion");
@@ -228,7 +228,7 @@ public class qWindowDB : MonoBehaviour
                 quitRender = false;
                 hideUIButtons(true);
                 cam.GetComponent<mouseDrag>().enabled = true;
-                //slide.SetActive(true);
+                slide.SetActive(true);
             }
         }
         if (windowID == 2)
@@ -284,7 +284,7 @@ public class qWindowDB : MonoBehaviour
         //		skipRender = true;
         hideUIButtons(false);
         controller.GetComponent<soundController>().questionUISound(0);
-        //slide.SetActive(false);
+        slide.SetActive(false);
     }
     /// <summary>
     /// sets the booleans to false to make visible windows invisible on screen.
@@ -299,7 +299,7 @@ public class qWindowDB : MonoBehaviour
         correct = false;
         hideUIButtons(true);
         controller.GetComponent<soundController>().questionUISound(1);
-        //slide.SetActive(true);
+        slide.SetActive(true);
     }
     private void hideUIButtons(bool setBool)
     {

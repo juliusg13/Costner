@@ -4,11 +4,12 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class menu : MonoBehaviour {
-    GameObject menuImage;
+    GameObject menuImage, canv;
     float x, y;
 	// Use this for initialization
 	void Start () {
         menuImage = GameObject.Find("Canvas/settingsImage");
+        canv = GameObject.Find("Canvas");
         initWindow();
         
     }
@@ -20,10 +21,11 @@ public class menu : MonoBehaviour {
 
     public void openMenu() {
         menuImage.SetActive(true);
-
+        canv.GetComponent<zoomController>().displayZoomChildren(false);
     }
     public void closeMenu() {
         menuImage.SetActive(false);
+        canv.GetComponent<zoomController>().displayZoomChildren(true);
     }
     public void quitGame() {
 #if UNITY_EDITOR
