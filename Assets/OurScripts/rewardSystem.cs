@@ -13,7 +13,7 @@ public class rewardSystem : MonoBehaviour {
     soundController _soundController;
 
     // Use this for initialization
-    void Start () {
+    void Start() {
         _soundController = GetComponentInParent<soundController>();
         coinsSound = GetComponent<AudioSource>();
         adventureText = "Ævintýra krónur: " + adventureCoins.ToString();
@@ -26,11 +26,11 @@ public class rewardSystem : MonoBehaviour {
         coinsSound.clip = coinsClip[Random.Range(0, coinsClip.Length)];
         coinsSound.Play();
     }
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
+
+    // Update is called once per frame
+    void Update() {
+
+    }
     public void increaseCoins(int amount) {
         adventureCoins += amount;
         updateUIText();
@@ -44,7 +44,7 @@ public class rewardSystem : MonoBehaviour {
         adventureText = "Ævintýra krónur: " + adventureCoins.ToString();
         moneyUI.GetComponent<Text>().text = adventureText;
     }
-	public int returnCoins (){
-		return adventureCoins;
-	}
+    public int returnCoins() {
+        return adventureCoins;
+    }
 }

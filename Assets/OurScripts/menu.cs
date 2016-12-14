@@ -6,18 +6,18 @@ using UnityEngine;
 public class menu : MonoBehaviour {
     GameObject menuImage, canv, notifyNoQuestions;
     float x, y;
-	// Use this for initialization
-	void Start () {
+    // Use this for initialization
+    void Start() {
         menuImage = GameObject.Find("Canvas/settingsImage");
         canv = GameObject.Find("Canvas");
         initWindow();
-        
+
     }
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+
+    // Update is called once per frame
+    void Update() {
+
+    }
 
     public void openMenu() {
         menuImage.SetActive(true);
@@ -30,13 +30,14 @@ public class menu : MonoBehaviour {
 
     public void quitGame() {
 #if UNITY_EDITOR
-         if(UnityEditor.EditorApplication.isPlaying)
+        if (UnityEditor.EditorApplication.isPlaying)
             UnityEditor.EditorApplication.isPlaying = false;
 #endif
-         if (Application.platform == RuntimePlatform.Android) {
+        if (Application.platform == RuntimePlatform.Android) {
             AndroidJavaObject activity = new AndroidJavaClass("com.unity3d.player.UnityPlayer").GetStatic<AndroidJavaObject>("currentActivity");
             activity.Call<bool>("moveTaskToBack", true);
-        } else { 
+        }
+        else {
             Application.Quit();
         }
     }

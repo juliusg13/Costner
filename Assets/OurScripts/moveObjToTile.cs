@@ -2,8 +2,7 @@
 using System.Collections;
 using MapzenGo.Helpers;
 
-public class moveObjToTile : MonoBehaviour
-{
+public class moveObjToTile : MonoBehaviour {
 
     private float xCoord;//questGiver
     private float zCoord;
@@ -13,15 +12,12 @@ public class moveObjToTile : MonoBehaviour
     //private string questGiver;
 
     // Use this for initialization
-    void Start()
-    {
+    void Start() {
         world = GameObject.FindWithTag("OpenWorld");
     }
 
-    void Update()
-    {
-        if(!world)
-        {
+    void Update() {
+        if (!world) {
             MoveToTile(this.gameObject, this.GetComponent<quest>().xCoord, this.GetComponent<quest>().zCoord);
         }
     }
@@ -54,8 +50,7 @@ public class moveObjToTile : MonoBehaviour
         this.gameObject.transform.position += new Vector3(0, 15, 0);
         this.transform.localScale = new Vector3(100, 100, 0);
     }*/
-    public void MoveToTile(GameObject obj, float lat, float lon)
-    {
+    public void MoveToTile(GameObject obj, float lat, float lon) {
         world = GameObject.FindWithTag("OpenWorld");
         //  print("inside of MoveTOTile we start at: " + obj.transform.position);
 
@@ -65,8 +60,8 @@ public class moveObjToTile : MonoBehaviour
 
         zCoord = lon;
         xCoord = lat;
-//        print("x is: " + xCoord + " x2 is: " + xCoord2);
-//        print("z is: " + zCoord + " z2 is: " + zCoord2);
+        //        print("x is: " + xCoord + " x2 is: " + xCoord2);
+        //        print("z is: " + zCoord + " z2 is: " + zCoord2);
 
         Vector2d vec = new Vector2d(xCoord, zCoord);
         Vector2d vec2 = new Vector2d(xCoord2, zCoord2);
@@ -79,11 +74,11 @@ public class moveObjToTile : MonoBehaviour
 
         Vector2d CenterInMercator = GM.TileBounds(tiles2, Zoom).Center;
         var rect = GM.TileBounds(tiles, Zoom);
-      //  print("after all the vector initiations. " + obj.transform.position);
+        //  print("after all the vector initiations. " + obj.transform.position);
 
         //obj.gameObject.transform.parent = world.transform;
         obj.gameObject.transform.localPosition = (rect.Center - CenterInMercator).ToVector3();
-     //   print("after rect.center-centerinmercator " + obj.transform.position);
+        //   print("after rect.center-centerinmercator " + obj.transform.position);
 
         //       print("RECT :" + rect.Center);
         //       print("MERC :" + CenterInMercator);

@@ -12,8 +12,8 @@ public class getRandomQuestion : MonoBehaviour {
     float camX, camZ, x, z, absX, absZ, distance, maxDistance;
     string qID;
     bool alreadyShowedLevelNotification;
-	// Use this for initialization
-	void Start () {
+    // Use this for initialization
+    void Start() {
         controller = GameObject.FindWithTag("GameController");
         cam = GameObject.FindWithTag("MainCamera");
         world = GameObject.FindWithTag("OpenWorld");
@@ -28,18 +28,18 @@ public class getRandomQuestion : MonoBehaviour {
         displayNotifyLevelUnlocked(false);
 
     }
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+
+    // Update is called once per frame
+    void Update() {
+
+    }
     public void findQuestion() {
         linkedListCount = controller.GetComponent<renderQuestionsByTags>().allQuestionsOnMap.Count;
         random = Random.Range(0, linkedListCount);
         alreadyAnsweredQ = new List<string>();
         while (!isValidQuestion(random)) {
             random = Random.Range(0, linkedListCount);
-            if(alreadyAnsweredQ.Count == linkedListCount) {
+            if (alreadyAnsweredQ.Count == linkedListCount) {
                 print("alreadyansweredq Count: " + alreadyAnsweredQ.Count.ToString() + " linked list count: " + linkedListCount);
                 displayNotifyNoQuestions(true);
                 return;
@@ -51,10 +51,10 @@ public class getRandomQuestion : MonoBehaviour {
         notifyNoMoreQuestions.SetActive(set);
     }
     public void displayNotifyLevelUnlocked(bool set) {
-        if(alreadyShowedLevelNotification == true) {
+        if (alreadyShowedLevelNotification == true) {
             return;
         }
-        if(set == true) {
+        if (set == true) {
             alreadyShowedLevelNotification = true;
         }
         notifyLevelUnlocked.SetActive(set);
@@ -62,7 +62,7 @@ public class getRandomQuestion : MonoBehaviour {
     public void notifyLevelUnlockedFalse() {
         notifyLevelUnlocked.SetActive(false);
     }
-    
+
     /// <summary>
     /// If the question has been answered already then it is invalid, hence return false.
     /// </summary>
@@ -72,7 +72,7 @@ public class getRandomQuestion : MonoBehaviour {
         questionObject = controller.GetComponent<renderQuestionsByTags>().allQuestionsOnMap.GetByIndex(random) as GameObject;
         //print(questionObject);
 
-        if(questionObject.GetComponent<qWindowDB>().answeredThisQuestionCorrectAlready == true) {
+        if (questionObject.GetComponent<qWindowDB>().answeredThisQuestionCorrectAlready == true) {
             alreadyAnsweredQ.Add(questionObject.GetComponent<qWindowDB>().qID);
             return false;
         }
@@ -96,7 +96,8 @@ public class getRandomQuestion : MonoBehaviour {
             createNewWorld();
             repositionQuestions();
 
-        } else {
+        }
+        else {
             cam.gameObject.transform.position = new Vector3(x, cam.transform.position.y, z);
             //world.GetComponent<MapzenGo.Models.TileManager>().Zoom = 16;
         }
@@ -126,7 +127,7 @@ public class getRandomQuestion : MonoBehaviour {
         for (int i = qParent.transform.childCount - 1; i > -1; i--) {
             qParent.transform.GetChild(i).gameObject.GetComponent<quest>().moveToLoc();
         }
-        
+
     }
     void setVariables(GameObject q) {
         world = GameObject.FindWithTag("OpenWorld");
@@ -143,11 +144,14 @@ public class getRandomQuestion : MonoBehaviour {
         zoom = world.GetComponent<MapzenGo.Models.TileManager>().Zoom;
         if (zoom == 16) {
             maxDistance = numberOfNewWorldsDistance * 1 * 1834; //new worlds * scale due to zoom * 1834 is dist on new worlds.
-        } else if (zoom == 15) {
+        }
+        else if (zoom == 15) {
             maxDistance = numberOfNewWorldsDistance * 2 * 1834;
-        } else if (zoom == 14) {
+        }
+        else if (zoom == 14) {
             maxDistance = numberOfNewWorldsDistance * 4 * 1834;
-        } else {
+        }
+        else {
             maxDistance = 0;
         }
     }

@@ -31,18 +31,18 @@ public class renderQuestionsByTags : MonoBehaviour {
         llCounter = 0;
     }
     public void setBoolean(string tag) {
-    //print(tag);
-        if(tag == "cityTag") {
+        //print(tag);
+        if (tag == "cityTag") {
             cityTag = true;
             createByTag();
             cityAlreadyRendered = true;
         }
-        if(tag == "glacierTag") {
+        if (tag == "glacierTag") {
             glacierTag = true;
             createByTag();
             glacierAlreadyRendered = true;
         }
-        if(tag == "mountainTag") {
+        if (tag == "mountainTag") {
             mountainTag = true;
             createByTag();
             mountainAlreadyRendered = true;
@@ -52,7 +52,7 @@ public class renderQuestionsByTags : MonoBehaviour {
             createByTag();
             lakeRiverAlreadyRendered = true;
         }
-        
+
     }
     void setVariablesForCreatedQuestionGivers(GameObject thisQuestion, string qID, string tag, int i) {
         world = GameObject.Find("World");
@@ -60,7 +60,7 @@ public class renderQuestionsByTags : MonoBehaviour {
         thisQuestion.GetComponent<quest>().questionID = qID;
         thisQuestion.transform.parent = qparent.transform;
         thisQuestion.transform.position = new Vector3(0, 15, 0);
-      //  print("This baller was moved to " + thisQuestion.transform.position);
+        //  print("This baller was moved to " + thisQuestion.transform.position);
         thisQuestion.GetComponent<quest>().xCoord = float.Parse(controller.GetComponent<getJsonFromApi>().GetLatitude(qID));
         thisQuestion.GetComponent<quest>().zCoord = float.Parse(controller.GetComponent<getJsonFromApi>().GetLongitude(qID));
         thisQuestion.name = "QuestGiver:" + tag + i;
@@ -110,5 +110,5 @@ public class renderQuestionsByTags : MonoBehaviour {
             }
         }
     }
-    
+
 }

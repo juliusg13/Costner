@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class startGameMenu : MonoBehaviour {
 
-	
-	public void LoadScene(int level) {
 
-		Application.LoadLevel(level);
+    public void LoadScene(int level) {
 
-	}
+        Application.LoadLevel(level);
+
+    }
 }

@@ -7,7 +7,6 @@ using UnityEngine.Events;
 using UnityEngine.EventSystems;
 
 public class changeLevel : MonoBehaviour {
- 
 	public GameObject levelImage, controller;
     private GameObject b1, b2, b3, b4, randomQuestion, menuButton, levelsReturn;
     bool alreadyUnlocked1, alreadyUnlocked3, alreadyUnlocked4, wasSomethingToggled;

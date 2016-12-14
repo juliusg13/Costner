@@ -4,16 +4,16 @@ using UnityEngine.EventSystems;
 
 public class quest : MonoBehaviour {
 
-	//public GameObject questGiver;
+    //public GameObject questGiver;
     public string questionID;
-	public float xCoord;
-	public float zCoord;
+    public float xCoord;
+    public float zCoord;
     private GameObject controller;
     public GameObject questGiver;
 
 
     // Use this for initialization
-    void Start () {
+    void Start() {
 
     }
     public void moveToLoc() {
@@ -31,16 +31,15 @@ public class quest : MonoBehaviour {
         renderer.color = new Color(0.8f, 0.1f, 0.05f);
     }
     // Update is called once per frame
-    void Update () {
+    void Update() {
     }
-    void OnMouseUp(){
+    void OnMouseUp() {
         //Destroy (this.gameObject);
-        if (!EventSystem.current.IsPointerOverGameObject())
-        {
+        if (!EventSystem.current.IsPointerOverGameObject()) {
             questGiver.GetComponent<qWindowDB>().ShowWindow(questionID, questGiver);
             Debug.Log("Clicked on the UI");
         }
-        
-	}
+
+    }
 
 }

@@ -4,11 +4,11 @@ using MapzenGo.Models;
 
 public class mouseDrag : MonoBehaviour {
     //Changes object position when mouse is dragged
-    GameObject qParent;
+    GameObject qParent, slid;
     GameObject worldMapQParent;
-    public double  dragSpeed = 10;
+    public double dragSpeed = 10;
     private float andDragSpeed = 1;
-    public float   scrollSpeed = 10;
+    public float scrollSpeed = 10;
     public int maxZoom = 230;
     public int minZoom = 90;
     public int startPos = 160;
@@ -17,29 +17,24 @@ public class mouseDrag : MonoBehaviour {
     float d;
     Vector3 newZoom;
 
-    void Start()
-    {
+    void Start() {
         newZoom = transform.position;
         worldMapQParent = GameObject.Find("worldMAPQParent");
+        slid = GameObject.Find("Canvas/zoomParent/Slider");
     }
 
-    void Update()
-    {
-        if (world == null)
-        {
+    void Update() {
+        if (world == null) {
             world = GameObject.Find("World");
         }
-        if (Application.platform == RuntimePlatform.Android)
-        {
+        if (Application.platform == RuntimePlatform.Android) {
             AndroidDrag();
             AndroidZoom();
         }
-        else
-        {
+        else {
             /*LEFT CLICK DRAG*/
             //If left click
-            if (Input.GetMouseButton(0))
-            {
+            if (Input.GetMouseButton(0)) {
                 dragH = Convert.ToInt32(dragSpeed) * -Input.GetAxis("Mouse X");
                 dragV = Convert.ToInt32(dragSpeed) * -Input.GetAxis("Mouse Y");
                 this.gameObject.transform.Translate(dragH, dragV, 0);
@@ -47,16 +42,14 @@ public class mouseDrag : MonoBehaviour {
 
             /*SCROLL UP AND DOWN*/
             d = Input.GetAxis("Mouse ScrollWheel"); //Detect scroll wheel 
-            
+
             //If scroll up
-            if (d < 0f && newZoom.y < maxZoom + 10)
-            {
+            if (d < 0f && newZoom.y < maxZoom + 10) {
                 newZoom.y = newZoom.y + scrollSpeed;
             }
 
             //If scroll down  
-            else if (d > 0f && newZoom.y > minZoom - 10)
-            {
+            else if (d > 0f && newZoom.y > minZoom - 10) {
                 newZoom.y = newZoom.y - scrollSpeed;
             }
 
@@ -65,19 +58,18 @@ public class mouseDrag : MonoBehaviour {
         }
 
         //change zoom levels
-        if (newZoom.y >= maxZoom && world.GetComponent<CachedDynamicTileManager>().Zoom > 3)
-        {
+        if (newZoom.y >= maxZoom && world.GetComponent<CachedDynamicTileManager>().Zoom > 3) {
             ZoomMinus(world);
+            slid.GetComponent<UnityEngine.UI.Slider>().value--;
         }
-        if (newZoom.y <= minZoom && world.GetComponent<CachedDynamicTileManager>().Zoom < 16)
-        {
+        if (newZoom.y <= minZoom && world.GetComponent<CachedDynamicTileManager>().Zoom < 16) {
             ZoomPlus(world);
+            slid.GetComponent<UnityEngine.UI.Slider>().value++;
         }
     }
 
     //If user scrolls down enough. We increase the zoom, clone the world and delete the original
-    public void ZoomMinus(GameObject world)
-    {
+    public void ZoomMinus(GameObject world) {
         GameObject oldWorld = world;
         oldWorld.GetComponent<CachedDynamicTileManager>().Zoom--;
         qParent = GameObject.Find("questionParent");
@@ -87,10 +79,8 @@ public class mouseDrag : MonoBehaviour {
         qParent.transform.parent = newWorld.transform;
         Destroy(oldWorld);
         newWorld.name = "World";
-        for (int i = newWorld.transform.childCount - 1; i > -1; i--)
-        {
-            if (newWorld.transform.GetChild(i).name == "Tiles")
-            {
+        for (int i = newWorld.transform.childCount - 1; i > -1; i--) {
+            if (newWorld.transform.GetChild(i).name == "Tiles") {
                 Destroy(newWorld.transform.GetChild(i).gameObject);
             }
         }
@@ -105,8 +95,7 @@ public class mouseDrag : MonoBehaviour {
 
     //If user scrolls up enough. We decrease the zoom, clone the world and delete the original
     //y position and dragSpeed reset
-    public void ZoomPlus(GameObject world)
-    {
+    public void ZoomPlus(GameObject world) {
         GameObject oldWorld = world;
         oldWorld.GetComponent<CachedDynamicTileManager>().Zoom++;
         qParent = GameObject.Find("questionParent");
@@ -115,10 +104,8 @@ public class mouseDrag : MonoBehaviour {
         qParent.transform.parent = newWorld.transform;
         Destroy(oldWorld);
         newWorld.name = "World";
-        for (int i = newWorld.transform.childCount - 1; i > -1; i--)
-        {
-            if (newWorld.transform.GetChild(i).name == "Tiles")
-            {
+        for (int i = newWorld.transform.childCount - 1; i > -1; i--) {
+            if (newWorld.transform.GetChild(i).name == "Tiles") {
                 Destroy(newWorld.transform.GetChild(i).gameObject);
             }
         }
@@ -131,20 +118,16 @@ public class mouseDrag : MonoBehaviour {
         newZoom.y = startPos;
     }
 
-    void AndroidDrag()
-    {
-        if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Moved)
-        {
+    void AndroidDrag() {
+        if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Moved) {
             Vector2 touchDeltaPosition = Input.GetTouch(0).deltaPosition;
             transform.Translate(-touchDeltaPosition.x * andDragSpeed, -touchDeltaPosition.y * andDragSpeed, 0);
         }
     }
 
-    void AndroidZoom()
-    {
+    void AndroidZoom() {
         world = GameObject.Find("World");
-        if (Input.touchCount == 2)
-        {
+        if (Input.touchCount == 2) {
             Touch touchZero = Input.GetTouch(0); //touch 1
             Touch touchOne = Input.GetTouch(1);  //touch 2
 
@@ -162,8 +145,7 @@ public class mouseDrag : MonoBehaviour {
             newZoom.y = (newZoom.y + (deltaMagnitudeDiff * 3));
 
             //zoom
-            if (newZoom.y < maxZoom + 10 && newZoom.y > minZoom - 10)
-            {
+            if (newZoom.y < maxZoom + 10 && newZoom.y > minZoom - 10) {
                 transform.position = new Vector3(transform.position.x, newZoom.y, transform.position.z);
             }
         }

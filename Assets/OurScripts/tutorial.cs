@@ -5,8 +5,8 @@ using UnityEngine;
 public class tutorial : MonoBehaviour {
     GameObject img, tex;
     float x, y;
-	// Use this for initialization
-	void Start () {
+    // Use this for initialization
+    void Start() {
         img = GameObject.Find("Canvas/tutorialImage");
         tex = GameObject.Find("Canvas/tutorialImage/tutorialText");
         x = Screen.width;
@@ -26,8 +26,8 @@ public class tutorial : MonoBehaviour {
         img.SetActive(false);
     }
 
-	// Update is called once per frame
-	void Update () {
-		
-	}
+    // Update is called once per frame
+    void Update() {
+
+    }
 }

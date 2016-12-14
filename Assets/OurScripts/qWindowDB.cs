@@ -4,8 +4,7 @@ using System.Text;
 using System.Collections.Generic;
 using System;
 
-public class qWindowDB : MonoBehaviour
-{
+public class qWindowDB : MonoBehaviour {
     private GameObject controller, quest;
     private bool render, quitRender, skipRender, answer, correct;
     public bool answeredThisQuestionCorrectAlready;
@@ -21,8 +20,7 @@ public class qWindowDB : MonoBehaviour
     public string qID;
 
     // Use this for initialization
-    void Start()
-    {
+    void Start() {
         setGUIStyles();
         initializeVariables();
         centerRectangle();
@@ -38,8 +36,7 @@ public class qWindowDB : MonoBehaviour
     /// <summary>
     /// Function that sets basic variables initally.
     /// </summary>
-    void initializeVariables()
-    {
+    void initializeVariables() {
         render = false;
         quitRender = false;
         skipRender = false;
@@ -53,11 +50,9 @@ public class qWindowDB : MonoBehaviour
     /// Rewards currency if answered correct.
     /// </summary>
     /// <param name="s">s is an integer in the form of a string to compare correct answer with.</param>
-    void Answer(string s)
-    {
+    void Answer(string s) {
 
-        if (data[5] == s)
-        {             //correct answer
+        if (data[5] == s) {             //correct answer
             answer = true;
             correct = true;
             answeredThisQuestionCorrectAlready = true;
@@ -66,8 +61,7 @@ public class qWindowDB : MonoBehaviour
             //controller.GetComponent<soundController>().questionUISound(2);
             //		Missing a function that makes sure we do not get the same question back up.
         }
-        else
-        {                          //wrong asnwer 
+        else {                          //wrong asnwer 
             answer = true;
             correct = false;
             quest.GetComponent<quest>().changeColorWrong();
@@ -82,8 +76,7 @@ public class qWindowDB : MonoBehaviour
     /// <summary>
     /// Function that GETs all the data for the question on this specific question mark, includes question, possible answers and correct answer.
     /// </summary>
-	void nextQuestion(string questionID)
-    {
+	void nextQuestion(string questionID) {
         answer = false;
         correct = false;
         data = controller.GetComponent<getJsonFromApi>().getQuestionForm(questionID);
@@ -91,8 +84,7 @@ public class qWindowDB : MonoBehaviour
 
 
     // Update is called once per frame
-    void Update()
-    {
+    void Update() {
 
     }
 
@@ -107,33 +99,27 @@ public class qWindowDB : MonoBehaviour
     /// 
     /// Sizes are always relative to master window.
     /// </summary>
-	void OnGUI()
-    {
+	void OnGUI() {
         //	GUI.skin.textField.fontSize = 30;
         //	GUI.skin.button.fontSize = 30;
-        if (render)
-        {
+        if (render) {
             GUI.color = new Color(0.1f, 0.25f, 0.7f, 1f);
             windowRect = GUI.Window(0, windowRect, DoMyWindow, " ", renderWindow);
             GUI.color = new Color32(255, 255, 255, 0);
             GUI.Box(new Rect(0, 0, Screen.width, Screen.height), "");
         }
-        if (quitRender)
-        {
+        if (quitRender) {
             GUI.color = new Color(0.9f, 0.75f, 0.3f, 1f);
             quitRect = GUI.Window(1, quitRect, DoMyWindow, "", quitButton);
         }
-        if (skipRender)
-        {
+        if (skipRender) {
             skipRect = GUI.Window(2, skipRect, DoMyWindow, "Segja pass");
         }
-        if (answer && correct)
-        {
+        if (answer && correct) {
             GUI.color = new Color(0.1f, 1f, 0.1f, 2f);
             resultRect = GUI.Window(3, resultRect, DoMyWindow, "", right);
         }
-        else if (answer)
-        {
+        else if (answer) {
             GUI.color = Color.red;
             resultRect = GUI.Window(3, resultRect, DoMyWindow, "", wrong);
         }
@@ -152,69 +138,53 @@ public class qWindowDB : MonoBehaviour
     /// lastly windowid 3 handles different outcomes of the answers the user does.
     /// </summary>
     /// <param name="windowID">windowID is the window we are rendering at that point of time.</param>
-	void DoMyWindow(int windowID)
-    {
+	void DoMyWindow(int windowID) {
 
-        if (windowID == 0)
-        {
+        if (windowID == 0) {
             GUI.skin.button = questionOptions;
             GUI.TextField(new Rect(x * 0.03f, y * 0.07f, x * 0.75f, y * 0.25f), data[0], questionText);
-            if (answeredThisQuestionCorrectAlready == true)
-            {
-                if (data[5] == "1")
-                {
-                    if (GUI.Button(questionButtonRect1, data[1], rightAns))
-                    {
+            if (answeredThisQuestionCorrectAlready == true) {
+                if (data[5] == "1") {
+                    if (GUI.Button(questionButtonRect1, data[1], rightAns)) {
                         HideWindow();
                     }
                 }
-                else if (data[5] == "2")
-                {
-                    if (GUI.Button(questionButtonRect2, data[2], rightAns))
-                    {
+                else if (data[5] == "2") {
+                    if (GUI.Button(questionButtonRect2, data[2], rightAns)) {
                         HideWindow();
                     }
                 }
-                else if (data[5] == "3")
-                {
-                    if (GUI.Button(questionButtonRect3, data[3], rightAns))
-                    {
+                else if (data[5] == "3") {
+                    if (GUI.Button(questionButtonRect3, data[3], rightAns)) {
                         HideWindow();
                     }
                 }
-                else if (data[5] == "4")
-                {
-                    if (GUI.Button(questionButtonRect4, data[4], rightAns))
-                    {
+                else if (data[5] == "4") {
+                    if (GUI.Button(questionButtonRect4, data[4], rightAns)) {
                         HideWindow();
                     }
                 }
             }
-            else
-            {
-                if (GUI.Button(questionButtonRect1, data[1], content))
-                {
+            else {
+                if (GUI.Button(questionButtonRect1, data[1], content)) {
                     render = false;
                     quitRender = false;
                     //HideWindow();
                     Answer("1");
                 }
-                if (GUI.Button(questionButtonRect2, data[2], content))
-                {
+                if (GUI.Button(questionButtonRect2, data[2], content)) {
                     render = false;
                     quitRender = false;
                     //HideWindow();
                     Answer("2");
                 }
-                if (GUI.Button(questionButtonRect3, data[3], content))
-                {
+                if (GUI.Button(questionButtonRect3, data[3], content)) {
                     render = false;
                     quitRender = false;
                     //HideWindow();
                     Answer("3");
                 }
-                if (GUI.Button(questionButtonRect4, data[4], content))
-                {
+                if (GUI.Button(questionButtonRect4, data[4], content)) {
                     render = false;
                     quitRender = false;
                     //HideWindow();
@@ -223,10 +193,8 @@ public class qWindowDB : MonoBehaviour
             }
         }
 
-        if (windowID == 1)
-        {
-            if (GUI.Button(new Rect(quitRect.position.x, quitRect.position.y, quitRect.width, quitRect.height), "Aftur á kort", smallFont))
-            {
+        if (windowID == 1) {
+            if (GUI.Button(new Rect(quitRect.position.x, quitRect.position.y, quitRect.width, quitRect.height), "Aftur á kort", smallFont)) {
                 render = false;
                 quitRender = false;
                 hideUIButtons(true);
@@ -234,24 +202,20 @@ public class qWindowDB : MonoBehaviour
                 slide.SetActive(true);
             }
         }
-        if (windowID == 2)
-        {
-            if (GUI.Button(new Rect(x * 0.018f, y * 0.05f, x * 0.04f, y * 0.08f), "Smelltu hér", smallFont))
-            {
+        if (windowID == 2) {
+            if (GUI.Button(new Rect(x * 0.018f, y * 0.05f, x * 0.04f, y * 0.08f), "Smelltu hér", smallFont)) {
                 render = false;
                 quitRender = false;
             }
         }
-        if (windowID == 3)
-        {
+        if (windowID == 3) {
             if (correct) GUI.TextField(new Rect((qX / 4), (qY / 14), x * 0.20f, y * 0.15f), "Rétt hjá þér, vel gert", centerTitle);
             else if (!correct) GUI.TextField(new Rect((qX / 8), (qY / 14), x * 0.4f, y * 0.15f), "Rangt hjá þér! Reyndu aftur", centerTitle); //centertitle
-            if (GUI.Button(new Rect(qX / 7, qY / 3, x * 0.4f, y * 0.1f), "Halda áfram", content))
-            {
+            if (GUI.Button(new Rect(qX / 7, qY / 3, x * 0.4f, y * 0.1f), "Halda áfram", content)) {
 
                 HideWindow(); //Used to be next question.
                 int advCoin = controller.GetComponent<rewardSystem>().returnCoins();
-                if((advCoin >= canv.GetComponent<changeLevel>().level2Cost) && (canv.GetComponent<changeLevel>().alreadyUnlocked2 == false)) {
+                if ((advCoin >= canv.GetComponent<changeLevel>().level2Cost) && (canv.GetComponent<changeLevel>().alreadyUnlocked2 == false)) {
                     canv.GetComponent<getRandomQuestion>().displayNotifyLevelUnlocked(true);
                 }
                 //nextQuestion("nextQuestion");
@@ -263,8 +227,7 @@ public class qWindowDB : MonoBehaviour
     /// <summary>
     /// json string with all the information about the students answer sent to costner api
     /// </summary>
-    IEnumerator PostRequest(bool sCorrect, string studentAnswer)
-    {
+    IEnumerator PostRequest(bool sCorrect, string studentAnswer) {
         WWWForm form = new WWWForm();
         Dictionary<string, string> headers = new Dictionary<string, string>();
         headers.Add("Content-Type", "application/json");
@@ -279,8 +242,7 @@ public class qWindowDB : MonoBehaviour
     /// <summary>
     /// sets the booleans in order for the windows to go from invisible to visible on screen.
     /// </summary>
-	public void ShowWindow(string questionID, GameObject questGiver)
-    {
+	public void ShowWindow(string questionID, GameObject questGiver) {
         cam.GetComponent<mouseDrag>().enabled = false;
         qID = questionID;
         quest = questGiver;
@@ -295,8 +257,7 @@ public class qWindowDB : MonoBehaviour
     /// <summary>
     /// sets the booleans to false to make visible windows invisible on screen.
     /// </summary>
-	public void HideWindow()
-    {
+	public void HideWindow() {
         cam.GetComponent<mouseDrag>().enabled = true;
         render = false;
         quitRender = false;
@@ -307,8 +268,7 @@ public class qWindowDB : MonoBehaviour
         controller.GetComponent<soundController>().questionUISound(1);
         slide.SetActive(true);
     }
-    private void hideUIButtons(bool setBool)
-    {
+    private void hideUIButtons(bool setBool) {
         randomQuestionWindow.SetActive(setBool);
         levelsWindow.SetActive(setBool);
         menuWindow.SetActive(setBool);
@@ -316,8 +276,7 @@ public class qWindowDB : MonoBehaviour
     /// <summary>
     /// Dummy function just to gather the data for screen sizes.
     /// </summary>
-	private void centerRectangle()
-    {
+	private void centerRectangle() {
         x = Screen.width;
         y = Screen.height;
 
@@ -328,8 +287,7 @@ public class qWindowDB : MonoBehaviour
     /// Function that sets the window sizes for the window renderings.
     /// Sizes are relative to master window.
     /// </summary>
-	private void rectAssemble()
-    {
+	private void rectAssemble() {
         windowRect = new Rect(x * 0.1f, y * 0.1f, qX, qY);
         resultRect = new Rect((qX / 2) - x * 0.2f, (qY / 2) - y * 0.1f, x * 0.6f, y * 0.4f);
         //questionButtonRect1 = new Rect(x * 0.03f, y * 0.37f, x * 0.35f, y * 0.2f);
@@ -344,8 +302,7 @@ public class qWindowDB : MonoBehaviour
     /// <summary>
     /// Helper function that creates various GUI styles for each element that needs one.
     /// </summary>
-    private void setGUIStyles()
-    {
+    private void setGUIStyles() {
         smallFont = new GUIStyle();
         centerText = new GUIStyle();
         centerTitle = new GUIStyle();
@@ -398,8 +355,7 @@ public class qWindowDB : MonoBehaviour
     }
 
 
-    private Texture2D MakeTex(int width, int height, Color col)
-    {
+    private Texture2D MakeTex(int width, int height, Color col) {
         Color[] pix = new Color[width * height];
 
         for (int i = 0; i < pix.Length; i++)
