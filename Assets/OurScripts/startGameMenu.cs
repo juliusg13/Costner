@@ -8,6 +8,10 @@ public class startGameMenu : MonoBehaviour {
     public void LoadScene(int level) {
 
         Application.LoadLevel(level);
+	
+
 
     }
+
+
 }
