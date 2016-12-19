@@ -4,7 +4,8 @@ using UnityEngine;
 using MapzenGo.Models;
 
 public class getRandomQuestion : MonoBehaviour {
-    GameObject controller, questionObject, cam, world, qParent, worldMapQParent, notifyNoMoreQuestions, notifyLevelUnlocked;
+    GameObject controller, questionObject, cam, world, qParent, worldMapQParent, notifyNoMoreQuestions, notifyLevelUnlocked, canv;
+    
     string questionName;
     int linkedListCount, random, zoom;
     List<string> alreadyAnsweredQ;
@@ -20,6 +21,7 @@ public class getRandomQuestion : MonoBehaviour {
         worldMapQParent = GameObject.Find("worldMAPQParent");
         notifyNoMoreQuestions = GameObject.Find("notifyNoQuestions");
         notifyLevelUnlocked = GameObject.Find("notifyLevelUnlocked");
+        canv = GameObject.Find("Canvas");
         alreadyShowedLevelNotification = false;
         linkedListCount = 0;
         random = 0;
@@ -100,6 +102,7 @@ public class getRandomQuestion : MonoBehaviour {
         else {
             cam.gameObject.transform.position = new Vector3(x, cam.transform.position.y, z);
         }
+        canv.GetComponent<zoomController>().updateSlider();
     }
 
     void createNewWorld() {

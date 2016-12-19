@@ -25,8 +25,12 @@ public class zoomController : MonoBehaviour {
             world = GameObject.Find("World");
         }
     }
+    void refreshWorld() {
+        world = GameObject.Find("World");
+    }
 
     public void plusFunc() {
+        refreshWorld();
         if (world.GetComponent<CachedDynamicTileManager>().Zoom < 16) {
             cam.GetComponent<mouseDrag>().ZoomPlus(world);
             slid.GetComponent<UnityEngine.UI.Slider>().value++;
@@ -34,6 +38,7 @@ public class zoomController : MonoBehaviour {
     }
 
     public void minusFunc() {
+        refreshWorld();
         if (world.GetComponent<CachedDynamicTileManager>().Zoom > 3) {
             cam.GetComponent<mouseDrag>().ZoomMinus(world);
             slid.GetComponent<UnityEngine.UI.Slider>().value--;
@@ -41,11 +46,16 @@ public class zoomController : MonoBehaviour {
     }
 
     public void displayZoomChildren(bool show) {
+        refreshWorld();
         plusBut = GameObject.Find("Canvas/zoomParent/plusButton");
         minusBut = GameObject.Find("Canvas/zoomParent/minusButton");
         slid = GameObject.Find("Canvas/zoomParent/Slider");
         slid.SetActive(show);
         plusBut.SetActive(show);
         minusBut.SetActive(show);
+    }
+    public void updateSlider() {
+        world = GameObject.Find("World");
+        slid.GetComponent<UnityEngine.UI.Slider>().value = world.GetComponent<CachedDynamicTileManager>().Zoom;
     }
 }
