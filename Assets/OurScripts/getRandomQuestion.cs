@@ -97,7 +97,7 @@ public class getRandomQuestion : MonoBehaviour {
             cam.gameObject.transform.position = new Vector3(world.transform.position.x, 160f, world.transform.position.z);
             createNewWorld();
             repositionQuestions();
-
+            cam.GetComponent<mouseDrag>().setQuestionMarksActive();
         }
         else {
             cam.gameObject.transform.position = new Vector3(x, cam.transform.position.y, z);
