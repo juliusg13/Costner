@@ -91,7 +91,7 @@ public class getRandomQuestion : MonoBehaviour {
         if (distance > maxDistance) {
             world.GetComponent<CachedDynamicTileManager>().Latitude = q.GetComponent<quest>().xCoord;
             world.GetComponent<CachedDynamicTileManager>().Longitude = q.GetComponent<quest>().zCoord;
-            world.GetComponent<MapzenGo.Models.TileManager>().Zoom = 16;
+            world.GetComponent<MapzenGo.Models.TileManager>().Zoom = 14;
             cam.gameObject.transform.position = new Vector3(world.transform.position.x, 160f, world.transform.position.z);
             createNewWorld();
             repositionQuestions();
@@ -99,13 +99,12 @@ public class getRandomQuestion : MonoBehaviour {
         }
         else {
             cam.gameObject.transform.position = new Vector3(x, cam.transform.position.y, z);
-            //world.GetComponent<MapzenGo.Models.TileManager>().Zoom = 16;
         }
     }
 
     void createNewWorld() {
         GameObject oldWorld = world;
-        oldWorld.GetComponent<CachedDynamicTileManager>().Zoom = 16;
+        oldWorld.GetComponent<CachedDynamicTileManager>().Zoom = 14;
         qParent = GameObject.Find("questionParent");
         qParent.transform.parent = worldMapQParent.transform;
 

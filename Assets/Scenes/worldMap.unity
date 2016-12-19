@@ -4086,7 +4086,7 @@ MonoBehaviour:
   Latitude: 64.12374
   Longitude: -21.926027
   Range: 3
-  Zoom: 16
+  Zoom: 14
   TileSize: 100
   _key: vector-tiles-5sBcqh6
   MapMaterial: {fileID: 0}
