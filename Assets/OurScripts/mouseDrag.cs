@@ -85,6 +85,7 @@ public class mouseDrag : MonoBehaviour {
             }
         }
         world = newWorld;
+        setQuestionMarksActive();
 
         //reset camera y position
         Vector3 position = transform.position;
@@ -110,12 +111,35 @@ public class mouseDrag : MonoBehaviour {
             }
         }
         world = newWorld;
+        setQuestionMarksActive();
 
         //reset camera y position
         Vector3 position = transform.position;
         position[1] = startPos;
         transform.position = position;
         newZoom.y = startPos;
+    }
+    public void setQuestionMarksActive() {
+        if (world == null) {
+            world = GameObject.Find("World");
+        }
+        if(qParent == null) {
+            qParent = GameObject.Find("questionParent");
+        }
+        if (world.GetComponent<CachedDynamicTileManager>().Zoom < 14) {
+            for (int i = qParent.transform.childCount - 1; i > -1; i--) {
+                qParent.transform.GetChild(i).GetComponent<Animator>().enabled = false;
+                qParent.transform.GetChild(i).GetComponent<SpriteRenderer>().enabled = false;
+                qParent.transform.GetChild(i).GetComponent<BoxCollider>().enabled = false;
+            }
+        }
+        else if (world.GetComponent<CachedDynamicTileManager>().Zoom >= 14) {
+            for (int i = qParent.transform.childCount - 1; i > -1; i--) {
+                qParent.transform.GetChild(i).GetComponent<Animator>().enabled = true;
+                qParent.transform.GetChild(i).GetComponent<SpriteRenderer>().enabled = true;
+                qParent.transform.GetChild(i).GetComponent<BoxCollider>().enabled = true;
+            }
+        }
     }
 
     void AndroidDrag() {

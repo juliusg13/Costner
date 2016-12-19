@@ -4,7 +4,8 @@ using UnityEngine;
 using MapzenGo.Models;
 
 public class getRandomQuestion : MonoBehaviour {
-    GameObject controller, questionObject, cam, world, qParent, worldMapQParent, notifyNoMoreQuestions, notifyLevelUnlocked;
+    GameObject controller, questionObject, cam, world, qParent, worldMapQParent, notifyNoMoreQuestions, notifyLevelUnlocked, canv;
+    
     string questionName;
     int linkedListCount, random, zoom;
     List<string> alreadyAnsweredQ;
@@ -20,6 +21,7 @@ public class getRandomQuestion : MonoBehaviour {
         worldMapQParent = GameObject.Find("worldMAPQParent");
         notifyNoMoreQuestions = GameObject.Find("notifyNoQuestions");
         notifyLevelUnlocked = GameObject.Find("notifyLevelUnlocked");
+        canv = GameObject.Find("Canvas");
         alreadyShowedLevelNotification = false;
         linkedListCount = 0;
         random = 0;
@@ -91,21 +93,21 @@ public class getRandomQuestion : MonoBehaviour {
         if (distance > maxDistance) {
             world.GetComponent<CachedDynamicTileManager>().Latitude = q.GetComponent<quest>().xCoord;
             world.GetComponent<CachedDynamicTileManager>().Longitude = q.GetComponent<quest>().zCoord;
-            world.GetComponent<MapzenGo.Models.TileManager>().Zoom = 16;
+            world.GetComponent<MapzenGo.Models.TileManager>().Zoom = 14;
             cam.gameObject.transform.position = new Vector3(world.transform.position.x, 160f, world.transform.position.z);
             createNewWorld();
             repositionQuestions();
-
+            cam.GetComponent<mouseDrag>().setQuestionMarksActive();
         }
         else {
             cam.gameObject.transform.position = new Vector3(x, cam.transform.position.y, z);
-            //world.GetComponent<MapzenGo.Models.TileManager>().Zoom = 16;
         }
+        canv.GetComponent<zoomController>().updateSlider();
     }
 
     void createNewWorld() {
         GameObject oldWorld = world;
-        oldWorld.GetComponent<CachedDynamicTileManager>().Zoom = 16;
+        oldWorld.GetComponent<CachedDynamicTileManager>().Zoom = 14;
         qParent = GameObject.Find("questionParent");
         qParent.transform.parent = worldMapQParent.transform;
 

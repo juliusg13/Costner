@@ -24,6 +24,11 @@ public class sliderController : MonoBehaviour {
             slide.value = world.GetComponent<CachedDynamicTileManager>().Zoom;
         }
     }
+    public void updateSlider()
+    {
+        world = GameObject.Find("World");
+        slide.value = world.GetComponent<CachedDynamicTileManager>().Zoom;
+    }
 
     public void ButtonSelect() {
         GameObject oldWorld = world;

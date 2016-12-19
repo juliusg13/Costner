@@ -5,16 +5,13 @@ using MapzenGo.Models.Plugins;
 using UniRx;
 using UnityEngine;
 
-namespace MapzenGo.Models.Plugins
-{
-    public class MapImagePlugin : Plugin
-    {
+namespace MapzenGo.Models.Plugins {
+    public class MapImagePlugin : Plugin {
         public string MapImageUrlBase = "http://b.tile.openstreetmap.org/";
 
-        public override void Create(Tile tile)
-        {
+        public override void Create(Tile tile) {
             base.Create(tile);
-            
+
             var go = GameObject.CreatePrimitive(PrimitiveType.Quad).transform;
             go.name = "map";
             go.SetParent(tile.transform, true);
@@ -26,22 +23,17 @@ namespace MapzenGo.Models.Plugins
             rend.material = tile.Material;
             var url = MapImageUrlBase + tile.Zoom + "/" + tile.TileTms.x + "/" + tile.TileTms.y + ".png";
             ObservableWWW.GetWWW(url).Subscribe(
-                success =>
-                {
-                    if (rend)
-                    {
+                success => {
+                    if (rend) {
                         GameObject world = GameObject.FindWithTag("OpenWorld");
-                        if (world.GetComponent<CachedDynamicTileManager>().Zoom < 14 && GameObject.Find("GameController").GetComponent<controllerVariables>().questTiles.Contains(go.parent.name))
-                        {
+                        if (world.GetComponent<CachedDynamicTileManager>().Zoom < 14 && GameObject.Find("GameController").GetComponent<controllerVariables>().questTiles.Contains(go.parent.name)) {
                             rend.material.color = new Color(1f, 1f, 1f, 1f);
 
                         }
-                        else if (world.GetComponent<CachedDynamicTileManager>().Zoom < 14)
-                        {
+                        else if (world.GetComponent<CachedDynamicTileManager>().Zoom < 14) {
                             rend.material.color = new Color(0.65f, 0.65f, 0.65f, 1);
                         }
-                        else
-                        {
+                        else {
                             rend.material.color = new Color(1f, 1f, 1f, 1f);
                         }
                         rend.material.mainTexture = new Texture2D(512, 512, TextureFormat.DXT5, false);
@@ -49,8 +41,7 @@ namespace MapzenGo.Models.Plugins
                         success.LoadImageIntoTexture((Texture2D)rend.material.mainTexture);
                     }
                 },
-                error =>
-                {
+                error => {
                     Debug.Log(error);
                 });
 
