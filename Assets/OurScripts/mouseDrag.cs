@@ -135,7 +135,9 @@ public class mouseDrag : MonoBehaviour {
         }
         else if (world.GetComponent<CachedDynamicTileManager>().Zoom >= 14) {
             for (int i = qParent.transform.childCount - 1; i > -1; i--) {
-                qParent.transform.GetChild(i).GetComponent<Animator>().enabled = true;
+                if (!(qParent.transform.GetChild(i).GetComponent<qWindowDB>().answeredThisQuestionCorrectAlready)) {
+                    qParent.transform.GetChild(i).GetComponent<Animator>().enabled = true;
+                }
                 qParent.transform.GetChild(i).GetComponent<SpriteRenderer>().enabled = true;
                 qParent.transform.GetChild(i).GetComponent<BoxCollider>().enabled = true;
             }
